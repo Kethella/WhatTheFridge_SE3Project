@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.hdm</groupId>
-	<artifactId>se3-project</artifactId>
+	<artifactId>se3project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>se3-project</name>
+	<name>se3project</name>
 	<description>Student project for SE3</description>
 
 	<properties>
