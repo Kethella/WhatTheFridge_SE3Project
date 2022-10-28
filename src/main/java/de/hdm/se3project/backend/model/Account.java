@@ -3,25 +3,25 @@ package de.hdm.se3project.backend.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
-
+/* Model class for "accounts" MongoDB collection
+* author: ag186
+*/
 @Document(collection = "accounts")
 public class Account {
 
     @Id
     private String id;
-
     private String name;
     private String email;
     private String password;
-    private String securityQuestion;
+    private SecurityQuestion securityQuestion;
     private String securityAnswer;
-
 
     public Account() {
 
     }
 
-    public Account(String id, String name, String email, String password, String securityQuestion, String securityAnswer) {
+    public Account(String id, String name, String email, String password, SecurityQuestion securityQuestion, String securityAnswer) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -62,11 +62,11 @@ public class Account {
         this.password = password;
     }
 
-    public String getSecurityQuestion() {
+    public SecurityQuestion getSecurityQuestion() {
         return securityQuestion;
     }
 
-    public void setSecurityQuestion(String securityQuestion) {
+    public void setSecurityQuestion(SecurityQuestion securityQuestion) {
         this.securityQuestion = securityQuestion;
     }
 

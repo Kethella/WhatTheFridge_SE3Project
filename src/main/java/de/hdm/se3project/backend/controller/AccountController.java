@@ -1,5 +1,6 @@
 package de.hdm.se3project.backend.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import de.hdm.se3project.backend.exception.ResourceNotFoundException;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+/* Controller class for "accounts" MongoDB collection
+ * author: ag186
+ */
 @RestController
 @RequestMapping("/api/v1")
-public class AccountController {
+public class AccountController implements Serializable {
 
     private final AccountRepository repository;
 
@@ -27,25 +30,31 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    //@CrossOrigin
     List<Account> getAllAccounts(){
         return repository.findAll();
     }
 
     @GetMapping("/accounts/{id}")
-    //@CrossOrigin
     Account getOneAccount(@PathVariable String id) throws ResourceNotFoundException {
-        /*Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-        return ResponseEntity.ok().body(account);*/
 
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
     }
 
+
+    //temporary for testing
+    @GetMapping("/accounts/seqQuestion/{id}")
+    String getAccountSecurityQuestionText(@PathVariable String id) throws ResourceNotFoundException {
+        Account account = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
+
+        return account.getSecurityQuestion().getText();
+    }
+
+
     @PostMapping("/accounts")
-    //@CrossOrigin
     Account createAccount(@RequestBody Account newAccount){ //whatever data you submit prom the client side will be accepted in the post object
+
         return repository.save(newAccount);
     }
 
