@@ -3,10 +3,7 @@ package de.hdm.se3project.backend.controller;
 import de.hdm.se3project.backend.exception.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.repository.RecipeRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,5 +34,33 @@ public class RecipeController {
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
     }
 
+    @PostMapping("/recipes")
+        //@CrossOrigin
+    Recipe createAccount(@RequestBody Recipe newRecipe){ //whatever data you submit prom the client side will be accepted in the post object
+        return repository.save(newRecipe);
+    }
 
+    @PutMapping("/recipes/{id}")
+    Recipe replaceAccount(@PathVariable String id, @RequestBody Recipe newRecipe) throws ResourceNotFoundException {
+
+        Recipe recipe = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
+
+        recipe.setId(newRecipe.getId());
+        recipe.setName(newRecipe.getName());
+        recipe.setInstructions(newRecipe.getInstructions());
+        recipe.setTags(newRecipe.getTags());
+        recipe.setPicture(newRecipe.getPicture());
+
+        return repository.save(recipe);
+    }
+
+    @DeleteMapping("/recipes/{id}")
+    void deleteAccount(@PathVariable String id) {
+        repository.deleteById(id);
+    }
 }
+
+
+
+
