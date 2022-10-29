@@ -8,7 +8,7 @@ public class FridgeItem {
     private String idItem;
     private String nameItem;
     private int amountItem;
-    private String ExpirationDate;
+    private String expirationDate;
 
     public String getIdItem() {
         return idItem;
@@ -35,12 +35,15 @@ public class FridgeItem {
     }
 
     public String getExpirationDate() {
-        return ExpirationDate;
+        return expirationDate;
     }
 
     public void setExpirationDate(String expirationDate) {
-        ExpirationDate = expirationDate;
+        this.expirationDate = expirationDate;
     }
+
+
+
 
 
 
@@ -55,7 +58,7 @@ public class FridgeItem {
     //id          (id for the item itself and // (work later) account id to refer to the item in the user fridge).
     //name
     //amount
-    //valid date  //put as string now and change it later as Date type, because in the JASON file there is no DATE type
+    //valid date  //put as string now and change it later as Date type, because in the JSON file there is no DATE type
 
     //P.S.
     //my fridge is my collection on the Data Base (do not need to create an object yet)
