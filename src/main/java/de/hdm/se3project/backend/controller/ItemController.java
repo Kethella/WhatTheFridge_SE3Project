@@ -41,7 +41,20 @@ public class ItemController {
         return repository.save(newFridgeItem);
     }
 
-    @PutMapping("/fridgeItems{idItem}")
+    @PutMapping("/fridgeItems/{idItem}")
+    FridgeItem updateItem(@PathVariable String idItem, @RequestBody FridgeItem updatedFridgeItem)
+            throws ResourceNotFoundException {
+
+        FridgeItem itemToUpdate = this.getOneFridgeItem(idItem);
+
+        itemToUpdate.setAmountItem(updatedFridgeItem.getAmountItem());
+        itemToUpdate.setExpirationDate(updatedFridgeItem.getExpirationDate());
+
+        return repository.save(itemToUpdate);
+    }
+
+    /**
+    //@PutMapping("/fridgeItems/{idItem}")
     FridgeItem replaceItemData(@PathVariable String idItem, @RequestBody FridgeItem newFridgeItem)
             throws ResourceNotFoundException {
                 FridgeItem item = repository.findById(idItem)
@@ -55,6 +68,7 @@ public class ItemController {
 
                 return repository.save(item);
             }
+     **/
 
     @DeleteMapping("/fridgeItems/{idItem}")
     void deleteAccount(@PathVariable String idItem) {
