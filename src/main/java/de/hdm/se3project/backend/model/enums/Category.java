@@ -6,8 +6,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public enum Category{
 
 
-    @JsonProperty("C1")
-    C1("Chicken");
+    @JsonProperty("MAINCOURSE")
+    MAINCOURSE("Main Course"),
+    @JsonProperty("DESSERT")
+    DESSERT("Dessert"),
+    @JsonProperty("SIDE")
+    SIDE("Side"),
+    @JsonProperty("STARTER")
+    STARTER("Starter"),
+    @JsonProperty("DRINKS")
+    DRINKS("Drinks"),
+    @JsonProperty("BREAKFAST")
+    BREAKFAST("Breakfast");
 
     private String text;
 
