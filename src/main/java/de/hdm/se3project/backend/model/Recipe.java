@@ -1,18 +1,37 @@
 package de.hdm.se3project.backend.model;
 
+import de.hdm.se3project.backend.model.enums.Category;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+
+import java.util.Arrays;
 
 //TODO
 @Document(collection = "recipes")
 public class Recipe {
 
+    @Id
     private String id;
     private String name;
-    private String category;
     private String instructions;
     private String [] tags;
     private String picture;
     private String link;
+    private Category category;
+
+    public Recipe () {
+
+    }
+    public Recipe(String id, String name, String instructions, String[] tags, String picture, String link, Category category) {
+        this.id = id;
+        this.name = name;
+        this.instructions = instructions;
+        this.tags = tags;
+        this.picture = picture;
+        this.link = link;
+        this.category = category;
+    }
+
     public String getId() {
         return id;
     }
@@ -27,14 +46,6 @@ public class Recipe {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getInstructions() {
@@ -67,6 +78,23 @@ public class Recipe {
     public void setLink(String link) {
         this.link = link;
     }
+    public Category getCategory() {
+        return category;
+    }
 
-
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", instructions='" + instructions + '\'' +
+                ", tags=" + Arrays.toString(tags) +
+                ", picture='" + picture + '\'' +
+                ", link='" + link + '\'' +
+                ", category=" + category +
+                '}';
+    }
 }

@@ -31,17 +31,17 @@ public class RecipeController {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
     }
-/*
+
     //temporary for testing
     @GetMapping("/recipes/category/{id}")
     String getCategoryText(@PathVariable String id) throws ResourceNotFoundException {
-        Category category = repository.findById(id)
+        Recipe category = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id : " + id));
 
         return category.getCategory().getText();
     }
 
-*/
+
 
     @PostMapping("/recipes")
         //@CrossOrigin
@@ -60,6 +60,7 @@ public class RecipeController {
         recipe.setInstructions(newRecipe.getInstructions());
         recipe.setTags(newRecipe.getTags());
         recipe.setPicture(newRecipe.getPicture());
+        recipe.setCategory(newRecipe.getCategory());
 
         return repository.save(recipe);
     }
