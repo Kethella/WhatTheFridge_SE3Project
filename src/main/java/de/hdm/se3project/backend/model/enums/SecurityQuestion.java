@@ -1,4 +1,4 @@
-package de.hdm.se3project.backend.model;
+package de.hdm.se3project.backend.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

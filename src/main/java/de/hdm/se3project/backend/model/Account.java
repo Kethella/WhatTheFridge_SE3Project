@@ -1,5 +1,6 @@
 package de.hdm.se3project.backend.model;
 
+import de.hdm.se3project.backend.model.enums.SecurityQuestion;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
