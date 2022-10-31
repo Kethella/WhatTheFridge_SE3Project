@@ -30,7 +30,7 @@ public class RecipeController {
     }
 
     @PostMapping("/recipes")
-    Recipe createAccount(@RequestBody Recipe newRecipe){ //whatever data you submit prom the client side will be accepted in the post object
+    Recipe createAccount(@RequestBody Recipe newRecipe){
         return repository.save(newRecipe);
     }
 

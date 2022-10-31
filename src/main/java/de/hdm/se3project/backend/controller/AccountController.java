@@ -41,7 +41,6 @@ public class AccountController implements Serializable {
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
     }
 
-
     //temporary for testing
     @GetMapping("/accounts/seqQuestion/{id}")
     String getAccountSecurityQuestionText(@PathVariable String id) throws ResourceNotFoundException {

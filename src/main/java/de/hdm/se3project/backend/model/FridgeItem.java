@@ -1,37 +1,39 @@
 package de.hdm.se3project.backend.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "fridgeItems")
 public class FridgeItem {
 
-    private String idItem;
-    private String nameItem;
-    private int amountItem;
+    @Id
+    private String id;
+    private String name;
+    private int amount;
     private String expirationDate;
 
-    public String getIdItem() {
-        return idItem;
+    public String getId() {
+        return id;
     }
 
-    public void setIdItem(String idItem) {
-        this.idItem = idItem;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getNameItem() {
-        return nameItem;
+    public String getName() {
+        return name;
     }
 
-    public void setNameItem(String nameItem) {
-        this.nameItem = nameItem;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getAmountItem() {
-        return amountItem;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setAmountItem(int amountItem) {
-        this.amountItem = amountItem;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getExpirationDate() {

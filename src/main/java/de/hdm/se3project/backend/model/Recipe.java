@@ -13,6 +13,7 @@ public class Recipe {
     private String [] tags;
     private String picture;
     private String link;
+
     public String getId() {
         return id;
     }
