@@ -40,11 +40,12 @@ public class RecipeController {
         Recipe recipe = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
 
-        recipe.setId(newRecipe.getId());
         recipe.setName(newRecipe.getName());
         recipe.setInstructions(newRecipe.getInstructions());
         recipe.setTags(newRecipe.getTags());
         recipe.setPicture(newRecipe.getPicture());
+        //delete later
+        recipe.setOwnerAccount(newRecipe.getOwnerAccount());
 
         return repository.save(recipe);
     }

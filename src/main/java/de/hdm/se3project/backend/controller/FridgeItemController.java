@@ -1,6 +1,7 @@
 package de.hdm.se3project.backend.controller;
 
 import de.hdm.se3project.backend.exception.ResourceNotFoundException;
+import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.repository.ItemRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,10 +46,14 @@ public class FridgeItemController {
     FridgeItem updateItem(@PathVariable String id, @RequestBody FridgeItem updatedFridgeItem)
             throws ResourceNotFoundException {
 
-        FridgeItem itemToUpdate = this.getOneFridgeItem(id);
+        FridgeItem itemToUpdate = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
 
+        itemToUpdate.setName(updatedFridgeItem.getName());
         itemToUpdate.setAmount(updatedFridgeItem.getAmount());
         itemToUpdate.setExpirationDate(updatedFridgeItem.getExpirationDate());
+        //delete later
+        itemToUpdate.setOwnerAccount(updatedFridgeItem.getOwnerAccount());
 
         return repository.save(itemToUpdate);
     }

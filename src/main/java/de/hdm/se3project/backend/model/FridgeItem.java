@@ -1,16 +1,22 @@
 package de.hdm.se3project.backend.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Document(collection = "fridgeItems")
 public class FridgeItem {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String name;
     private int amount;
     private String expirationDate;
+    private String ownerAccount;
 
     public String getId() {
         return id;
@@ -44,4 +50,11 @@ public class FridgeItem {
         this.expirationDate = expirationDate;
     }
 
+    public String getOwnerAccount() {
+        return ownerAccount;
+    }
+
+    public void setOwnerAccount(String ownerAccount) {
+        this.ownerAccount = ownerAccount;
+    }
 }

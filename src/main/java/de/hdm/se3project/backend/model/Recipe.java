@@ -2,10 +2,14 @@ package de.hdm.se3project.backend.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-//TODO
+import javax.persistence.*;
+
+
 @Document(collection = "recipes")
 public class Recipe {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String name;
     private String category;
@@ -13,6 +17,8 @@ public class Recipe {
     private String [] tags;
     private String picture;
     private String link;
+    //id of the Account that created the recipe
+    private String ownerAccount;
 
     public String getId() {
         return id;
@@ -69,5 +75,11 @@ public class Recipe {
         this.link = link;
     }
 
+    public String getOwnerAccount() {
+        return ownerAccount;
+    }
 
+    public void setOwnerAccount(String ownerAccount) {
+        this.ownerAccount = ownerAccount;
+    }
 }

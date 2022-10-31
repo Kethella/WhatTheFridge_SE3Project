@@ -68,6 +68,8 @@ public class AccountController implements Serializable {
         account.setPassword(newAccount.getPassword());
         account.setSecurityQuestion(newAccount.getSecurityQuestion());
         account.setSecurityAnswer(newAccount.getSecurityAnswer());
+        account.setPersonalRecipes(newAccount.getPersonalRecipes());
+        account.setFridgeItems(newAccount.getFridgeItems());
 
         return repository.save(account);
     }
