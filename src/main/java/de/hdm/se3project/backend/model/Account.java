@@ -123,16 +123,4 @@ public class Account {
     public void setFridgeItems(List<FridgeItem> fridgeItems) {
         this.fridgeItems = fridgeItems;
     }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", securityQuestion='" + securityQuestion + '\'' +
-                ", securityAnswer='" + securityAnswer + '\'' +
-                '}';
-    }
 }

@@ -1,6 +1,10 @@
 package de.hdm.se3project.backend.model;
 
+import de.hdm.se3project.backend.model.enums.Category;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+
+import java.util.Arrays;
 
 import javax.persistence.*;
 
@@ -12,20 +16,31 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String name;
-    private String category;
     private String instructions;
     private String [] tags;
+    private Category category;
     private String picture;
     private String link;
     //id of the Account that created the recipe
     private String ownerAccount;
 
-    public String getId() {
-        return id;
+
+    public Recipe () {
+
     }
 
-    public void setId(String id) {
+    public Recipe(String id, String name, String instructions, String[] tags, String picture, String link, Category category) {
         this.id = id;
+        this.name = name;
+        this.instructions = instructions;
+        this.tags = tags;
+        this.picture = picture;
+        this.link = link;
+        this.category = category;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -36,14 +51,6 @@ public class Recipe {
         this.name = name;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public String getInstructions() {
         return instructions;
     }
@@ -51,6 +58,7 @@ public class Recipe {
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
+
     public String[] getTags() {
         return tags;
     }
@@ -73,6 +81,14 @@ public class Recipe {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getOwnerAccount() {

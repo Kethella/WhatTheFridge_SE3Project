@@ -18,12 +18,18 @@ public class FridgeItem {
     private String expirationDate;
     private String ownerAccount;
 
-    public String getId() {
-        return id;
+    public FridgeItem() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public FridgeItem(String name, int amount, String expirationDate, String ownerAccount) {
+        this.name = name;
+        this.amount = amount;
+        this.expirationDate = expirationDate;
+        this.ownerAccount = ownerAccount;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
