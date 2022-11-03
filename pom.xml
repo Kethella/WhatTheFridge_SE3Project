@@ -45,6 +45,13 @@
 			<scope>test</scope>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-sync</artifactId>
+			<version>4.6.1</version>
+		</dependency>
+
 		<!--GraphQl-->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>

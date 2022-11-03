@@ -1,11 +1,11 @@
 package de.hdm.se3project.backend.model;
 
 import de.hdm.se3project.backend.model.enums.SecurityQuestion;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import javax.persistence.*;
 import java.util.List;
 
 
