@@ -6,6 +6,7 @@ import java.util.List;
 import de.hdm.se3project.backend.exception.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.repository.AccountRepository;
+import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +54,7 @@ public class AccountController implements Serializable {
 
     @PostMapping("/accounts")
     Account createAccount(@RequestBody Account newAccount){ //whatever data you submit prom the client side will be accepted in the post object
-
+        newAccount.setId(IdGenerationService.generateId(newAccount));
         return repository.save(newAccount);
     }
 

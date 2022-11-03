@@ -1,9 +1,9 @@
 package de.hdm.se3project.backend.controller;
 
 import de.hdm.se3project.backend.exception.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.repository.ItemRepository;
+import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +39,7 @@ public class FridgeItemController {
 
     @PostMapping("/fridgeItems")
     FridgeItem createItem(@RequestBody FridgeItem newFridgeItem) {
+        newFridgeItem.setId(IdGenerationService.generateId(newFridgeItem));
         return repository.save(newFridgeItem);
     }
 
@@ -52,28 +53,10 @@ public class FridgeItemController {
         itemToUpdate.setName(updatedFridgeItem.getName());
         itemToUpdate.setAmount(updatedFridgeItem.getAmount());
         itemToUpdate.setExpirationDate(updatedFridgeItem.getExpirationDate());
-        //delete later
         itemToUpdate.setOwnerAccount(updatedFridgeItem.getOwnerAccount());
 
         return repository.save(itemToUpdate);
     }
-
-    /*
-    @PutMapping("/fridgeItems/{idItem}")
-    FridgeItem replaceItemData(@PathVariable String idItem, @RequestBody FridgeItem newFridgeItem)
-            throws ResourceNotFoundException {
-                FridgeItem item = repository.findById(idItem)
-                        .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id :: " + idItem));
-
-                //maybe just the AmountItem and ExpirationDate is necessary?
-                item.setIdItem(newFridgeItem.getIdItem());
-                item.setNameItem(newFridgeItem.getNameItem());
-                item.setAmountItem(newFridgeItem.getAmountItem());
-                item.setExpirationDate(newFridgeItem.getExpirationDate());
-
-                return repository.save(item);
-            }
-     */
 
     @DeleteMapping("/fridgeItems/{id}")
     void deleteAccount(@PathVariable String id) {

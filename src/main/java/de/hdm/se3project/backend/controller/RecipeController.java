@@ -2,8 +2,8 @@ package de.hdm.se3project.backend.controller;
 
 import de.hdm.se3project.backend.exception.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Recipe;
-import de.hdm.se3project.backend.model.enums.Category;
 import de.hdm.se3project.backend.repository.RecipeRepository;
+import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,9 +41,9 @@ public class RecipeController {
 
     @PostMapping("/recipes")
     Recipe createAccount(@RequestBody Recipe newRecipe){
+        newRecipe.setId(IdGenerationService.generateId(newRecipe));
         return repository.save(newRecipe);
     }
-
 
     @PutMapping("/recipes/{id}")
     Recipe replaceAccount(@PathVariable String id, @RequestBody Recipe newRecipe) throws ResourceNotFoundException {
@@ -53,11 +53,12 @@ public class RecipeController {
 
         recipe.setName(newRecipe.getName());
         recipe.setInstructions(newRecipe.getInstructions());
+        recipe.setCategory(newRecipe.getCategory());
         recipe.setTags(newRecipe.getTags());
         recipe.setPicture(newRecipe.getPicture());
         //delete later
         recipe.setOwnerAccount(newRecipe.getOwnerAccount());
-        recipe.setCategory(newRecipe.getCategory());
+
 
         return repository.save(recipe);
     }

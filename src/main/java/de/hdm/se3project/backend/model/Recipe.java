@@ -4,21 +4,16 @@ import de.hdm.se3project.backend.model.enums.Category;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
-import java.util.Arrays;
-
-import javax.persistence.*;
-
 
 @Document(collection = "recipes")
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String name;
     private String instructions;
-    private String [] tags;
     private Category category;
+    private String [] tags;
     private String picture;
     private String link;
     //id of the Account that created the recipe
@@ -41,6 +36,10 @@ public class Recipe {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

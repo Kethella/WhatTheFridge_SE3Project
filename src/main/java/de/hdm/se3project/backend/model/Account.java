@@ -2,13 +2,11 @@ package de.hdm.se3project.backend.model;
 
 import de.hdm.se3project.backend.model.enums.SecurityQuestion;
 import org.springframework.data.annotation.ReadOnlyProperty;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 
 /* Model class for "accounts" MongoDB collection
@@ -18,7 +16,6 @@ import java.util.Set;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     private String name;
