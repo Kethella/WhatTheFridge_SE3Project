@@ -42,7 +42,7 @@ public class IdGenerationService {
     public static boolean existsInAccountsDB(String candidateId){
         try (MongoClient mongoClient = MongoClients.create("mongodb+srv://root:passWord@learnstuff.cec5wbi.mongodb.net/?retryWrites=true&w=majority")) {
             MongoCollection<Document> coll = mongoClient.getDatabase("whatTheFridgeDB").getCollection("accounts");
-            if (checkUntilIdMatch(candidateId, coll)) return true;
+            if (checkAllUntilIdMatch(candidateId, coll)) return true;
 
         }
 
@@ -52,7 +52,7 @@ public class IdGenerationService {
     public static boolean existsInRecipesDB(String candidateId){
         try (MongoClient mongoClient = MongoClients.create("mongodb+srv://root:passWord@learnstuff.cec5wbi.mongodb.net/?retryWrites=true&w=majority")) {
             MongoCollection<Document> coll = mongoClient.getDatabase("whatTheFridgeDB").getCollection("recipes");
-            if (checkUntilIdMatch(candidateId, coll)) return true;
+            if (checkAllUntilIdMatch(candidateId, coll)) return true;
 
         }
 
@@ -62,14 +62,14 @@ public class IdGenerationService {
     public static boolean existsInFridgeItemsDB(String candidateId){
         try (MongoClient mongoClient = MongoClients.create("mongodb+srv://root:passWord@learnstuff.cec5wbi.mongodb.net/?retryWrites=true&w=majority")) {
             MongoCollection<Document> coll = mongoClient.getDatabase("whatTheFridgeDB").getCollection("fridgeItems");
-            if (checkUntilIdMatch(candidateId, coll)) return true;
+            if (checkAllUntilIdMatch(candidateId, coll)) return true;
 
         }
 
         return false;
     }
 
-    private static boolean checkUntilIdMatch(String candidateId, MongoCollection<Document> coll) {
+    private static boolean checkAllUntilIdMatch(String candidateId, MongoCollection<Document> coll) {
         List<Document> docs = coll.find().projection(include("_id")).into(new ArrayList<>());
 
         for (Document doc : docs){
@@ -79,8 +79,6 @@ public class IdGenerationService {
             }
             else{
                 //TODO: log
-                System.out.println(doc.get("_id"));
-                System.out.println("CONTINUE");
             }
         }
         return false;

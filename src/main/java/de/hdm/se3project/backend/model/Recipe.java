@@ -11,11 +11,15 @@ public class Recipe {
     @Id
     private String id;
     private String name;
+    //    private Category category;
     private String instructions;
     private Category category;
+    //    private String picture;
     private String [] tags;
     private String picture;
     private String link;
+    private String[] ingredientNames;
+    private String[] ingredientMeasures;
     //id of the Account that created the recipe
     private String ownerAccount;
 
@@ -24,7 +28,7 @@ public class Recipe {
 
     }
 
-    public Recipe(String id, String name, String instructions, String[] tags, String picture, String link, Category category) {
+    public Recipe(String id, String name, String instructions, Category category, String[] tags, String picture, String link, String[] ingredientNames, String[] ingredientMeasures, String ownerAccount) {
         this.id = id;
         this.name = name;
         this.instructions = instructions;
@@ -32,6 +36,9 @@ public class Recipe {
         this.picture = picture;
         this.link = link;
         this.category = category;
+        this.ingredientNames = ingredientNames;
+        this.ingredientMeasures = ingredientMeasures;
+        this.ownerAccount = ownerAccount;
     }
 
     public String getId() {
@@ -88,6 +95,22 @@ public class Recipe {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String[] getIngredientNames() {
+        return ingredientNames;
+    }
+
+    public void setIngredientNames(String[] ingredientNames) {
+        this.ingredientNames = ingredientNames;
+    }
+
+    public String[] getIngredientMeasures() {
+        return ingredientMeasures;
+    }
+
+    public void setIngredientMeasures(String[] ingredientMeasures) {
+        this.ingredientMeasures = ingredientMeasures;
     }
 
     public String getOwnerAccount() {
