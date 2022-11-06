@@ -5,17 +5,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "fridgeItems")
 public class FridgeItem {
 
-    private String idItem;
+    private String id;
     private String nameItem;
     private int amountItem;
     private String expirationDate;
 
-    public String getIdItem() {
-        return idItem;
+    public String getId() {
+        return id;
     }
 
-    public void setIdItem(String idItem) {
-        this.idItem = idItem;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNameItem() {

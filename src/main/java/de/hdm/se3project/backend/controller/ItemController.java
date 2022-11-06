@@ -30,10 +30,10 @@ public class ItemController {
         return  repository.findAll();
     }
 
-    @GetMapping("/fridgeItems/{idItem}")
-    FridgeItem getOneFridgeItem(@PathVariable String idItem) throws ResourceNotFoundException {
-        return repository.findById(idItem)
-                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id :: " + idItem));
+    @GetMapping("/fridgeItems/{id}")
+    FridgeItem getOneFridgeItem(@PathVariable String id) throws ResourceNotFoundException {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id :: " + id));
     }
 
     @PostMapping("/fridgeItems")
@@ -41,11 +41,11 @@ public class ItemController {
         return repository.save(newFridgeItem);
     }
 
-    @PutMapping("/fridgeItems/{idItem}")
-    FridgeItem updateItem(@PathVariable String idItem, @RequestBody FridgeItem updatedFridgeItem)
+    @PutMapping("/fridgeItems/{id}")
+    FridgeItem updateItem(@PathVariable String id, @RequestBody FridgeItem updatedFridgeItem)
             throws ResourceNotFoundException {
 
-        FridgeItem itemToUpdate = this.getOneFridgeItem(idItem);
+        FridgeItem itemToUpdate = this.getOneFridgeItem(id);
 
         itemToUpdate.setAmountItem(updatedFridgeItem.getAmountItem());
         itemToUpdate.setExpirationDate(updatedFridgeItem.getExpirationDate());
@@ -70,9 +70,9 @@ public class ItemController {
             }
      **/
 
-    @DeleteMapping("/fridgeItems/{idItem}")
-    void deleteAccount(@PathVariable String idItem) {
-        repository.deleteById(idItem);
+    @DeleteMapping("/fridgeItems/{id}")
+    void deleteAccount(@PathVariable String id) {
+        repository.deleteById(id);
     }
 
 }
