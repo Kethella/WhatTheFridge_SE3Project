@@ -3,7 +3,7 @@ package de.hdm.se3project.backend.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import de.hdm.se3project.backend.exception.ResourceNotFoundException;
+import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.repository.AccountRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;

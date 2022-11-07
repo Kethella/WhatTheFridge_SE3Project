@@ -1,6 +1,6 @@
 package de.hdm.se3project.backend.controller;
 
-import de.hdm.se3project.backend.exception.ResourceNotFoundException;
+import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.repository.ItemRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
