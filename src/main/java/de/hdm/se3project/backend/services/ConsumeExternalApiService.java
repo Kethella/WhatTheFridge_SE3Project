@@ -33,14 +33,17 @@ public class ConsumeExternalApiService {
     private static String rest;
     private static int count;
 
+    static List<String> allTags = new ArrayList<>();
+
     public static void main(String[] args) {
         getExternalRecipes();
     }
 
     private static void getExternalRecipes() {
-        char[] letters = {'a'};
-        //char[] letters = {'a','b','c','d','e','f','g','h','i','j','k','l','m'};
-        //char[] letters = {'n','o', 'p','q','r','s','t','u','v','w','x','y','z'};
+        //split into 3 to deal with timeouts
+        char[] letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+        //char[] letters = {'i', 'j', 'k', 'l', 'm', 'n','o', 'p',};
+        //char[] letters = {'q','r','s','t','u','v','w','x','y','z'};
 
 
         for (char letter : letters) {
@@ -86,11 +89,14 @@ public class ConsumeExternalApiService {
 
         MongoClient client = MongoClients.create("mongodb+srv://root:passWord@learnstuff.cec5wbi.mongodb.net/?retryWrites=true&w=majority");
         MongoDatabase db = client.getDatabase("whatTheFridgeDB");
-        MongoCollection<Document> col = db.getCollection("externalRecipes");
+        //MongoCollection<Document> col = db.getCollection("externalRecipes");
+        MongoCollection<Document> col = db.getCollection("recipes");
 
         Recipe recipeObj = new Recipe();
         Document recipe = new Document("_id", IdGenerationService.generateId(recipeObj));
 
+
+        allTags.clear();
         rest = recipeString;
         count = 0;
         try{
@@ -119,8 +125,8 @@ public class ConsumeExternalApiService {
                         recipe.append("tags", null);
                     }
                     else{
-                        List<String> tags = getTags(getValue());
-                        recipe.append("tags", tags);
+                        getTags();
+                        recipe.append("tags", allTags);
                     }
                 }
                 else if(count == 9){ //link
@@ -140,7 +146,7 @@ public class ConsumeExternalApiService {
 
                 removeUsedSubstring();
             }
-
+            recipe.append("ownerAccount", null);
             col.insertOne(recipe);
 
         } catch (Exception StringIndexOutOfBoundsException){
@@ -177,28 +183,49 @@ public class ConsumeExternalApiService {
     }
 
     public static Category getCategory(String categoryString) throws ResourceNotFoundException {
-        return switch (categoryString) {
-            case "Beef", "Chicken", "Goat", "Lamb", "Miscellaneous", "Pasta", "Pork", "Seafood", "Vegetarian" -> Category.MAINCOURSE;
-            case "Breakfast" -> Category.BREAKFAST;
-            case "Dessert" -> Category.DESSERT;
-            case "Side" -> Category.SIDE;
-            case "Starter" -> Category.STARTER;
+
+        switch (categoryString) {
+            case "Beef", "Chicken", "Goat", "Lamb", "Miscellaneous", "Pasta", "Pork", "Seafood", "Vegetarian", "Vegan" -> {
+                allTags.add(categoryString.toLowerCase());
+                return Category.MAINCOURSE;
+            }
+            case "Breakfast" -> {
+                return Category.BREAKFAST;
+            }
+            case "Dessert" -> {
+                return Category.DESSERT;
+            }
+            case "Side" -> {
+                return Category.SIDE;
+            }
+            case "Starter" -> {
+                return Category.STARTER;
+            }
             default -> throw new ResourceNotFoundException("Enum not found");
-        };
+        }
     }
 
-    public static List<String> getTags(String tagsString){
-        ArrayList<String> tags = new ArrayList<>();
+    public static void getTags(){
+        ArrayList<String> candidateTags = new ArrayList<>();
 
-        String tag;
-        String rest = tagsString;
-        while (rest.contains(",")){
-            tag = rest.substring(0, rest.indexOf(",")).toLowerCase(Locale.ROOT);
-            tags.add(tag);
-            rest = rest.substring(rest.indexOf(",") + 1);
+        String restTags = getValue();
+        while (restTags.contains(",")){
+            String tag = restTags.substring(0, restTags.indexOf(",")).toLowerCase();
+            if(!candidateTags.contains(tag)){
+                candidateTags.add(tag);
+            }
+            restTags = restTags.substring(restTags.indexOf(",") + 1);
         }
-        tags.add(rest);
-        return tags;
+        candidateTags.add(restTags.toLowerCase());
+
+
+        List<String> approvedTags = new ArrayList<>();
+        for(String candidateTag: candidateTags){
+            if(!allTags.contains(candidateTag)){
+                approvedTags.add(candidateTag);
+            }
+        }
+        allTags.addAll(approvedTags);
     }
 
     public static List<String> getIngredientsNamesOrMeasures(){

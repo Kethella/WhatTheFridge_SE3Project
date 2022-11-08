@@ -4,6 +4,8 @@ import de.hdm.se3project.backend.model.enums.Category;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
+import java.util.List;
+
 
 @Document(collection = "recipes")
 public class Recipe {
@@ -11,18 +13,14 @@ public class Recipe {
     @Id
     private String id;
     private String name;
-    //    private Category category;
-    private String instructions;
     private Category category;
-    //    private String picture;
-    private String [] tags;
+    private String instructions;
     private String picture;
+    private String[] tags;
     private String link;
     private String[] ingredientNames;
     private String[] ingredientMeasures;
-    //id of the Account that created the recipe
     private String ownerAccount;
-
 
     public Recipe () {
 

@@ -43,7 +43,6 @@ public class IdGenerationService {
         try (MongoClient mongoClient = MongoClients.create("mongodb+srv://root:passWord@learnstuff.cec5wbi.mongodb.net/?retryWrites=true&w=majority")) {
             MongoCollection<Document> coll = mongoClient.getDatabase("whatTheFridgeDB").getCollection("accounts");
             if (checkAllUntilIdMatch(candidateId, coll)) return true;
-
         }
 
         return false;
