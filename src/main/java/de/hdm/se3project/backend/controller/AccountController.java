@@ -7,15 +7,7 @@ import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.repository.AccountRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /* Controller class for "accounts" MongoDB collection
  * author: ag186
