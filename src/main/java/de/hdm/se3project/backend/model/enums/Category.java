@@ -28,5 +28,4 @@ public enum Category{
     public String getText() {
         return text;
     }
-
 }

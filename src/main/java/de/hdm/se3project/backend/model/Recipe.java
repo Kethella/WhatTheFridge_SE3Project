@@ -118,4 +118,26 @@ public class Recipe {
     public void setOwnerAccount(String ownerAccount) {
         this.ownerAccount = ownerAccount;
     }
+/*
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // If the object is compared with itself then return true
+        if (obj == this) {
+            return true;
+        }
+
+        // Check if obj is an instance of Recipe or not
+        if (!(obj instanceof Recipe recipeObj)) {
+            return false;
+        }
+
+        // typecast obj to Recipe so that we can compare data members
+        // Compare the ids
+        return id.equals((recipeObj.id));
+    }*/
 }

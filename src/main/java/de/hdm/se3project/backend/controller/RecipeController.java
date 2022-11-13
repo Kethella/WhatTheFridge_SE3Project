@@ -4,69 +4,54 @@ import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.repository.RecipeRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
+import de.hdm.se3project.backend.services.RecipeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
 public class RecipeController {
 
-    private final RecipeRepository repository;
+    private final RecipeService recipeService;
 
-    public RecipeController(RecipeRepository repository) {
-        this.repository = repository;
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
-    @GetMapping("/recipes")
-    List<Recipe> getAllRecipes(){
-        return repository.findAll();
+
+    @PostMapping("/recipes")
+    Recipe createRecipe(@RequestBody Recipe newRecipe){
+        return recipeService.createRecipe(newRecipe);
     }
 
     @GetMapping("/recipes/{id}")
     Recipe getOneRecipe(@PathVariable String id) throws ResourceNotFoundException {
 
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-    }
-
-    //temporary for testing
-    @GetMapping("/recipes/category/{id}")
-    String getCategoryText(@PathVariable String id) throws ResourceNotFoundException {
-        Recipe category = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id : " + id));
-
-        return category.getCategory().getText();
-    }
-
-    @PostMapping("/recipes")
-    Recipe createAccount(@RequestBody Recipe newRecipe){
-        newRecipe.setId(IdGenerationService.generateId(newRecipe));
-        return repository.save(newRecipe);
+        return recipeService.getRecipeById(id);
     }
 
     @PutMapping("/recipes/{id}")
-    Recipe replaceAccount(@PathVariable String id, @RequestBody Recipe newRecipe) throws ResourceNotFoundException {
+    Recipe updateAccount(@PathVariable String id, @RequestBody Recipe updatedRecipe) throws ResourceNotFoundException {
 
-        Recipe recipe = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-
-        recipe.setName(newRecipe.getName());
-        recipe.setInstructions(newRecipe.getInstructions());
-        recipe.setCategory(newRecipe.getCategory());
-        recipe.setTags(newRecipe.getTags());
-        recipe.setPicture(newRecipe.getPicture());
-        //delete later
-        recipe.setOwnerAccount(newRecipe.getOwnerAccount());
-
-
-        return repository.save(recipe);
+        return recipeService.updateRecipe(id, updatedRecipe);
     }
 
     @DeleteMapping("/recipes/{id}")
     void deleteAccount(@PathVariable String id) {
-        repository.deleteById(id);
+        recipeService.deleteRecipe(id);
     }
+
+
+    @GetMapping("/recipes/oa={ownerAccount}/")
+    List<Recipe> getRecipes(@PathVariable String ownerAccount,@RequestParam(value = "defaultRecipes") String defaultRecipes, @RequestParam(required = false, value = "category") String category, @RequestParam(required = false, value = "ingredientName") String ingredientName, @RequestParam(required = false, value = "tag") String tag) throws ResourceNotFoundException {
+
+        return recipeService.getRecipes(ownerAccount, defaultRecipes,category, ingredientName, tag);
+    }
+
+
 }
 
 
