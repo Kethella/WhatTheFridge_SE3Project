@@ -54,7 +54,7 @@ public class RecipeServiceImpl implements RecipeService{
 
 
     @Override
-    public List<Recipe> getRecipes(String ownerAccount,String defaultRecipes,String categories, String ingredientNames, String tags) throws ResourceNotFoundException {
+    public List<Recipe> getRecipes(String ownerAccount,String defaultRecipes,String category, String ingredientNames, String tags) throws ResourceNotFoundException {
         List<Recipe> recipes = getAllRecipes();
 
         recipes = getRecipesByOwnerAccount(ownerAccount, recipes);
@@ -64,8 +64,8 @@ public class RecipeServiceImpl implements RecipeService{
             recipes.addAll(externalRecipies);
         }
 
-        if(categories != null){
-            recipes = getRecipesWithMultipleCategories(categories, recipes);
+        if(category != null){
+            recipes = getRecipesWithCategory(category, recipes);
         }
         if(ingredientNames != null){
             recipes = getRecipesWithMultipleIngredientNames(ingredientNames, recipes);
@@ -101,6 +101,18 @@ public class RecipeServiceImpl implements RecipeService{
             return null;
         }
         return result;
+    }
+
+    public List<Recipe> getRecipesWithCategory(String inputCategory, List<Recipe> inputRecipes) {
+
+        List<Recipe> resultRecipes = new ArrayList<>();
+        for(Recipe recipe: inputRecipes){
+            if (Category.valueOf(inputCategory).equals(recipe.getCategory())){
+                resultRecipes.add(recipe);
+            }
+        }
+
+        return resultRecipes;
     }
 
     //ingredientName AND ingredientName
@@ -188,6 +200,10 @@ public class RecipeServiceImpl implements RecipeService{
 
         return resultRecipes;
     }
+
+
+
+
 
 
     //category OR category
