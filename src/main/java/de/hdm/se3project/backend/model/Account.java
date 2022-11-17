@@ -23,6 +23,7 @@ public class Account {
     private String password;
     private SecurityQuestion securityQuestion;
     private String securityAnswer;
+    private String pfp; //profile picture
 
     /*https://spring.io/blog/2021/11/29/spring-data-mongodb-relation-modelling
 
@@ -103,6 +104,15 @@ public class Account {
 
     public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
+    }
+
+    public String getPfp() {
+        return pfp;
+    }
+
+    //TODO: AccountServiceImpl
+    public void setPfp(String profilePictureId) {
+        this.pfp = profilePictureId;
     }
 
     public List<Recipe> getPersonalRecipes() {

@@ -4,15 +4,14 @@ package de.hdm.se3project.backend.model;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 //not defining a document here since the file will directly get stored in the GridFS collections (fs.files, fs.chunks)
-public class File {
+public class Media {
 
     private String filename;
     private String fileType;
     private String fileSize;
     private byte[] file;
-    private String owner;
 
-    public File() {
+    public Media() {
     }
 
     public String getFilename() {
@@ -45,13 +44,5 @@ public class File {
 
     public void setFile(byte[] file) {
         this.file = file;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwnerAccount(String owner) {
-        this.owner = owner;
     }
 }

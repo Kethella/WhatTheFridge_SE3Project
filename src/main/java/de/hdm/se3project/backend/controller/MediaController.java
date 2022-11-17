@@ -1,7 +1,8 @@
 package de.hdm.se3project.backend.controller;
 
-import de.hdm.se3project.backend.model.File;
-import de.hdm.se3project.backend.services.FileService;
+import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
+import de.hdm.se3project.backend.model.Media;
+import de.hdm.se3project.backend.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -15,25 +16,24 @@ import java.io.IOException;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("file")
-public class FileController {
+@RequestMapping("media")
+public class MediaController {
 
     @Autowired
-    private FileService fileService;
+    private MediaService mediaService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam("owner") String owner, @RequestParam("file")MultipartFile file) throws IOException {
-        return new ResponseEntity<>(fileService.addFile(owner, file), HttpStatus.OK);
+    public ResponseEntity<?> uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException, ResourceNotFoundException {
+        return new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK);
     }
 
     @GetMapping("/download/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {
-        File file = fileService.downloadFile(id);
+        Media media = mediaService.downloadMedia(id);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(file.getFileType() ))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .body(new ByteArrayResource(file.getFile()));
+                .contentType(MediaType.parseMediaType(media.getFileType()))
+                .body(new ByteArrayResource(media.getFile()));
     }
 
 }
