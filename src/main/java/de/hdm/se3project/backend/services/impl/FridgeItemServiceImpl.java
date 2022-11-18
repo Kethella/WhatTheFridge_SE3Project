@@ -38,7 +38,20 @@ public class FridgeItemServiceImpl implements FridgeItemService {
     //TODO: Spring boot @service notation with setters and getters
     @Override
     public FridgeItem updateFridgeItem(String id, FridgeItem newItem) throws ResourceNotFoundException {
-        return null;
+
+        FridgeItem fridgeItem = itemRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
+
+        FridgeItem item = new FridgeItem();
+
+        if (fridgeItem != null){
+            item.setName(newItem.getName());
+            item.setAmount(newItem.getAmount());
+            item.setExpirationDate(newItem.getExpirationDate());
+            item.setOwnerAccount(newItem.getOwnerAccount());
+        }
+
+        return item;
     }
 
     @Override
