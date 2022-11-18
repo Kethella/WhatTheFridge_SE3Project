@@ -20,7 +20,7 @@ public class FridgeItemServiceImpl implements FridgeItemService {
     @Override
     public List<FridgeItem> getFridgeItems() {
 
-        return null;
+        return itemRepository.findAll();
     }
 
     @Override
@@ -36,17 +36,17 @@ public class FridgeItemServiceImpl implements FridgeItemService {
     }
 
     @Override
-    public FridgeItem updateFridgeItem(String id, FridgeItem newItem) throws ResourceNotFoundException {
+    public FridgeItem updateFridgeItem(String id, FridgeItem updateItem) throws ResourceNotFoundException {
 
         FridgeItem fridgeItem = itemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
 
-        fridgeItem.setName(newItem.getName());
-        fridgeItem.setAmount(newItem.getAmount());
-        fridgeItem.setExpirationDate(newItem.getExpirationDate());
-        fridgeItem.setOwnerAccount(newItem.getOwnerAccount());
+        fridgeItem.setName(updateItem.getName()); //maybe this one we could delete
+        fridgeItem.setAmount(updateItem.getAmount());
+        fridgeItem.setExpirationDate(updateItem.getExpirationDate());
+        fridgeItem.setOwnerAccount(updateItem.getOwnerAccount()); //this one I think we could also delete
 
-        return itemRepository.save(newItem);
+        return itemRepository.save(updateItem);
     }
 
     @Override
