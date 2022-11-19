@@ -41,10 +41,10 @@ public class FridgeItemServiceImpl implements FridgeItemService {
         FridgeItem fridgeItem = itemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
 
-        fridgeItem.setName(updateItem.getName()); //maybe this one we could delete
+        fridgeItem.setName(updateItem.getName());
         fridgeItem.setAmount(updateItem.getAmount());
         fridgeItem.setExpirationDate(updateItem.getExpirationDate());
-        fridgeItem.setOwnerAccount(updateItem.getOwnerAccount()); //this one I think we could also delete
+        fridgeItem.setOwnerAccount(updateItem.getOwnerAccount());
 
         return itemRepository.save(updateItem);
     }

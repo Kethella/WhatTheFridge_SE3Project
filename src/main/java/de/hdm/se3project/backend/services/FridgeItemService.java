@@ -14,4 +14,5 @@ public interface FridgeItemService {
     FridgeItem updateFridgeItem(String id, FridgeItem newItem) throws ResourceNotFoundException;
 
     void deleteFridgeItem(String id);
+
 }

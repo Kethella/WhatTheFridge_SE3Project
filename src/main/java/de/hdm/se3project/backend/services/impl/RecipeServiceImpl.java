@@ -74,8 +74,8 @@ public class RecipeServiceImpl implements RecipeService {
         recipes = getRecipesByOwnerAccount(ownerAccount, recipes);
 
         if(defaultRecipes.equals("yes")){
-            List<Recipe> externalRecipies = getRecipesByOwnerAccount(null, getAllRecipes());
-            recipes.addAll(externalRecipies);
+            List<Recipe> externalRecipes = getRecipesByOwnerAccount(null, getAllRecipes());
+            recipes.addAll(externalRecipes);
         }
 
         if(category != null){
