@@ -2,7 +2,7 @@ package de.hdm.se3project.backend.services.impl;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
-import de.hdm.se3project.backend.repository.ItemRepository;
+import de.hdm.se3project.backend.repository.FridgeItemRepository;
 import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,31 +14,31 @@ import java.util.List;
 public class FridgeItemServiceImpl implements FridgeItemService {
 
     @Autowired
-    private ItemRepository itemRepository;
+    private FridgeItemRepository fridgeItemRepository;
 
     //TODO : having a problem to use it as a list
     @Override
     public List<FridgeItem> getFridgeItems() {
 
-        return itemRepository.findAll();
+        return fridgeItemRepository.findAll();
     }
 
     @Override
     public FridgeItem getFridgeItemById(String id) throws ResourceNotFoundException {
-        return itemRepository.findById(id)
+        return fridgeItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
     }
 
     @Override
     public FridgeItem createFridgeItem(FridgeItem item) {
         item.setId(IdGenerationService.generateId(item));
-        return itemRepository.save(item);
+        return fridgeItemRepository.save(item);
     }
 
     @Override
     public FridgeItem updateFridgeItem(String id, FridgeItem updateItem) throws ResourceNotFoundException {
 
-        FridgeItem fridgeItem = itemRepository.findById(id)
+        FridgeItem fridgeItem = fridgeItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
 
         fridgeItem.setName(updateItem.getName());
@@ -46,13 +46,13 @@ public class FridgeItemServiceImpl implements FridgeItemService {
         fridgeItem.setExpirationDate(updateItem.getExpirationDate());
         fridgeItem.setOwnerAccount(updateItem.getOwnerAccount());
 
-        return itemRepository.save(updateItem);
+        return fridgeItemRepository.save(updateItem);
     }
 
     @Override
     public void deleteFridgeItem(String id)  {
 
-        itemRepository.deleteById(id);
+        fridgeItemRepository.deleteById(id);
     }
 
 }

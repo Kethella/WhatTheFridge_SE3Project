@@ -17,8 +17,6 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-
-
     @PostMapping("/recipes")
     Recipe createRecipe(@RequestBody Recipe newRecipe){
         return recipeService.createRecipe(newRecipe);

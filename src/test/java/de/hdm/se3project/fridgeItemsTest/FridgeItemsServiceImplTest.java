@@ -1,8 +1,7 @@
 package de.hdm.se3project.fridgeItemsTest;
 
 import de.hdm.se3project.ConfigurationTest;
-import de.hdm.se3project.backend.repository.ItemRepository;
-import de.hdm.se3project.backend.services.FridgeItemService;
+import de.hdm.se3project.backend.repository.FridgeItemRepository;
 import de.hdm.se3project.backend.services.impl.FridgeItemServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 public class FridgeItemsServiceImplTest extends ConfigurationTest {
 
     @MockBean
-    private ItemRepository itemRepository;
+    private FridgeItemRepository fridgeItemRepository;
 
     @Autowired
     private FridgeItemServiceImpl fridgeItemServiceImpl;
