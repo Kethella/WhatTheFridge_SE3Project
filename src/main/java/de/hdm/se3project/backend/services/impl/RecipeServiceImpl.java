@@ -1,11 +1,14 @@
-package de.hdm.se3project.backend.services;
+package de.hdm.se3project.backend.services.impl;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.model.enums.Category;
 import de.hdm.se3project.backend.repository.RecipeRepository;
+import de.hdm.se3project.backend.services.IdGenerationService;
+import de.hdm.se3project.backend.services.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.ArrayList;
@@ -13,7 +16,7 @@ import java.util.List;
 
 
 @Service
-public class RecipeServiceImpl implements RecipeService{
+public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     private RecipeRepository recipeRepository;
@@ -36,12 +39,24 @@ public class RecipeServiceImpl implements RecipeService{
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
 
-        recipe.setName(newRecipe.getName());
-        recipe.setInstructions(newRecipe.getInstructions());
-        recipe.setCategory(newRecipe.getCategory());
-        recipe.setTags(newRecipe.getTags());
-        recipe.setPicture(newRecipe.getPicture());
-
+        if(newRecipe.getName() != null){
+            recipe.setName(newRecipe.getName());
+        }
+        if(newRecipe.getCategory() != null){
+            recipe.setCategory(newRecipe.getCategory());
+        }
+        if(newRecipe.getInstructions() != null){
+            recipe.setInstructions(newRecipe.getInstructions());
+        }
+        if(newRecipe.getImage() != null){
+            recipe.setImage(newRecipe.getImage());
+        }
+        if(newRecipe.getTags() != null){
+            recipe.setTags(newRecipe.getTags());
+        }
+        if(newRecipe.getLink() != null){
+            recipe.setLink(newRecipe.getLink());
+        }
 
         return recipeRepository.save(recipe);
     }
@@ -52,7 +67,6 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
 
-
     @Override
     public List<Recipe> getRecipes(String ownerAccount,String defaultRecipes,String category, String ingredientNames, String tags) throws ResourceNotFoundException {
         List<Recipe> recipes = getAllRecipes();
@@ -60,8 +74,8 @@ public class RecipeServiceImpl implements RecipeService{
         recipes = getRecipesByOwnerAccount(ownerAccount, recipes);
 
         if(defaultRecipes.equals("yes")){
-            List<Recipe> externalRecipies = getRecipesByOwnerAccount(null, getAllRecipes());
-            recipes.addAll(externalRecipies);
+            List<Recipe> externalRecipes = getRecipesByOwnerAccount(null, getAllRecipes());
+            recipes.addAll(externalRecipes);
         }
 
         if(category != null){
@@ -77,12 +91,10 @@ public class RecipeServiceImpl implements RecipeService{
         return recipes;
     }
 
-    @Override
     public List<Recipe> getAllRecipes() {
         return recipeRepository.findAll();
     }
 
-    @Override
     public List<Recipe> getRecipesByOwnerAccount(String ownerAccount, List<Recipe> inputRecipes) {
         List<Recipe> result = new ArrayList<>();
 

@@ -4,8 +4,6 @@ import de.hdm.se3project.backend.model.enums.Category;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
-
 
 @Document(collection = "recipes")
 public class Recipe {
@@ -15,7 +13,7 @@ public class Recipe {
     private String name;
     private Category category;
     private String instructions;
-    private String picture;
+    private String image;
     private String[] tags;
     private String link;
     private String[] ingredientNames;
@@ -26,12 +24,12 @@ public class Recipe {
 
     }
 
-    public Recipe(String id, String name, String instructions, Category category, String[] tags, String picture, String link, String[] ingredientNames, String[] ingredientMeasures, String ownerAccount) {
+    public Recipe(String id, String name, String instructions, Category category, String[] tags, String image, String link, String[] ingredientNames, String[] ingredientMeasures, String ownerAccount) {
         this.id = id;
         this.name = name;
         this.instructions = instructions;
         this.tags = tags;
-        this.picture = picture;
+        this.image = image;
         this.link = link;
         this.category = category;
         this.ingredientNames = ingredientNames;
@@ -71,12 +69,12 @@ public class Recipe {
         this.tags = tags;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getImage() {
+        return image;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getLink() {

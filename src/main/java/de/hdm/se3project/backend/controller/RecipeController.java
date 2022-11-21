@@ -17,7 +17,6 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-
     @PostMapping("/recipes")
     Recipe createRecipe(@RequestBody Recipe newRecipe){
         return recipeService.createRecipe(newRecipe);
@@ -29,15 +28,14 @@ public class RecipeController {
     }
 
     @PutMapping("/recipes/{id}")
-    Recipe updateAccount(@PathVariable String id, @RequestBody Recipe updatedRecipe) throws ResourceNotFoundException {
+    Recipe updateRecipe(@PathVariable String id, @RequestBody Recipe updatedRecipe) throws ResourceNotFoundException {
         return recipeService.updateRecipe(id, updatedRecipe);
     }
 
     @DeleteMapping("/recipes/{id}")
-    void deleteAccount(@PathVariable String id) {
+    void deleteRecipe(@PathVariable String id) {
         recipeService.deleteRecipe(id);
     }
-
 
     @GetMapping("/recipes/oa={ownerAccount}/")
     List<Recipe> getRecipes(@PathVariable String ownerAccount,

@@ -63,3 +63,4 @@ public class FridgeItem {
         this.ownerAccount = ownerAccount;
     }
 }
+
