@@ -2,7 +2,7 @@ package de.hdm.se3project.backend.controller;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
-import de.hdm.se3project.backend.repository.ItemRepository;
+import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,47 +20,39 @@ import java.util.List;
 
 public class FridgeItemController {
 
-    private final ItemRepository repository;
+    private final FridgeItemService service;
 
-    public FridgeItemController(ItemRepository repository) {
-        this.repository = repository;
+    public FridgeItemController(FridgeItemService service) {
+        this.service = service;
     }
 
     @GetMapping("/fridgeItems")
     List<FridgeItem> getAllFridgeItems() {
-        return  repository.findAll();
+        return  service.getFridgeItems();
     }
 
     @GetMapping("/fridgeItems/{id}")
     FridgeItem getOneFridgeItem(@PathVariable String id) throws ResourceNotFoundException {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id :: " + id));
+        return service.getFridgeItemById(id);
     }
 
     @PostMapping("/fridgeItems")
     FridgeItem createItem(@RequestBody FridgeItem newFridgeItem) {
         newFridgeItem.setId(IdGenerationService.generateId(newFridgeItem));
-        return repository.save(newFridgeItem);
+        return service.createFridgeItem(newFridgeItem);
     }
 
     @PutMapping("/fridgeItems/{id}")
     FridgeItem updateItem(@PathVariable String id, @RequestBody FridgeItem updatedFridgeItem)
             throws ResourceNotFoundException {
 
-        FridgeItem itemToUpdate = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-
-        itemToUpdate.setName(updatedFridgeItem.getName());
-        itemToUpdate.setAmount(updatedFridgeItem.getAmount());
-        itemToUpdate.setExpirationDate(updatedFridgeItem.getExpirationDate());
-        itemToUpdate.setOwnerAccount(updatedFridgeItem.getOwnerAccount());
-
-        return repository.save(itemToUpdate);
+        return service.updateFridgeItem(id, updatedFridgeItem);
     }
 
     @DeleteMapping("/fridgeItems/{id}")
-    void deleteAccount(@PathVariable String id) {
-        repository.deleteById(id);
+    void deleteFridgeItem(@PathVariable String id) {
+        service.deleteFridgeItem(id);
     }
 
 }
+
