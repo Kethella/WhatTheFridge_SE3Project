@@ -1,17 +1,22 @@
-package de.hdm.se3project.backend.services;
+package de.hdm.se3project.backend.services.impl;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.repository.AccountRepository;
+import de.hdm.se3project.backend.repository.RecipeRepository;
+import de.hdm.se3project.backend.services.AccountService;
+import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private RecipeRepository recipeRepository;
 
     @Override
     public Account createAccount(Account account) {
@@ -26,6 +31,11 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    public void deleteAccount(String id) {
+        accountRepository.deleteById(id);
+    }
+
+    @Override
     public Account updateAccount(String id, Account newAccount) throws ResourceNotFoundException {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
@@ -35,6 +45,8 @@ public class AccountServiceImpl implements AccountService{
         account.setPassword(newAccount.getPassword());
         account.setSecurityQuestion(newAccount.getSecurityQuestion());
         account.setSecurityAnswer(newAccount.getSecurityAnswer());
+        account.setPersonalRecipes(newAccount.getPersonalRecipes());
+        account.setFridgeItems(newAccount.getFridgeItems());
 
 
         return accountRepository.save(account);
@@ -42,10 +54,5 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
-    }
-
-    @Override
-    public void deleteAccount(String id) {
-        accountRepository.deleteById(id);
     }
 }
