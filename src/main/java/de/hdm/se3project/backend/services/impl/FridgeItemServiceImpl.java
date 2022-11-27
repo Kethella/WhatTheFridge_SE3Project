@@ -8,6 +8,7 @@ import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,11 +19,21 @@ public class FridgeItemServiceImpl implements FridgeItemService {
 
     //TODO : having a problem to use it as a list
     @Override
-    public List<FridgeItem> getFridgeItems() {
+    public List<FridgeItem> getFridgeItems(String ownerAccount) {
 
-        return fridgeItemRepository.findAll();
+        List<FridgeItem> allFridgeItems = fridgeItemRepository.findAll();
+
+        List<FridgeItem> returnFridgeItems = new ArrayList<>();
+        for (FridgeItem fridgeItem: allFridgeItems){
+            if(fridgeItem.getOwnerAccount().equals(ownerAccount)){
+                returnFridgeItems.add(fridgeItem);
+            }
+        }
+
+        return returnFridgeItems;
     }
 
+    //TODO: you shouldn't be able to access all the fridgeItems (also from other accounts)
     @Override
     public FridgeItem getFridgeItemById(String id) throws ResourceNotFoundException {
         return fridgeItemRepository.findById(id)

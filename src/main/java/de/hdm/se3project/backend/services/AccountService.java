@@ -13,6 +13,6 @@ public interface AccountService {
 
     Account getAccountById(String id) throws ResourceNotFoundException;
 
-    public abstract void deleteAccount(String id);
+    public abstract void deleteAccount(String id) throws ResourceNotFoundException;
     public abstract List<Account> getAllAccounts();
 }

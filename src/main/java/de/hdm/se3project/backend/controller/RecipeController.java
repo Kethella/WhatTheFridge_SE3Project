@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/recipes")
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -17,27 +17,27 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping("/recipes")
+    @PostMapping()
     Recipe createRecipe(@RequestBody Recipe newRecipe){
         return recipeService.createRecipe(newRecipe);
     }
 
-    @GetMapping("/recipes/{id}")
+    @GetMapping("/{id}")
     Recipe getOneRecipe(@PathVariable String id) throws ResourceNotFoundException {
         return recipeService.getRecipeById(id);
     }
 
-    @PutMapping("/recipes/{id}")
+    @PutMapping("/{id}")
     Recipe updateRecipe(@PathVariable String id, @RequestBody Recipe updatedRecipe) throws ResourceNotFoundException {
         return recipeService.updateRecipe(id, updatedRecipe);
     }
 
-    @DeleteMapping("/recipes/{id}")
+    @DeleteMapping("/{id}")
     void deleteRecipe(@PathVariable String id) {
         recipeService.deleteRecipe(id);
     }
 
-    @GetMapping("/recipes/oa={ownerAccount}/")
+    @GetMapping("/oa={ownerAccount}/")
     List<Recipe> getRecipes(@PathVariable String ownerAccount,
                             @RequestParam(value = "defaultRecipes", defaultValue = "yes") String defaultRecipes,
                             @RequestParam(required = false, value = "category") String category,

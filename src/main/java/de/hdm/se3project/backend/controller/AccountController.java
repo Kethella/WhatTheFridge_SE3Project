@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * author: ag186
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/accounts")
 public class AccountController implements Serializable {
 
     private final AccountService accountService;
@@ -39,51 +39,30 @@ public class AccountController implements Serializable {
 
 
 
-    @GetMapping("/accounts")
+    @GetMapping()
     List<Account> getAllAccounts(){
         return accountService.getAllAccounts();
     }
 
-    @GetMapping("/accounts/{id}")
+    @GetMapping("/{id}")
     Account getOneAccount(@PathVariable String id) throws ResourceNotFoundException {
 
         return accountService.getAccountById(id);
     }
 
-    //temporary for testing
-    /*@GetMapping("/accounts/seqQuestion/{id}")
-    String getAccountSecurityQuestionText(@PathVariable String id) throws ResourceNotFoundException {
-        Account account = accountService.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-
-        return account.getSecurityQuestion().getText();
-    }
-*/
-
-    @PostMapping("/accounts")
+    @PostMapping()
     Account createAccount(@RequestBody Account newAccount){ //whatever data you submit prom the client side will be accepted in the post object
         newAccount.setId(IdGenerationService.generateId(newAccount));
         return accountService.createAccount(newAccount);
     }
 
-    @PutMapping("/accounts/{id}")
+    @PutMapping("/{id}")
     Account replaceAccount(@PathVariable String id, @RequestBody Account newAccount) throws ResourceNotFoundException {
-
-
-
         return accountService.updateAccount(id, newAccount);
     }
 
-    @DeleteMapping("/accounts/{id}")
-    void deleteAccount(@PathVariable String id) {
-        List <Recipe> recipes = recipeServiceImpl.getAllRecipes();
-        for (Recipe r: recipes) {
-            recipeService.deleteRecipe(r.getId());
-        }
-        List <FridgeItem> fridgeItems = fridgeItemServiceImpl.getFridgeItems();
-        for (FridgeItem f: fridgeItems) {
-            fridgeItemService.deleteFridgeItem(f.getId());
-        }
+    @DeleteMapping("/{id}")
+    void deleteAccount(@PathVariable String id) throws ResourceNotFoundException {
         accountService.deleteAccount(id);
     }
 }

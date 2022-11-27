@@ -2,10 +2,14 @@ package de.hdm.se3project.backend.services.impl;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Account;
+import de.hdm.se3project.backend.model.FridgeItem;
+import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.repository.AccountRepository;
 import de.hdm.se3project.backend.repository.RecipeRepository;
 import de.hdm.se3project.backend.services.AccountService;
+import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
+import de.hdm.se3project.backend.services.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +19,9 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
-    @Autowired
-    private RecipeRepository recipeRepository;
+
+    private RecipeService recipeService;
+    private FridgeItemService fridgeItemService;
 
     @Override
     public Account createAccount(Account account) {
@@ -31,9 +36,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccount(String id) {
-        accountRepository.deleteById(id);
+    public void deleteAccount(String id) throws ResourceNotFoundException {
+        //delete all recipes connected to the account
+        List <Recipe> recipes = recipeService.getRecipes(id, null, null, null, null);
+        for (Recipe recipe: recipes) {
+            recipeService.deleteRecipe(recipe.getId());
+        }
 
+        //delete all fridgeItems connected to the account
+        List <FridgeItem> fridgeItems = fridgeItemService.getFridgeItems(id);
+        for (FridgeItem fridgeItem: fridgeItems) {
+            fridgeItemService.deleteFridgeItem(fridgeItem.getId());
+        }
+
+        accountRepository.deleteById(id);
     }
 
     @Override
