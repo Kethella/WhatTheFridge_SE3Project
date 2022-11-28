@@ -2,13 +2,16 @@ package de.hdm.se3project.backend.controller;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Recipe;
+import de.hdm.se3project.backend.model.enums.Category;
 import de.hdm.se3project.backend.services.RecipeService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -16,8 +19,6 @@ public class RecipeController {
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
-
-
 
     @PostMapping("/recipes")
     Recipe createRecipe(@RequestBody Recipe newRecipe){
