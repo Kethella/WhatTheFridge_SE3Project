@@ -17,11 +17,13 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
+
         this.recipeService = recipeService;
     }
 
     @PostMapping("/recipes")
     Recipe createRecipe(@RequestBody Recipe newRecipe){
+
         return recipeService.createRecipe(newRecipe);
     }
 
@@ -37,6 +39,7 @@ public class RecipeController {
 
     @DeleteMapping("/recipes/{id}")
     void deleteRecipe(@PathVariable String id) {
+
         recipeService.deleteRecipe(id);
     }
 
