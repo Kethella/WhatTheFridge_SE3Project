@@ -1,4 +1,4 @@
-package de.hdm.se3project.fridgeItemsTest;
+package de.hdm.se3project.controllerTest;
 
 public class FridgeItemsControllerTest {
 

@@ -14,8 +14,12 @@ import java.util.List;
 @Service
 public class FridgeItemServiceImpl implements FridgeItemService {
 
-    @Autowired
     private FridgeItemRepository fridgeItemRepository;
+
+    @Autowired
+    public FridgeItemServiceImpl(FridgeItemRepository fridgeItemRepository) {
+        this.fridgeItemRepository = fridgeItemRepository;
+    }
 
     @Override
     public FridgeItem createFridgeItem(FridgeItem item) {
@@ -35,6 +39,9 @@ public class FridgeItemServiceImpl implements FridgeItemService {
         FridgeItem fridgeItem = fridgeItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
 
+        if (updateItem.getId() != null) {
+            fridgeItem.setId(updateItem.getId());
+        }
         if (updateItem.getName() != null) {
             fridgeItem.setName(updateItem.getName());
         }

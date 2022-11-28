@@ -16,7 +16,8 @@ public class FridgeItem {
     public FridgeItem() {
     }
 
-    public FridgeItem(String name, int amount, String expirationDate, String ownerAccount) {
+    public FridgeItem(String id, String name, int amount, String expirationDate, String ownerAccount) {
+        this.id = id;
         this.name = name;
         this.amount = amount;
         this.expirationDate = expirationDate;
