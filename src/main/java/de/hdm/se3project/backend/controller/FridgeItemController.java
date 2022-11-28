@@ -43,9 +43,8 @@ public class FridgeItemController {
     }
 
     @GetMapping("/fridgeItems/oa={ownerAccount}/")
-    List<FridgeItem> getFridgeItems(@PathVariable String ownerAccount,
-                                    @RequestParam(value = "defaultFridgeItems", defaultValue = "yes") String defaultFridgeItems) {
-        return  fridgeItemService.getFridgeItems(ownerAccount, defaultFridgeItems);
+    List<FridgeItem> getFridgeItems(@PathVariable String ownerAccount) {
+        return  fridgeItemService.getFridgeItems(ownerAccount);
     }
 }
 

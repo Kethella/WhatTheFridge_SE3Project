@@ -68,15 +68,10 @@ public class FridgeItemServiceImpl implements FridgeItemService {
     }
 
     @Override
-    public List<FridgeItem> getFridgeItems(String ownerAccount, String defaultFridgeItems) {
+    public List<FridgeItem> getFridgeItems(String ownerAccount) {
         List<FridgeItem> fridgeItems = getAllFridgeItems();
 
         fridgeItems = getFridgeItemsByOwnerAccount(ownerAccount, fridgeItems);
-
-        if (defaultFridgeItems.equals("yes")){
-            List<FridgeItem> externalFridgeItems = getFridgeItemsByOwnerAccount(null, getAllFridgeItems());
-            fridgeItems.addAll(externalFridgeItems);
-        }
 
         return fridgeItems;
 
