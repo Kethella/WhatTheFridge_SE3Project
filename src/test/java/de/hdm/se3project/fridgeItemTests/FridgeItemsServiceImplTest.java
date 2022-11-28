@@ -27,6 +27,7 @@ public class FridgeItemsServiceImplTest extends ConfigurationTest {
         System.out.println("blabla");
     }
 
+    /**
     //TODO: test with Lists
     @Test
     @DisplayName("Should return a list of fridge Items")
@@ -36,5 +37,6 @@ public class FridgeItemsServiceImplTest extends ConfigurationTest {
 
         fridgeItemServiceImpl.getFridgeItems();
     }
+    **/
 }
 
