@@ -9,13 +9,23 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { DummyPagesComponent } from './components/dummy-pages/dummy-pages.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { SignUpComponent } from './components/account/sign-up/sign-up.component';
+import { LoginComponent } from './components/account/login/login.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
     AccountComponent,
     NavbarComponent,
-    DummyPagesComponent
+    DummyPagesComponent,
+    SignUpComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +35,13 @@ import { DummyPagesComponent } from './components/dummy-pages/dummy-pages.compon
     MatButtonModule,
     MatIconModule, 
     MatMenuModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
