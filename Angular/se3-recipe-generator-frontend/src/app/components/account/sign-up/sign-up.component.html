@@ -1,3 +1,4 @@
+<div class="bg">
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -9,9 +10,9 @@
                     <mat-horizontal-stepper id="stepper" #stepper="matHorizontalStepper">
                     <mat-step [stepControl]="firstFormGroup">
                     <form [formGroup]="firstFormGroup">
-                        <ng-template matStepLabel>Create account</ng-template>
+                        <ng-template matStepLabel><div class="stepper-label">Create account</div></ng-template>
                         <div class="mb-3">
-                            <label for="exampleUsername" class="form-label">Username</label>
+                            <label id="labels" for="exampleUsername" class="form-label">Username</label>
                             <input type="username" class="form-control" id="exampleUsername"> 
                         </div>
                         <div class="mb-3">
@@ -34,9 +35,9 @@
                     </mat-step>
                     <mat-step [stepControl]="secondFormGroup">
                     <form [formGroup]="secondFormGroup">
-                        <ng-template matStepLabel>Security question</ng-template>
+                        <ng-template matStepLabel><div class="stepper-label">Security question</div></ng-template>
                             <mat-form-field appearance="fill">
-                            <mat-label>Select a security question</mat-label>
+                            <mat-label><div class="question-label">Select a security question</div></mat-label>
                                 <mat-select>
                                     <mat-option value="one">Mother's maiden name</mat-option>
                                     <mat-option value="two">name of first pet</mat-option>
@@ -44,7 +45,7 @@
                                 </mat-select>
                             </mat-form-field>
                             <mat-form-field appearance="fill">
-                                    <mat-label>Type your answer here</mat-label>
+                                    <mat-label><div class="question-label">Type your answer here</div></mat-label>
                                     <textarea matInput></textarea>
                             </mat-form-field>
                     </form>
@@ -53,5 +54,6 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 </div>

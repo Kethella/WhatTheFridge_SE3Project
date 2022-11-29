@@ -7,9 +7,10 @@
     top:50%;
     left:50%;
     transform: translate(-50%, -50%);
-    background: white;
+    background: rgb(230, 244, 246);
 }
 
-body {
+.bg{
     background: rgb(95, 193, 172);
+    height : 100vh;
 }
