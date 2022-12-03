@@ -8,22 +8,14 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { AccountComponent } from './components/account/account.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { DummyPagesComponent } from './components/dummy-pages/dummy-pages.component';
-import { SignUpComponent } from './components/account/sign-up/sign-up.component';
-import { LoginComponent } from './components/account/login/login.component';
-
 import { PersonalMaterialModule } from './material.module';
+import { LoggedInLayoutModule } from './layouts/logged-in-layout/logged-in-layout.module';
+import { AuthLayoutModule } from './layouts/auth-layout/auth-layout.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    AccountComponent,
-    NavbarComponent,
-    DummyPagesComponent,
-    SignUpComponent,
-    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +24,9 @@ import { PersonalMaterialModule } from './material.module';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    PersonalMaterialModule
+    PersonalMaterialModule,
+    LoggedInLayoutModule,
+    AuthLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
