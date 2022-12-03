@@ -1,0 +1,23 @@
+mat-card {
+  background: white;
+  width: 300px;
+  height: 300px;
+  margin: 5px 5px 5px 5px;
+  padding: 5% 5% 5% 5%;
+}
+
+mat-card-header {
+  font-size: large;
+  color: black;
+  padding-bottom: 15px;
+}
+
+mat-chip-row {
+  max-width: 200px;
+  margin: 5px auto;
+}
+
+img{
+  height: 100px;
+  width:fit-content;
+}

@@ -1,0 +1,16 @@
+<mat-grid-list [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)">
+  <mat-grid-tile *ngFor="let recipe of recipes">
+    <mat-card>
+      <mat-card-header>{{recipe.name}}</mat-card-header>
+      <img mat-card-image src="http://localhost:8085/media/download/638a2cef2783de361b210830" alt="Recipe photo">
+      <mat-card-content>{{recipe.picture}}</mat-card-content>
+      <mat-card-footer>
+          <mat-chip-row *ngFor="let tag of recipe.tags">
+            {{tag}}
+          </mat-chip-row>
+      </mat-card-footer>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
