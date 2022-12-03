@@ -91,6 +91,34 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes;
     }
 
+    @Override
+    public List<String> getAllRecipeTags(String ownerId) {
+        List<Recipe> recipes = getAllRecipes();
+        recipes = getRecipesByOwnerAccount(ownerId, recipes);
+
+        List<Recipe> externalRecipes = getRecipesByOwnerAccount(null, getAllRecipes());
+
+        if(recipes == null){
+            recipes = externalRecipes;
+        }
+        else{
+            recipes.addAll(externalRecipes);
+        }
+
+        List<String> returnTags = new ArrayList<>();
+        for(Recipe recipe: recipes){
+            if(recipe.getTags() != null) {
+                for (String tag : recipe.getTags()) {
+                    if (!returnTags.contains(tag)) {
+                        returnTags.add(tag);
+                    }
+                }
+            }
+        }
+
+        return returnTags;
+    }
+
     public List<Recipe> getAllRecipes() {
         return recipeRepository.findAll();
     }
