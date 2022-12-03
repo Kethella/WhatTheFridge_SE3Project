@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "graphql",
-      "type": "java.lang.String",
-      "description": "Description for graphql."
-  }
-] }

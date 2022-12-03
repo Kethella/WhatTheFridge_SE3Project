@@ -1,14 +1,12 @@
 package de.hdm.se3project.backend.model;
 
 import de.hdm.se3project.backend.model.enums.SecurityQuestion;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 
 /* Model class for "accounts" MongoDB collection
@@ -18,7 +16,6 @@ import java.util.Set;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     private String name;
@@ -26,6 +23,7 @@ public class Account {
     private String password;
     private SecurityQuestion securityQuestion;
     private String securityAnswer;
+    private String pfp; //profile picture
 
     /*https://spring.io/blog/2021/11/29/spring-data-mongodb-relation-modelling
 
@@ -108,6 +106,15 @@ public class Account {
         this.securityAnswer = securityAnswer;
     }
 
+    public String getPfp() {
+        return pfp;
+    }
+
+    //TODO: AccountServiceImpl
+    public void setPfp(String profilePictureId) {
+        this.pfp = profilePictureId;
+    }
+
     public List<Recipe> getPersonalRecipes() {
         return personalRecipes;
     }
@@ -122,17 +129,5 @@ public class Account {
 
     public void setFridgeItems(List<FridgeItem> fridgeItems) {
         this.fridgeItems = fridgeItems;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", securityQuestion='" + securityQuestion + '\'' +
-                ", securityAnswer='" + securityAnswer + '\'' +
-                '}';
     }
 }
