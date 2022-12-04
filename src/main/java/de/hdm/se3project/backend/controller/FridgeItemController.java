@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//controller handle all the APIs of the project
+//after this we can make changes in our objects
+
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -20,15 +23,19 @@ public class FridgeItemController {
         this.fridgeItemService = fridgeItemService;
     }
 
-    @PostMapping("/fridgeItems")
-    FridgeItem createFridgeItem(@RequestBody FridgeItem newFridgeItem) {
-        //newFridgeItem.setId(IdGenerationService.generateId(newFridgeItem));
-        return fridgeItemService.createFridgeItem(newFridgeItem);
+    @GetMapping("/fridgeItems/oa={ownerAccount}/")
+    List<FridgeItem> getFridgeItems(@PathVariable String ownerAccount) {
+        return  fridgeItemService.getFridgeItems(ownerAccount);
     }
 
     @GetMapping("/fridgeItems/{id}")
     FridgeItem getOneFridgeItem(@PathVariable String id) throws ResourceNotFoundException {
         return fridgeItemService.getFridgeItemById(id);
+    }
+
+    @PostMapping("/fridgeItems")
+    FridgeItem createFridgeItem(@RequestBody FridgeItem newFridgeItem) {
+        return fridgeItemService.createFridgeItem(newFridgeItem);
     }
 
     @PutMapping("/fridgeItems/{id}")
@@ -38,13 +45,9 @@ public class FridgeItemController {
     }
 
     @DeleteMapping("/fridgeItems/{id}")
-    void deleteFridgeItem(@PathVariable String id) {
+    void deleteFridgeItem(@PathVariable String id) throws ResourceNotFoundException {
         fridgeItemService.deleteFridgeItem(id);
     }
 
-    @GetMapping("/fridgeItems/oa={ownerAccount}/")
-    List<FridgeItem> getFridgeItems(@PathVariable String ownerAccount) {
-        return  fridgeItemService.getFridgeItems(ownerAccount);
-    }
 }
 

@@ -21,55 +21,57 @@ public class FridgeItemServiceImpl implements FridgeItemService {
         this.fridgeItemRepository = fridgeItemRepository;
     }
 
+    public List<FridgeItem> getFridgeItems() {
+        return fridgeItemRepository.findAll();
+    }
+
     @Override
     public FridgeItem createFridgeItem(FridgeItem item) {
         item.setId(IdGenerationService.generateId(item));
+        //item.setId(item.getId());
+        //item.setName(item.getName());
+        //item.setAmount(item.getAmount());
+        //item.setExpirationDate(item.getExpirationDate());
+        //item.setOwnerAccount(item.getOwnerAccount());
+
         return fridgeItemRepository.save(item);
     }
 
     @Override
     public FridgeItem getFridgeItemById(String id) throws ResourceNotFoundException {
         return fridgeItemRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id :: " + id));
     }
 
     @Override
     public FridgeItem updateFridgeItem(String id, FridgeItem updateItem) throws ResourceNotFoundException {
 
+        //Check if the book exists or not
         FridgeItem fridgeItem = fridgeItemRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id :: " + id));
 
-        if (updateItem.getId() != null) {
-            fridgeItem.setId(updateItem.getId());
-        }
-        if (updateItem.getName() != null) {
-            fridgeItem.setName(updateItem.getName());
-        }
-        if (updateItem.getAmount() != 0) {
-            fridgeItem.setAmount(updateItem.getAmount());
-        }
-        if (updateItem.getExpirationDate() != null) {
-            fridgeItem.setExpirationDate(updateItem.getExpirationDate());
-        }
-        if (updateItem.getOwnerAccount() != null) {
-            fridgeItem.setOwnerAccount(updateItem.getOwnerAccount());
-        }
+        //set the new values to update. The not null condition is on FridgeItem model class
+        fridgeItem.setId(updateItem.getId());
+        fridgeItem.setName(updateItem.getName());
+        fridgeItem.setAmount(updateItem.getAmount());
+        fridgeItem.setExpirationDate(updateItem.getExpirationDate());
+        fridgeItem.setOwnerAccount(updateItem.getOwnerAccount());
 
         return fridgeItemRepository.save(updateItem);
     }
 
     @Override
-    public void deleteFridgeItem(String id)  {
-        fridgeItemRepository.deleteById(id);
-    }
+    public void deleteFridgeItem(String id) throws ResourceNotFoundException {
 
-    public List<FridgeItem> getAllFridgeItems() {
-        return fridgeItemRepository.findAll();
+        if (fridgeItemRepository.findById(id).isPresent()) {
+            throw new ResourceNotFoundException("Item not found for this id :: " + id);
+        }
+        fridgeItemRepository.deleteById(id);
     }
 
     @Override
     public List<FridgeItem> getFridgeItems(String ownerAccount) {
-        List<FridgeItem> fridgeItems = getAllFridgeItems();
+        List<FridgeItem> fridgeItems = getFridgeItems();
 
         fridgeItems = getFridgeItemsByOwnerAccount(ownerAccount, fridgeItems);
 

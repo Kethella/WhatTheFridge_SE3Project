@@ -1,19 +1,32 @@
 package de.hdm.se3project.backend.model;
 
+import com.mongodb.lang.NonNull;
+//import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "fridgeItems")
+//@Builder
 public class FridgeItem {
 
     @Id
     private String id;
+
+    @NonNull
     private String name;
+
+    @NonNull
     private int amount;
+
     private String expirationDate;
+
+    @NonNull
     private String ownerAccount;
 
     public FridgeItem() {
+        ownerAccount = "0";
+        name = " ";
+        amount = 0;
     }
 
     public FridgeItem(String id, String name, int amount, String expirationDate, String ownerAccount) {
