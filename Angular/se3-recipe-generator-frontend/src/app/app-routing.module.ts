@@ -8,7 +8,6 @@ import { SignUpComponent } from './modules/account-auth/sign-up/sign-up.componen
 
 //TODO: Replace with actual paths, change routerLinks in navbar component
 const routes: Routes = [
-
   {
     path: '',
     component: LoggedInLayoutComponent,

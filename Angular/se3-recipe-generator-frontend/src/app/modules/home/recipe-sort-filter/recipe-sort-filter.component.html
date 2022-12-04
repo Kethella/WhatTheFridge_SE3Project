@@ -1,25 +1,36 @@
-<h1>What would you like to use?</h1>
-<button mat-raised-button (click)="openDialog()">Filter</button>
-<br>
-<mat-form-field appearance="fill">
-  <mat-label>Ingredients</mat-label>
-  <mat-chip-grid #chipGrid aria-label="Enter fruits">
-    <mat-chip-row *ngFor="let fruit of ingredientsAsArray"
-                  (removed)="remove(fruit)"
-                  [editable]="true"
-                  (edited)="edit(fruit, $event)">
-      {{fruit.name}}
-      <button matChipRemove [attr.aria-label]="'remove ' + fruit">
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip-row>
-    <input placeholder="New ingredient..."
-           [matChipInputFor]="chipGrid"
-           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-           [matChipInputAddOnBlur]="addOnBlur"
-           (matChipInputTokenEnd)="add($event)"/>
-  </mat-chip-grid>
-</mat-form-field>
+<div class="query-functions">
+  <div class="textAndButtons">
+    <h1>What would you like to use?</h1>
+    <div class="buttons">
+      <button mat-raised-button>Sort</button>
+      <button mat-raised-button (click)="openDialog()">Filter</button>
+    </div>
+  </div>
+  <mat-form-field class="ingredients-chip-list" appearance="fill">
+    <mat-label>Ingredients</mat-label>
+    <mat-chip-grid #chipGrid>
+      <mat-chip-row *ngFor="let fruit of ingredientsAsArray"
+                    (removed)="remove(fruit)"
+                    [editable]="true"
+                    (edited)="edit(fruit, $event)">
+        {{fruit.name}}
+        <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input placeholder="New ingredient..."
+            [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"/>
+    </mat-chip-grid>
+  </mat-form-field>
+  <div class="query-info">
+    <div><span class="query-info main">Category:</span> {{ selectedCategory }} </div>
+    <div><span class="query-info main">Tags:</span> {{selectedTags}}</div>
+  </div>
 
-<p>Category: {{ selectedCategory }} </p>
-<p>Tags: {{selectedTags}}</p>
+</div>
+
+
+

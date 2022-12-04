@@ -1,0 +1,40 @@
+.query-functions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.textAndButtons {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttons{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button{
+  height: 50px;
+  width: 100px;
+}
+
+.ingredients-chip-list {
+  width: 80%;
+}
+
+.query-info{
+  width: 80%;
+  margin-top: -20px;
+}
+
+.query-info.main{
+  font-weight: bold;
+  color: black;
+}
+
+
