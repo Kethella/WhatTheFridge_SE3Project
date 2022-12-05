@@ -110,12 +110,17 @@ class FridgeItemControllerTest {
     @Test
     @Description("Testing method: createFridgeItem - should create a new item")
     public void createFridgeItemTest() throws Exception {
+        FridgeItem fridgeItem = new FridgeItem();
+        fridgeItem.setName("tomato");
+        fridgeItem.setAmount(5);
+        fridgeItem.setExpirationDate("26.01.2023");
+        fridgeItem.setOwnerAccount("1");
 
-        Mockito.when(fridgeItemService.createFridgeItem(FRIDGE_ITEM_2)).thenReturn(FRIDGE_ITEM_2);
+        Mockito.when(fridgeItemService.createFridgeItem(fridgeItem)).thenReturn(fridgeItem);
 
-        String contentStr = objectWriter.writeValueAsString(FRIDGE_ITEM_2);
+        String contentStr = objectWriter.writeValueAsString(fridgeItem);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("http://localhost:4200/api/v1//fridgeItems")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("http://localhost:4200/api/v1/fridgeItems")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(contentStr);
@@ -126,7 +131,7 @@ class FridgeItemControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue())) //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("potato")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("tomato")));
     }
 
     //TODO: Test not working
