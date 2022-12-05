@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatToolbarModule, MatButtonModule, MatIconModule } from '@angular/material';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -16,7 +18,10 @@ import { LoginComponent } from './components/account/login/login.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,8 @@ import { MatInputModule } from '@angular/material';
     NavbarComponent,
     DummyPagesComponent,
     SignUpComponent,
-    LoginComponent
+    LoginComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +47,9 @@ import { MatInputModule } from '@angular/material';
     MatStepperModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
