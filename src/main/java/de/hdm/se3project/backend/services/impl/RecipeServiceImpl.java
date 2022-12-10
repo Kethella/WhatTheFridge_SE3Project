@@ -8,8 +8,6 @@ import de.hdm.se3project.backend.services.IdGenerationService;
 import de.hdm.se3project.backend.services.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +16,12 @@ import java.util.List;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
+    }
 
     @Override
     public Recipe createRecipe(Recipe recipe) {
@@ -65,7 +67,6 @@ public class RecipeServiceImpl implements RecipeService {
     public void deleteRecipe(String id) {
         recipeRepository.deleteById(id);
     }
-
 
     @Override
     public List<Recipe> getRecipes(String ownerAccount,String defaultRecipes,String category, String ingredientNames, String tags) throws ResourceNotFoundException {

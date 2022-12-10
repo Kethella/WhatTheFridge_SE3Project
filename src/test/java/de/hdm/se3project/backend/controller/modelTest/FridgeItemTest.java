@@ -25,6 +25,8 @@ public class FridgeItemTest {
         fridgeItem = FRIDGE_ITEM_1;
         assertEquals("1", fridgeItem.getId());
         assertEquals("tomato", fridgeItem.getName());
+        assertEquals(5, fridgeItem.getAmount());
+        assertEquals("22.01.2023", fridgeItem.getExpirationDate());
         assertEquals("1", fridgeItem.getOwnerAccount());
     }
 }

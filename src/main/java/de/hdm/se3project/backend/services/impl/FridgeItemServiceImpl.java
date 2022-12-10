@@ -16,7 +16,6 @@ public class FridgeItemServiceImpl implements FridgeItemService {
 
     private FridgeItemRepository fridgeItemRepository;
 
-    @Autowired
     public FridgeItemServiceImpl(FridgeItemRepository fridgeItemRepository) {
         this.fridgeItemRepository = fridgeItemRepository;
     }
@@ -28,12 +27,6 @@ public class FridgeItemServiceImpl implements FridgeItemService {
     @Override
     public FridgeItem createFridgeItem(FridgeItem item) {
         item.setId(IdGenerationService.generateId(item));
-        //item.setId(item.getId());
-        //item.setName(item.getName());
-        //item.setAmount(item.getAmount());
-        //item.setExpirationDate(item.getExpirationDate());
-        //item.setOwnerAccount(item.getOwnerAccount());
-
         return fridgeItemRepository.save(item);
     }
 
@@ -44,11 +37,12 @@ public class FridgeItemServiceImpl implements FridgeItemService {
     }
 
     @Override
-    public FridgeItem updateFridgeItem(String id, FridgeItem updateItem) throws ResourceNotFoundException {
+    public FridgeItem updateFridgeItem(FridgeItem updateItem) throws ResourceNotFoundException {
 
-        //Check if the book exists or not
-        FridgeItem fridgeItem = fridgeItemRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id :: " + id));
+        //Check if it is not null and if the account exists or not
+        if (updateItem == null) {new ResourceNotFoundException("Item not found");}
+        FridgeItem fridgeItem = fridgeItemRepository.findById(updateItem.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id"));
 
         //set the new values to update. The not null condition is on FridgeItem model class
         fridgeItem.setId(updateItem.getId());
@@ -57,16 +51,16 @@ public class FridgeItemServiceImpl implements FridgeItemService {
         fridgeItem.setExpirationDate(updateItem.getExpirationDate());
         fridgeItem.setOwnerAccount(updateItem.getOwnerAccount());
 
-        return fridgeItemRepository.save(updateItem);
+        return fridgeItemRepository.save(fridgeItem);
     }
 
     @Override
     public void deleteFridgeItem(String id) throws ResourceNotFoundException {
-
-        if (fridgeItemRepository.findById(id).isPresent()) {
+        if (fridgeItemRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Item not found for this id :: " + id);
+        } else {
+            fridgeItemRepository.deleteById(id);
         }
-        fridgeItemRepository.deleteById(id);
     }
 
     @Override

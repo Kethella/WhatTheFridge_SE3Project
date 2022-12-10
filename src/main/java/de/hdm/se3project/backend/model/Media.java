@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 //not defining a document here since the file will directly get stored in the GridFS collections (fs.files, fs.chunks)
 public class Media {
 
-    private String filename;
+    private String fileName;
     private String fileType;
     private String fileSize;
     private byte[] file;
@@ -14,12 +14,19 @@ public class Media {
     public Media() {
     }
 
+    public Media(String filename, String fileType, String fileSize, byte[] file) {
+        this.fileName = filename;
+        this.fileType = fileType;
+        this.fileSize = fileSize;
+        this.file = file;
+    }
+
     public String getFilename() {
-        return filename;
+        return fileName;
     }
 
     public void setFilename(String filename) {
-        this.filename = filename;
+        this.fileName = filename;
     }
 
     public String getFileType() {

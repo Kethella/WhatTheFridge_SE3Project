@@ -4,6 +4,8 @@ import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.services.FridgeItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,9 +41,9 @@ public class FridgeItemController {
     }
 
     @PutMapping("/fridgeItems/{id}")
-    FridgeItem updateFridgeItem(@PathVariable String id, @RequestBody FridgeItem updatedFridgeItem)
+    FridgeItem updateFridgeItem(@RequestBody FridgeItem updatedFridgeItem)
             throws ResourceNotFoundException {
-        return fridgeItemService.updateFridgeItem(id, updatedFridgeItem);
+        return fridgeItemService.updateFridgeItem(updatedFridgeItem);
     }
 
     @DeleteMapping("/fridgeItems/{id}")

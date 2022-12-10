@@ -3,13 +3,13 @@ package de.hdm.se3project.backend.controller.controllerTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import de.hdm.se3project.backend.controller.FridgeItemController;
+import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.services.FridgeItemService;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mapstruct.Builder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.hamcrest.Matchers.*;
 
@@ -28,10 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-//https://www.youtube.com/watch?v=KYkEMuA50yE&ab_channel=ProgrammingKnowledge
+//TODO: create a base test class
 
 @RunWith(MockitoJUnitRunner.class)  //This notation ensure we are just using mockito in our class, nothing else
 @Description("Testing class: FridgeItemController")
@@ -45,13 +43,13 @@ class FridgeItemControllerTest {
 
     private MockMvc mockMvc;
 
-    ObjectMapper objectMapper = new ObjectMapper();  //to convert Json to a String and vice versa
+    ObjectMapper objectMapper = new ObjectMapper();
     ObjectWriter objectWriter = objectMapper.writer();
 
     @Mock
     private FridgeItemService fridgeItemService;
 
-    @InjectMocks //indicates the class that will accept the mocks
+    @InjectMocks
     private FridgeItemController fridgeItemController;
 
     //test data
@@ -73,26 +71,26 @@ class FridgeItemControllerTest {
         Mockito.when(fridgeItemService.getFridgeItems("1")).thenReturn(fridgeItems);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1//fridgeItems/oa=1/") //ending point from where we get out data
+                        .get("/api/v1/fridgeItems/oa=1/") //ending point from where we get out data
                         .contentType(MediaType.APPLICATION_JSON)) //we want the file to be a JSON
                 .andExpect(status().isOk()) //when we do a get request to get all the records, we get a 200 status = ok
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2))) //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", is("lemon")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", is("tomato")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].amount", is(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].amount", is(5)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", is("3")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", is("1")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].amount", is(5)));
     }
 
     @Test
     @Description("Testing method: getOneFridgeItem - should get one item according to its ids")
     void getOneFridgeItemTest() throws Exception {
 
-        Mockito.when(fridgeItemService.getFridgeItemById("1")).thenReturn(FRIDGE_ITEM_1);
+        String itemId = "1";
+
+        Mockito.when(fridgeItemService.getFridgeItemById(itemId)).thenReturn(FRIDGE_ITEM_1);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1//fridgeItems/1") //ending point from where we get out data
+                        .get("/api/v1/fridgeItems/{id}", itemId) //ending point from where we get out data
                         .contentType(MediaType.APPLICATION_JSON)) //we want the file to be a JSON
                 .andExpect(status().isOk()) //when we do a get request to get all the records, we get a 200 status = ok
                 .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue())) //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
@@ -100,82 +98,90 @@ class FridgeItemControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.amount", is(5)));
     }
 
-    //TODO
     @Test
-    void getOneFridgeItem_notfound_Test() throws Exception {}
+    @Description("Testing method: getFridgeItemById Exception - Should throw an exception when ID not found")
+    void getOneFridgeItem_notfound_Test() throws Exception {
 
+        String idItem = "5";
 
-    //TODO: test not working
-    // I am getting a null point exception, my MockMvcResultMatchers.jsonPath is always null
+        Mockito.when(fridgeItemService.getFridgeItemById(idItem)).thenThrow(new ResourceNotFoundException("Item not found for this id :: " + idItem));
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/v1/fridgeItems/{id}", idItem) //ending point from where we get out data
+                        .contentType(MediaType.APPLICATION_JSON)) //we want the file to be a JSON
+                .andExpect(status().isNotFound());
+    }
+
     @Test
     @Description("Testing method: createFridgeItem - should create a new item")
     public void createFridgeItemTest() throws Exception {
 
-        Mockito.when(fridgeItemService.createFridgeItem(FRIDGE_ITEM_2)).thenReturn(FRIDGE_ITEM_2);
+        FridgeItem fridgeItem = new FridgeItem();
+        fridgeItem.setName("milk");
+        fridgeItem.setAmount(2);
+        fridgeItem.setExpirationDate("29.01.2023");
+        fridgeItem.setOwnerAccount("1");
 
-        String contentStr = objectWriter.writeValueAsString(FRIDGE_ITEM_2);
+        Mockito.when(fridgeItemService.createFridgeItem(fridgeItem)).thenReturn(fridgeItem);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("http://localhost:4200/api/v1//fridgeItems")
+        String contentStr = objectWriter.writeValueAsString(fridgeItem);
+
+        MockHttpServletRequestBuilder mockRequest
+                = MockMvcRequestBuilders.post("http://localhost:4200/api/v1/fridgeItems")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(contentStr);
 
-        //Performing Post request
-        //this.mockMvc = MockMvcBuilders.standaloneSetup(fridgeItemController).build();
-
-        mockMvc.perform(mockRequest)
+        this.mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue())) //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("potato")));
+                .andExpect(MockMvcResultMatchers
+                        .jsonPath("$", notNullValue())) //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("milk")));
     }
 
-    //TODO: Test not working
+    //TODO: test not working - 415 error
     @Test
     @Description("Testing method: updateFridgeItem - should change the amount and expiration date of the item")
-    void updateFridgeItemTest() throws Exception{
+    void updateFridgeItemTest() throws Exception {
+        FRIDGE_ITEM_1.setId("1");
 
-        FridgeItem updatedItem = new FridgeItem("1", "tomato", 8,"28.01.2023", "1");
+        FridgeItem fridgeItemUpdated = new FridgeItem();
 
-        /**
-        FridgeItem updatedItem = FridgeItem.builder()
-                .id("1")
-                .name("tomato")
-                .amount(8)
-                .expirationDate("28.01.2023")
-                .ownerAccount("1").build();
-        **/
+        fridgeItemUpdated.setId(FRIDGE_ITEM_1.getId());
+        fridgeItemUpdated.setName(FRIDGE_ITEM_1.getName());
+        fridgeItemUpdated.setAmount(1); //need to mock the number 1
+        fridgeItemUpdated.setExpirationDate("15.09.2023"); //need to mock the  exp date
+        fridgeItemUpdated.setOwnerAccount(FRIDGE_ITEM_1.getOwnerAccount());
 
-        Mockito.when(fridgeItemService.getFridgeItemById("1")).thenReturn(updatedItem);
+        Mockito.when(fridgeItemService.getFridgeItemById(FRIDGE_ITEM_1.getId())).thenReturn(FRIDGE_ITEM_1);
+        Mockito.when(fridgeItemService.updateFridgeItem(fridgeItemUpdated)).thenReturn(fridgeItemUpdated);
 
-        //TODO: save() is not beeing recognized
-        //Mockito.when(fridgeItemService.save(updatedItem)).thenReturn(updatedItem);
+        String updatedContent = objectWriter.writeValueAsString(fridgeItemUpdated);
 
-        String updated = objectWriter.writeValueAsString(updatedItem);
-
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1//fridgeItems")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/fridgeItems/{id}", FRIDGE_ITEM_1.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .contentType(updated);
+                .contentType(updatedContent);
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.name", is("tomato")));
+                .andExpect(MockMvcResultMatchers
+                        .jsonPath("$", notNullValue())) //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("tomato")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.amount", is(1)));
     }
 
     @Test
     @Description("Testing method:  deleteFridgeItem - should delete an item based on its id")
-    void deleteFridgeItemTest() throws Exception{
-        Mockito.when(fridgeItemService.getFridgeItemById("3")).thenReturn(FRIDGE_ITEM_3);
+    void deleteFridgeItemTest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/v1//fridgeItems/1")
+        String itemId = "3";
+
+        Mockito.when(fridgeItemService.getFridgeItemById(itemId)).thenReturn(FRIDGE_ITEM_3);
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/v1/fridgeItems/{id}", itemId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
-    //TODO
-    @Test
-    void deleteFridgeItem_notFound_Test() throws Exception {}
-
 }

@@ -1,12 +1,12 @@
 package de.hdm.se3project.backend.model;
 
 import com.mongodb.lang.NonNull;
-//import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
+
 @Document(collection = "fridgeItems")
-//@Builder
 public class FridgeItem {
 
     @Id
@@ -24,7 +24,7 @@ public class FridgeItem {
     private String ownerAccount;
 
     public FridgeItem() {
-        ownerAccount = "0";
+        ownerAccount = " ";
         name = " ";
         amount = 0;
     }
@@ -75,6 +75,19 @@ public class FridgeItem {
 
     public void setOwnerAccount(String ownerAccount) {
         this.ownerAccount = ownerAccount;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        FridgeItem that = (FridgeItem) obj;
+        return amount == that.amount && name.equals(that.name) && Objects.equals(expirationDate, that.expirationDate) && ownerAccount.equals(that.ownerAccount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, amount, expirationDate, ownerAccount);
     }
 }
 

@@ -6,8 +6,8 @@ import de.hdm.se3project.backend.controller.AccountController;
 import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.repository.AccountRepository;
 import jdk.jfr.Description;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,8 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,11 +59,21 @@ public class AccountControllerTest {
         Mockito.when(accountRepository.findAll()).thenReturn(accountList);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1//accounts")
+                        .get("/api/v1/accounts")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", is("user")));
     }
 
+    @Test
+    void getOneAccountTest() throws Exception{
+
+        Mockito.when(accountRepository.findById("1")).thenReturn(java.util.Optional.ofNullable(ACCOUNT_1));
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/{id}", "1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue()));
+    }
 }
