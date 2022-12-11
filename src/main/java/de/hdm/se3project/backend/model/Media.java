@@ -14,18 +14,18 @@ public class Media {
     public Media() {
     }
 
-    public Media(String filename, String fileType, String fileSize, byte[] file) {
-        this.fileName = filename;
+    public Media(String fileName, String fileType, String fileSize, byte[] file) {
+        this.fileName = fileName;
         this.fileType = fileType;
         this.fileSize = fileSize;
         this.file = file;
     }
 
-    public String getFilename() {
+    public String getFileName() {
         return fileName;
     }
 
-    public void setFilename(String filename) {
+    public void setFileName(String filename) {
         this.fileName = filename;
     }
 

@@ -13,7 +13,7 @@ public class Recipe {
     private String name;
     private Category category;
     private String instructions;
-    private String image;
+    private String picture;
     private String[] tags;
     private String link;
     private String[] ingredientNames;
@@ -24,12 +24,12 @@ public class Recipe {
 
     }
 
-    public Recipe(String id, String name, String instructions, Category category, String[] tags, String image, String link, String[] ingredientNames, String[] ingredientMeasures, String ownerAccount) {
+    public Recipe(String id, String name, String instructions, Category category, String[] tags, String picture, String link, String[] ingredientNames, String[] ingredientMeasures, String ownerAccount) {
         this.id = id;
         this.name = name;
         this.instructions = instructions;
         this.tags = tags;
-        this.image = image;
+        this.picture = picture;
         this.link = link;
         this.category = category;
         this.ingredientNames = ingredientNames;
@@ -70,11 +70,11 @@ public class Recipe {
     }
 
     public String getImage() {
-        return image;
+        return picture;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage(String picture) {
+        this.picture = picture;
     }
 
     public String getLink() {

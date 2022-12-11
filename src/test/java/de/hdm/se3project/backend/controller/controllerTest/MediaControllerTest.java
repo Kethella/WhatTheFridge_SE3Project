@@ -40,7 +40,7 @@ public class MediaControllerTest {
     @InjectMocks
     private MediaController mediaController;
 
-    Media MEDIA = new Media("nameFile01", "typeFile01", "sizeFile01", new byte[2]);
+    Media MEDIA = new Media();
 
     @BeforeEach
     void setUp() {
@@ -68,7 +68,7 @@ public class MediaControllerTest {
     }
 
     @Test
-    void downloadTest() throws Exception {
+    void downloadTest() {
         //Test here
     }
 

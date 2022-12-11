@@ -5,6 +5,7 @@ import de.hdm.se3project.backend.model.Media;
 import de.hdm.se3project.backend.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

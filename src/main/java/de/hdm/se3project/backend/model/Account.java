@@ -10,8 +10,8 @@ import java.util.List;
 
 
 /* Model class for "accounts" MongoDB collection
-* author: ag186
-*/
+ * author: ag186
+ */
 @Document(collection = "accounts")
 public class Account {
 

@@ -6,13 +6,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Description("Testing class: FridgeItem")
+@Description("Testing model class: FridgeItem")
 public class FridgeItemTest {
 
     FridgeItem fridgeItem;
 
-    FridgeItem FRIDGE_ITEM_1 = new FridgeItem("1", "tomato", 5, "22.01.2023", "1");
+    FridgeItem FRIDGE_ITEM_1 = new FridgeItem("1", "bread", 2, "01.01.2023", "1");
 
     @BeforeEach
     void setUp() {
@@ -20,13 +21,21 @@ public class FridgeItemTest {
     }
 
     @Test
-    @Description("Testing method: FridgeItem")
     void fridgeItemTest(){
         fridgeItem = FRIDGE_ITEM_1;
         assertEquals("1", fridgeItem.getId());
-        assertEquals("tomato", fridgeItem.getName());
-        assertEquals(5, fridgeItem.getAmount());
-        assertEquals("22.01.2023", fridgeItem.getExpirationDate());
+        assertEquals("bread", fridgeItem.getName());
+        assertEquals(2, fridgeItem.getAmount());
+        assertEquals("01.01.2023", fridgeItem.getExpirationDate());
         assertEquals("1", fridgeItem.getOwnerAccount());
+    }
+
+    @Test
+    void setFridgeItemNotNullTest(){
+        fridgeItem = FRIDGE_ITEM_1;
+        assertNotNull(fridgeItem.getId());
+        assertNotNull(fridgeItem.getName());
+        assertNotNull(fridgeItem.getExpirationDate());
+        assertNotNull(fridgeItem.getOwnerAccount());
     }
 }

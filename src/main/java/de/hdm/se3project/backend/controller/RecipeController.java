@@ -4,7 +4,6 @@ import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.model.enums.Category;
 import de.hdm.se3project.backend.services.RecipeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -15,7 +14,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
 
-    @Autowired
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
@@ -52,8 +50,16 @@ public class RecipeController {
         return recipeService.getRecipes(ownerAccount, defaultRecipes, category, ingredientNames, tags);
     }
 
+    @GetMapping("/recipes/tags/oa={ownerAccount}/")
+    List<String> getAllRecipeTags(@PathVariable String ownerAccount) throws ResourceNotFoundException {
+
+        return recipeService.getAllRecipeTags(ownerAccount);
+    }
+
 
 }
+
+
 
 
 
