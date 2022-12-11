@@ -2,6 +2,6 @@
   <div>
     <img class="logo" src="../assets/logo-big-black.PNG" alt="Logo">
   </div>
-  <app-recipe-sort-filter (newQueryEvent)="restart($event)"></app-recipe-sort-filter>
+  <app-recipe-sort-filter (newQueryEvent)="restart($event)" (newSortEvent)="sort($event)"></app-recipe-sort-filter>
   <app-recipe-grid class="recipes" [recipes]="recipes"></app-recipe-grid>
 </div>
