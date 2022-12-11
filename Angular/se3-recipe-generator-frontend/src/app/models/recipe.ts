@@ -3,7 +3,7 @@ export interface IRecipe{
   name: string,
   category: String,
   instructions: String,
-  picture: String,
+  image: String,
   tags: [],
   link: String,
   ingredientNames: [],
