@@ -9,10 +9,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 })
 export class HomeComponent {
   public recipes = [] as any;
-
   public errorMsg = "" as any;
-  public breakpoint: number = 6;
-
   public queryParams = new HttpParams();
 
   constructor(private _recipeService: RecipeService) {
