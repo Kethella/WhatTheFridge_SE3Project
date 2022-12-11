@@ -1,14 +1,16 @@
 <div class="recipe-grid">
       <mat-card *ngFor="let recipe of recipes">
-          <mat-card-header>{{recipe.name}}</mat-card-header>
 
         <img mat-card-image [src]="recipe.image" alt="Recipe photo">
+
+        <mat-card-header>{{recipe.name}}</mat-card-header>
 
         <mat-card-footer>
             <mat-chip-row *ngFor="let tag of recipe.tags">
               {{tag}}
             </mat-chip-row>
         </mat-card-footer>
+
       </mat-card>
 </div>
 
