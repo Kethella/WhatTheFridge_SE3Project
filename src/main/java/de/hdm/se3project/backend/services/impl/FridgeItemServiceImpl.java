@@ -7,12 +7,17 @@ import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FridgeItemServiceImpl implements FridgeItemService {
+
+    final static Logger log = LogManager.getLogger(FridgeItemServiceImpl.class); // can't be private
 
     private FridgeItemRepository fridgeItemRepository;
 
@@ -37,19 +42,29 @@ public class FridgeItemServiceImpl implements FridgeItemService {
     }
 
     @Override
-    public FridgeItem updateFridgeItem(FridgeItem updateItem) throws ResourceNotFoundException {
+    public FridgeItem updateFridgeItem(String id, FridgeItem updateItem) throws ResourceNotFoundException {
 
-        //Check if it is not null and if the account exists or not
-        if (updateItem == null) {new ResourceNotFoundException("Item not found");}
         FridgeItem fridgeItem = fridgeItemRepository.findById(updateItem.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id"));
 
         //set the new values to update. The not null condition is on FridgeItem model class
-        fridgeItem.setId(updateItem.getId());
-        fridgeItem.setName(updateItem.getName());
-        fridgeItem.setAmount(updateItem.getAmount());
-        fridgeItem.setExpirationDate(updateItem.getExpirationDate());
-        fridgeItem.setOwnerAccount(updateItem.getOwnerAccount());
+        if (updateItem.getName() != null) {
+            fridgeItem.setName(updateItem.getName());
+        }
+
+        try {
+            if (updateItem.getAmount() != 0) {
+                fridgeItem.setAmount(updateItem.getAmount());
+            }
+        }
+        catch (NullPointerException exception) {
+            log.info("no amount change");
+        }
+
+        if (updateItem.getExpirationDate() != null) {
+            fridgeItem.setExpirationDate(updateItem.getExpirationDate());
+        }
+
 
         return fridgeItemRepository.save(fridgeItem);
     }

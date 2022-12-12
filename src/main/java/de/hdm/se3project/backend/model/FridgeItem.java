@@ -11,12 +11,9 @@ public class FridgeItem {
 
     @Id
     private String id;
-    @NonNull
     private String name;
-    @NonNull
     private int amount;
     private String expirationDate;
-    @NonNull
     private String ownerAccount;
 
     public FridgeItem() {

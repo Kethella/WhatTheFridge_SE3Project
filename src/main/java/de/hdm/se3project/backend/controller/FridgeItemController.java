@@ -41,9 +41,9 @@ public class FridgeItemController {
     }
 
     @PutMapping("/fridgeItems/{id}")
-    FridgeItem updateFridgeItem(@RequestBody FridgeItem updatedFridgeItem)
+    FridgeItem updateFridgeItem(@PathVariable String id, @RequestBody FridgeItem updatedFridgeItem)
             throws ResourceNotFoundException {
-        return fridgeItemService.updateFridgeItem(updatedFridgeItem);
+        return fridgeItemService.updateFridgeItem(id, updatedFridgeItem);
     }
 
     @DeleteMapping("/fridgeItems/{id}")

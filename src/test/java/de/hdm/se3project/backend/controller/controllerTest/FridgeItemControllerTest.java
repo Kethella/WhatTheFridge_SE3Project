@@ -142,18 +142,12 @@ class FridgeItemControllerTest {
     @Test
     @Description("Testing method: updateFridgeItem - should change the amount and expiration date of the item")
     void updateFridgeItemTest() throws Exception {
-        FRIDGE_ITEM_1.setId("1");
 
-        FridgeItem fridgeItemUpdated = new FridgeItem();
+        FridgeItem fridgeItemUpdated = FRIDGE_ITEM_1;
+        fridgeItemUpdated.setAmount(1);
+        fridgeItemUpdated.setExpirationDate("15.09.2023");
 
-        fridgeItemUpdated.setId(FRIDGE_ITEM_1.getId());
-        fridgeItemUpdated.setName(FRIDGE_ITEM_1.getName());
-        fridgeItemUpdated.setAmount(1); //need to mock the number 1
-        fridgeItemUpdated.setExpirationDate("15.09.2023"); //need to mock the  exp date
-        fridgeItemUpdated.setOwnerAccount(FRIDGE_ITEM_1.getOwnerAccount());
-
-        Mockito.when(fridgeItemService.getFridgeItemById(FRIDGE_ITEM_1.getId())).thenReturn(FRIDGE_ITEM_1);
-        Mockito.when(fridgeItemService.updateFridgeItem(fridgeItemUpdated)).thenReturn(fridgeItemUpdated);
+        Mockito.when(fridgeItemService.updateFridgeItem("1", fridgeItemUpdated)).thenReturn(fridgeItemUpdated);
 
         String updatedContent = objectWriter.writeValueAsString(fridgeItemUpdated);
 
