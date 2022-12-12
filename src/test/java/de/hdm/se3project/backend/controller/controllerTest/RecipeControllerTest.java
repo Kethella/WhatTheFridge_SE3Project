@@ -52,7 +52,7 @@ class RecipeControllerTest {
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
     }
-    
+
     @Test
     @Description("Testing method: createRecipe - Should create a new recipe")
     void createRecipeTest() throws Exception {
@@ -117,18 +117,19 @@ class RecipeControllerTest {
                 .andExpect(status().isOk());
     }
 
-    //TODO: Test is complicate because of matching of parameters
-    //Should maybe the getRecipes method just need the account owner as parameter?
     @Test
     @Description("Testing method: getRecipes")
     void getRecipesTest() throws Exception {
 
         List<Recipe> recipeList = new ArrayList<>(Arrays.asList(RECIPE_1, RECIPE_2));
 
-        Mockito.when(recipeService.getRecipes("1", null, null, "ingredients 01", "tag 01" )).thenReturn(recipeList);
+        Mockito.when(recipeService.getRecipes("1", "no", null, "ingredients 01", "tag 01" )).thenReturn(recipeList);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/recipes/oa={ownerAccount}/", "1") //ending point from where we get out data
+                        .get("/api/v1/recipes/oa=1/") //ending point from where we get out data
+                        .param("defaultRecipes", "no")
+                        .param("ingredientNames", "ingredients 01")
+                        .param("tags", "tag 01")
                         .contentType(MediaType.APPLICATION_JSON)) //we want the file to be a JSON
                 .andExpect(status().isOk()) //when we do a get request to get all the records, we get a 200 status = ok
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2))); //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
