@@ -139,7 +139,6 @@ class FridgeItemControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("milk")));
     }
 
-    //TODO: test not working - 415 error
     @Test
     @Description("Testing method: updateFridgeItem - should change the amount and expiration date of the item")
     void updateFridgeItemTest() throws Exception {
@@ -161,7 +160,7 @@ class FridgeItemControllerTest {
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/fridgeItems/{id}", FRIDGE_ITEM_1.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .contentType(updatedContent);
+                .content(updatedContent);
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
