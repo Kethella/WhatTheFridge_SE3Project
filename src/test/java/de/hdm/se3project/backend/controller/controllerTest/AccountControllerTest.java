@@ -6,8 +6,8 @@ import de.hdm.se3project.backend.controller.AccountController;
 import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.repository.AccountRepository;
 import jdk.jfr.Description;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(MockitoJUnitRunner.class)
 @Description("Testing class: AccountController")
-public class AccountControllerTest {
+class AccountControllerTest {
 
     private MockMvc mockMvc;
 
