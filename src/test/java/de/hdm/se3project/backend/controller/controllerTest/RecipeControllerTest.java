@@ -52,8 +52,7 @@ class RecipeControllerTest {
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
     }
-
-    //TODO: Error - the $ expression returns nothing
+    
     @Test
     @Description("Testing method: createRecipe - Should create a new recipe")
     void createRecipeTest() throws Exception {
@@ -106,7 +105,6 @@ class RecipeControllerTest {
         //Test here
     }
 
-    //TODO: Error
     @Test
     @Description("Testing method:  deleteRecipe - should delete an recipe based on its id")
     void deleteRecipeTest() throws Exception{
@@ -114,7 +112,7 @@ class RecipeControllerTest {
 
         Mockito.when(recipeService.getRecipeById(itemId)).thenReturn(RECIPE_1);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/fridgeItems/{id}", itemId)
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/recipes/{id}", itemId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
