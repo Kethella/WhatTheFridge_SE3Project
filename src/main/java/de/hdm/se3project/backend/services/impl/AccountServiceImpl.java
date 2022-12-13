@@ -37,19 +37,23 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(String id) throws ResourceNotFoundException {
-        //delete all recipes connected to the account
-        List <Recipe> recipes = recipeService.getRecipes(id, null, null, null, null);
-        for (Recipe recipe: recipes) {
-            recipeService.deleteRecipe(recipe.getId());
-        }
+        try {
+            //delete all recipes connected to the account
+            List<Recipe> recipes = recipeService.getRecipes(id, null, null, null, null);
+            for (Recipe recipe : recipes) {
+                recipeService.deleteRecipe(recipe.getId());
+            }
 
-        //delete all fridgeItems connected to the account
-        List <FridgeItem> fridgeItems = fridgeItemService.getFridgeItems(id);
-        for (FridgeItem fridgeItem: fridgeItems) {
-            fridgeItemService.deleteFridgeItem(fridgeItem.getId());
-        }
+            //delete all fridgeItems connected to the account
+            List<FridgeItem> fridgeItems = fridgeItemService.getFridgeItems(id);
+            for (FridgeItem fridgeItem : fridgeItems) {
+                fridgeItemService.deleteFridgeItem(fridgeItem.getId());
+            }
 
-        accountRepository.deleteById(id);
+            accountRepository.deleteById(id);
+        }catch(Exception e){
+            System.out.println(e);;
+        }
     }
 
     @Override
