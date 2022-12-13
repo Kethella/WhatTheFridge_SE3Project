@@ -5,7 +5,6 @@ import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.repository.FridgeItemRepository;
 import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

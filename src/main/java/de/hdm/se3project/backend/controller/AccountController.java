@@ -29,7 +29,6 @@ public class AccountController implements Serializable {
 
     @GetMapping("/accounts/{id}")
     Account getOneAccount(@PathVariable String id) throws ResourceNotFoundException {
-
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
     }
