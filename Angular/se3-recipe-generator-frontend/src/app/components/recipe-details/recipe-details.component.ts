@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { Recipe } from 'src/app/models/recipe';
+import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
   selector: 'app-recipe-details',
@@ -7,9 +9,11 @@ import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog
   styleUrls: ['./recipe-details.component.css']
 })
 export class RecipeDetailsComponent implements OnInit {
+  recipes: Recipe[]; 
+
   constructor(
     public dialogRef: MatDialogRef<RecipeDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any, private recipeService: RecipeService
   ) {}
 
   onNoClick(): void {
@@ -21,7 +25,10 @@ export class RecipeDetailsComponent implements OnInit {
     this.icon = newIcon; 
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() {
+    this.recipeService.findAll().subscribe(data => {
+      this.recipes = data;
+    });
 
+}
 }

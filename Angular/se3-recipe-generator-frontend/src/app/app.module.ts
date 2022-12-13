@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { RecipeService } from './services/recipe.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatDialogModule,
     DragDropModule
   ],
-  providers: [],
+  providers: [RecipeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

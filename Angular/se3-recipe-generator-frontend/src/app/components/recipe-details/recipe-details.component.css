@@ -2,6 +2,12 @@ div{
     color: black ; 
 }
 
+.centeredImage {
+    margin: 10px auto 20px;
+    display: block;
+    border-radius: 15px;
+}
+
 #close-button { 
     float: right;
 }
@@ -9,11 +15,17 @@ div{
 #favButton { 
     border-radius: 25px;
     flex: 1;
+    padding-left: 15px;
 }
 
 #recipe-description{
     background-color: #b0e2d7;
     border-radius: 25px;
+    padding: 10px;
+}
+
+#ingredientsHeader{
+    padding-top: 15px;
 }
 
 .tag-button { 
@@ -21,12 +33,6 @@ div{
     background-color: #5FC1AC;
 
 }
-.flex-item{
-    justify-content: space-between;
-    text-align: center;
-}
-
-
 
 .headers{
     font-weight: bold;
@@ -34,4 +40,6 @@ div{
 
 .container {
     display: flex;
+    justify-content: center;
+
 }
