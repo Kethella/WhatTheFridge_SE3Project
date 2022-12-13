@@ -6,7 +6,9 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 /* Model class for "accounts" MongoDB collection
@@ -129,5 +131,18 @@ public class Account {
 
     public void setFridgeItems(List<FridgeItem> fridgeItems) {
         this.fridgeItems = fridgeItems;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Account account = (Account) obj;
+        return Objects.equals(name, account.name) && securityQuestion == account.securityQuestion && Objects.equals(email, account.email) && Objects.equals(password, account.password) && Objects.equals(securityAnswer, account.securityAnswer) && Objects.equals(pfp, account.pfp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email, password, securityQuestion, securityAnswer, pfp);
     }
 }
