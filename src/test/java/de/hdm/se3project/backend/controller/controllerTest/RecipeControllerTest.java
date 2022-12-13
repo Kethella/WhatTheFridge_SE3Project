@@ -3,7 +3,9 @@ package de.hdm.se3project.backend.controller.controllerTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import de.hdm.se3project.backend.controller.RecipeController;
+import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Recipe;
+import de.hdm.se3project.backend.model.enums.Category;
 import de.hdm.se3project.backend.services.RecipeService;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,8 +45,8 @@ class RecipeControllerTest {
     @InjectMocks
     private RecipeController recipeController;
 
-    Recipe RECIPE_1 = new Recipe("1", "Pasta", "instructions - how to make pasta", null, new String[]{"tag 01"}, "image", "link", new String[]{"ingredients 01", "ingredients 02"}, new String[]{"measures 01", "measures 02"}, "1");
-    Recipe RECIPE_2 = new Recipe("2", "Chocolate Cake", "instructions - how to make a chocolate cake", null, new String[]{"tag 01"}, "image", "link", new String[]{"ingredients 01", "ingredients 02"}, new String[]{"measures 01", "measures 02"}, "1");
+    Recipe RECIPE_1 = new Recipe("1", "Pasta", "instructions - how to make pasta", Category.MAINCOURSE, new String[]{"tag 01"}, "image", "link", new String[]{"ingredients 01", "ingredients 02"}, new String[]{"measures 01", "measures 02"}, "1");
+    Recipe RECIPE_2 = new Recipe("2", "Chocolate Cake", "instructions - how to make a chocolate cake", Category.DESSERT, new String[]{"tag 01"}, "image", "link", new String[]{"ingredients 01", "ingredients 02"}, new String[]{"measures 01", "measures 02"}, "1");
 
     @BeforeEach
     void setUp() {
@@ -54,7 +55,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    @Description("Testing method: createRecipe - Should create a new recipe")
+    @Description("Testing model method: createRecipe - Should create a new recipe - POST request")
     void createRecipeTest() throws Exception {
 
         Recipe recipe = new Recipe();
@@ -64,7 +65,7 @@ class RecipeControllerTest {
         recipe.setTags(new String[]{"tag x"});
         recipe.setImage(recipe.getImage());
         recipe.setLink("LinkHere");
-        recipe.setCategory(null);
+        recipe.setCategory(Category.MAINCOURSE);
         recipe.setIngredientNames(new String[]{"ingredients 01", "ingredients 02"});
         recipe.setIngredientMeasures(new String[]{"measures 01", "measures 02"});
         recipe.setOwnerAccount("2");
@@ -82,31 +83,70 @@ class RecipeControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("Vegan Lasagna")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("Vegan Lasagna")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.ownerAccount", is("2")));
     }
 
     @Test
-    @Description("Testing method: getOneRecipe - Should return one recipe based on its id")
+    @Description("Testing model method: getOneRecipe - Should return one recipe based on its id - GET request")
     void getOneRecipeTest() throws Exception {
 
         Mockito.when(recipeService.getRecipeById("2")).thenReturn(RECIPE_2);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/recipes/{id}", "2") //ending point from where we get out data
-                        .contentType(MediaType.APPLICATION_JSON)) //we want the file to be a JSON
-                .andExpect(status().isOk()) //when we do a get request to get all the records, we get a 200 status = ok
-                .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue())) //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
+                        .get("/api/v1/recipes/{id}", "2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("Chocolate Cake")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.link", is("link")));
     }
 
     @Test
-    void updateRecipe() throws Exception {
-        //Test here
+    @Description("Testing method: getOneRecipe Exception - Should throw an exception when ID not found - GET Request")
+    void getOneFridgeItem_notfound_Test() throws Exception {
+
+        String idItem = "10";
+
+        Mockito.when(recipeService.getRecipeById(idItem)).thenThrow(new ResourceNotFoundException("Item not found for this id :: " + idItem));
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/v1/recipes/{id}", idItem)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    @Description("Testing method:  deleteRecipe - should delete an recipe based on its id")
+    @Description("Testing method: updateRecipe - Should change the name of the recipe - PUT request")
+    void updateRecipe() throws Exception {
+
+        Recipe recipeUpdated = RECIPE_2;
+
+        recipeUpdated.setName("Chocolate cake with cream");
+        recipeUpdated.setCategory(RECIPE_2.getCategory());
+        recipeUpdated.setInstructions(RECIPE_2.getInstructions());
+        recipeUpdated.setImage(RECIPE_2.getImage());
+        recipeUpdated.setTags(RECIPE_2.getTags());
+        recipeUpdated.setLink(RECIPE_2.getLink());
+
+        Mockito.when(recipeService.updateRecipe("2", recipeUpdated)).thenReturn(recipeUpdated);
+
+        String updatedContent = objectWriter.writeValueAsString(recipeUpdated);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/recipes/{id}", RECIPE_2.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(updatedContent);
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers
+                        .jsonPath("$", notNullValue()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("Chocolate cake with cream")));
+    }
+
+    @Test
+    @Description("Testing method:  deleteRecipe - Should delete an recipe based on its id - DELETE request")
     void deleteRecipeTest() throws Exception{
         String itemId = "1";
 
@@ -118,21 +158,21 @@ class RecipeControllerTest {
     }
 
     @Test
-    @Description("Testing method: getRecipes")
+    @Description("Testing method: getRecipes - Should get all the recipes - GET request")
     void getRecipesTest() throws Exception {
 
         List<Recipe> recipeList = new ArrayList<>(Arrays.asList(RECIPE_1, RECIPE_2));
 
+        //TODO: should this method just use TAG, OWNER ACCOUNT and CATEGORY as parameter?
         Mockito.when(recipeService.getRecipes("1", "no", null, "ingredients 01", "tag 01" )).thenReturn(recipeList);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/recipes/oa=1/") //ending point from where we get out data
+                        .get("/api/v1/recipes/oa=1/")
                         .param("defaultRecipes", "no")
                         .param("ingredientNames", "ingredients 01")
                         .param("tags", "tag 01")
-                        .contentType(MediaType.APPLICATION_JSON)) //we want the file to be a JSON
-                .andExpect(status().isOk()) //when we do a get request to get all the records, we get a 200 status = ok
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2))); //indicates the size of the return, in this case there is 2 arrays, so the size is = 2
-                //.andExpect(MockMvcResultMatchers.jsonPath("$[1].name", is("Chocolate Cake")));
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)));
     }
 }
