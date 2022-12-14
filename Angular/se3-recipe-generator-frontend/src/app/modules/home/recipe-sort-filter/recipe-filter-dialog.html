@@ -3,7 +3,7 @@
   <h1>Categories</h1>
   <mat-form-field appearance="fill">
     <mat-label>Category</mat-label>
-    <mat-select [(ngModel)]="data.selectedCategory" name="category">
+    <mat-select [(ngModel)]="data.selectedCategory" name="category" [value]="data.selectedCategory">
       <mat-option>All</mat-option>
       <mat-option *ngFor="let category of categories" [value]="category.backendValue">
         {{category.text}}
@@ -13,7 +13,7 @@
 
   <h1>Tags</h1>
   <mat-chip-listbox [(ngModel)]="data.selectedTagsAsArray" selectable multiple>
-    <mat-chip-option *ngFor="let tag of tags" [value]="tag">
+    <mat-chip-option *ngFor="let tag of tags" [value]="tag" [selected]="tagWasSelected(tag, data.selectedTagsAsArray)">
       {{tag}}
     </mat-chip-option>
 

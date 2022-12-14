@@ -3,86 +3,86 @@ import { Account } from 'src/app/models/account';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
+import { HttpClient } from '@angular/common/http';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import { ISecurityQuestion } from 'src/app/models/securityQuestions';
+
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.css'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: {showError: true},
+    },
+  ],
 })
 export class SignUpComponent implements OnInit {
-  //isLinear = false;
   firstFormGroup: FormGroup;
-  //secondFormGroup: FormGroup;
-  //signUpForm: FormGroup;
+  secondFormGroup: FormGroup;
   signUpSuccessful: boolean;
-  form:any={username: null, email:null, password:null }
 
+  account: Account;
 
-  account: Account = {
-    name: "Alex",
-    email: "alex@gmail.com",
-    password: "1234",
-    securityQuestion: "Q1",
-    securityAnswer: "blabla"
+  securityQuestions: ISecurityQuestion[]
+
+  constructor( private _formBuilder: FormBuilder,
+    private _accountService: AccountService,
+    private router: Router) {
+
   }
-
-  public account2: Account;
-
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _accountService: AccountService) { }
 
   ngOnInit() {
-    //this.signUpForm = this._formBuilder.group({})
+
+    this.getSecQuestions()
+
     this.firstFormGroup = this._formBuilder.group({
-      //firstCtrl: ['', Validators.required]
-      username:[''],
-      email:[''],
-      password:[''],
-      //confirm_pass:['']
+      username : [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, Validators.required],
+      passwordRepeat: [null, Validators.required]
     });
-    //this.secondFormGroup = this._formBuilder.group({
-      //secondCtrl: ['', Validators.required]
-    //});
 
-
-    this._accountService.createAccount(this.account)
-      .subscribe(data => this.account2 = data);
-
-    console.log(this.account2)
+    this.secondFormGroup = this._formBuilder.group({
+      securityQuestion: [null, Validators.required],
+      securityAnswer: [null, Validators.required]
+    });
 
   }
 
- /* onSubmit(){
-    //this.accountService.register(this.firstFormGroup.value).pipe().subscribe(data => {this.router.navigate(['/home'])});
-    this.http.post<any>("http://localhost:8085/api/v1/accounts",this.firstFormGroup.value)
-    .subscribe(res=>{
-      alert('SIGNIN SUCCESFUL');
-      this.firstFormGroup.reset()
-      this.router.navigate(["login"])
-    },err=>{
-      alert("Something went wrong")
-    })
-  }*/
-
-  signUp(){
-   const {username, email, password} = this.form;
-    /*this.http.post<any>("http://localhost:8085/api/v1/accounts", this.firstFormGroup.value)
-    .subscribe(res =>{
-      alert("success")
-      this.firstFormGroup.reset();
-      this.router.navigate(['login']);
-    },
-    err=>{
-      alert("error")
-
-    })*/
-    this._accountService.register(username, email, password).subscribe((data=> {
-      console.log(data);
-      this.signUpSuccessful=true;
-    }))
+  async getSecQuestions() {
+    const res: any = await this._accountService.getSecurityQuestions().toPromise();
+      this.securityQuestions = res;
+      console.log(this.securityQuestions)
   }
 
+  async onSignUp(){
 
+    if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
+      this.account = {
+        id: "",
+        name: this.firstFormGroup.get('username')?.value,
+        email: this.firstFormGroup.get('email')?.value,
+        password: this.firstFormGroup.get('password')?.value,
+        securityQuestion: this.secondFormGroup.get('securityQuestion')?.value,
+        securityAnswer: this.secondFormGroup.get('securityAnswer')?.value
+      }
+      console.log(this.account)
 
+      const res: any = await this._accountService.createAccount(this.account)
+      .toPromise();
+      this.account = res; //to get the actual id
+      console.log(res)
+
+      this.firstFormGroup.reset();  //check if you actually need it
+      this.secondFormGroup.reset(); //same as above
+
+      this.router.navigate(['home']);
+    }
+    else {
+      //TODO: error message
+    }
+  }
 }

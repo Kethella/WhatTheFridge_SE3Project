@@ -16,14 +16,22 @@ import { RecipeService } from 'src/app/services/recipe.service';
 export class RecipeSortFilterComponent{
 
   @Output() public newQueryEvent = new EventEmitter<HttpParams>();
-
+  @Output() public newSortEvent = new EventEmitter();
 
   public queryParams = new HttpParams();
+
   selectedCategory: string;
-  selectedTags: string;
-  selectedTagsAsArray: string[];
-  selectedIngredients: string;
+
   tags: string[];
+  selectedTagsAsArray: string[];
+  selectedTags: string;
+
+  ingredientsAsArray: Ingredient[] = [];
+  selectedIngredients: string;
+
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+
 
   constructor(public dialog: MatDialog) {
     this.selectedCategory = "";
@@ -34,67 +42,33 @@ export class RecipeSortFilterComponent{
   }
 
 
-
-  query(){
-    if (this.selectedCategory){
-
-      this.queryParams = this.queryParams.append("category",this.selectedCategory);
-      console.log(this.selectedCategory);
-
-    }
-    else {
-      console.log('no category');
-    }
-    if (this.selectedTags){
-
-      this.queryParams = this.queryParams.append("tags",this.selectedTags);
-      console.log(this.selectedTags);
-
-    }
-    else {
-      console.log('no tags');
-    }
-    if (this.selectedIngredients){
-
-      this.queryParams = this.queryParams.append("ingredientNames",this.selectedIngredients);
-      console.log(this.selectedIngredients);
-
-    }
-    else {
-      console.log('no ingredients');
-    }
-
-
-    this.newQueryEvent.emit(this.queryParams);
-
-  }
-
-
   openDialog(): void {
     const dialogRef = this.dialog.open(RecipeFilterDialog, {
       width: '900px',
       data: {
         selectedCategory: this.selectedCategory,
-        selectedTagsAsArray: this.selectedTagsAsArray},
+        selectedTagsAsArray: this.selectedTagsAsArray
+      },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       this.selectedCategory = result.selectedCategory;
       this.selectedTagsAsArray = result.selectedTagsAsArray;
 
       if (!this.selectedTagsAsArray.length){
-        console.log("maikati")
         this.selectedTags = "";
       }
-      this.selectedTagsAsArray.forEach((value: string, index: number) => {
-        if (index == 0){
-          this.selectedTags = value;
-        }
-        else {
-          this.selectedTags = this.selectedTags.concat("," + value)
-        }
-      });
+      else{
+        this.selectedTagsAsArray.forEach((value: string, index: number) => {
+          if (index == 0){
+            this.selectedTags = value;
+          }
+          else {
+            this.selectedTags = this.selectedTags.concat("," + value)
+          }
+        });
+      }
+
 
       this.queryParams = this.queryParams.delete('category');
       this.queryParams = this.queryParams.delete('tags');
@@ -103,27 +77,34 @@ export class RecipeSortFilterComponent{
     });
   }
 
+  query(){
+    if (this.selectedCategory){
+      this.queryParams = this.queryParams.append("category",this.selectedCategory);
+    }
+
+    if (this.selectedTags){
+      this.queryParams = this.queryParams.append("tags",this.selectedTags);
+    }
+
+    if (this.selectedIngredients){
+      this.queryParams = this.queryParams.append("ingredientNames",this.selectedIngredients);
+    }
+
+    this.newQueryEvent.emit(this.queryParams);
+  }
 
 
 
-
-
-
-
-  addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  ingredientsAsArray: Ingredient[] = [];
-
+  //METHODS FOR THE INGREDIENTS FILTERING
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
     if (value) {
       this.ingredientsAsArray.push({name: value});
-      this.updateQuery();
+      this.prepIngredientsQuery();
+      this.query();
     }
 
-    // Clear the input value
     event.chipInput!.clear();
   }
 
@@ -132,27 +113,12 @@ export class RecipeSortFilterComponent{
 
     if (index >= 0) {
       this.ingredientsAsArray.splice(index, 1);
-      this.updateQuery();
+      this.prepIngredientsQuery();
+      this.query();
     }
   }
 
-  edit(fruit: Ingredient, event: MatChipEditedEvent) {
-    const value = event.value.trim();
-
-    // Remove fruit if it no longer has a name
-    if (!value) {
-      this.remove(fruit);
-      return;
-    }
-
-    // Edit existing fruit
-    const index = this.ingredientsAsArray.indexOf(fruit);
-    if (index > 0) {
-      this.ingredientsAsArray[index].name = value;
-    }
-  }
-
-  updateQuery(){
+  prepIngredientsQuery(){
     this.selectedIngredients='';
 
     for (let ingredient of this.ingredientsAsArray){
@@ -163,21 +129,23 @@ export class RecipeSortFilterComponent{
         this.selectedIngredients = ingredient.name;
       }
     }
-    console.log(this.selectedIngredients);
-    //this.selectedIngredients = 'Tomato,Chicken';
     this.queryParams = this.queryParams.delete('ingredientNames');
-    this.query();
   }
 
+
+  //METHODS FOR THE SORT BUTTON
+  sortByName(startWith: String): void {
+    this.newSortEvent.emit("name"+startWith);
+  }
 }
 
 interface Category {
   backendValue: string;
   text: string;
 }
-
-
-
+export interface Ingredient {
+  name: string;
+}
 
 
 @Component({
@@ -189,6 +157,8 @@ export class RecipeFilterDialog implements OnInit{
   public queryParams = new HttpParams();
 
   tags: String[] = [];
+  selectedCategory: String;
+  selectedTagsAsArray: String[];
 
   categories: Category[] = [
     {backendValue: 'MAINCOURSE', text: 'Main Course'},
@@ -204,7 +174,7 @@ export class RecipeFilterDialog implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private _recipeService: RecipeService) {
 
-    }
+  }
 
   ngOnInit(): void {
     this._recipeService.getTags()
@@ -213,6 +183,23 @@ export class RecipeFilterDialog implements OnInit{
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  categoryWasSelected(categoryToCheck: String, previousSelectedCategory: String): boolean {
+    if (categoryToCheck == previousSelectedCategory){
+        return true;
+    }
+
+    return false;
+  }
+
+  tagWasSelected(tagToCheck: String, tagsAsArray: String[]): boolean {
+    for (let tag of tagsAsArray){
+      if (tag == tagToCheck){
+        return true;
+      }
+    }
+    return false;
   }
 
 }
@@ -225,6 +212,4 @@ export interface DialogData {
 }
 
 
-export interface Ingredient {
-  name: string;
-}
+
