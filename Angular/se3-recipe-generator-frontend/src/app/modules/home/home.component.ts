@@ -22,7 +22,7 @@ export class HomeComponent {
     this._recipeService.getRecipes(this.queryParams)
         .subscribe(data => this.recipes = data,
                     error => this.errorMsg = error);
-      console.log(this.recipes);
+    console.log(this.recipes);
   }
 
   restart(queryParams: HttpParams): void {

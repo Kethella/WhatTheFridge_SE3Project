@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/account';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -18,8 +17,20 @@ export class SignUpComponent implements OnInit {
   signUpSuccessful: boolean;
   form:any={username: null, email:null, password:null }
 
-  constructor(private _formBuilder: FormBuilder, private http: HttpClient,
-     private router:Router, private accountService:AccountService) { }
+
+  account: Account = {
+    name: "Alex",
+    email: "alex@gmail.com",
+    password: "1234",
+    securityQuestion: "Q1",
+    securityAnswer: "blabla"
+  }
+
+  public account2: Account;
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _accountService: AccountService) { }
 
   ngOnInit() {
     //this.signUpForm = this._formBuilder.group({})
@@ -33,10 +44,17 @@ export class SignUpComponent implements OnInit {
     //this.secondFormGroup = this._formBuilder.group({
       //secondCtrl: ['', Validators.required]
     //});
+
+
+    this._accountService.createAccount(this.account)
+      .subscribe(data => this.account2 = data);
+
+    console.log(this.account2)
+
   }
 
  /* onSubmit(){
-    //this.accountService.register(this.firstFormGroup.value).pipe().subscribe(data => {this.router.navigate(['/home'])});      
+    //this.accountService.register(this.firstFormGroup.value).pipe().subscribe(data => {this.router.navigate(['/home'])});
     this.http.post<any>("http://localhost:8085/api/v1/accounts",this.firstFormGroup.value)
     .subscribe(res=>{
       alert('SIGNIN SUCCESFUL');
@@ -57,14 +75,14 @@ export class SignUpComponent implements OnInit {
     },
     err=>{
       alert("error")
-    
+
     })*/
-    this.accountService.register(username, email, password).subscribe((data=> {
+    this._accountService.register(username, email, password).subscribe((data=> {
       console.log(data);
       this.signUpSuccessful=true;
     }))
   }
-    
+
 
 
 }

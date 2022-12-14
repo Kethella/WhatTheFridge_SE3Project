@@ -9,13 +9,15 @@ const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
+export class AccountService {
 
-export class AccountService { 
+  private _baseUrl = "http://localhost:8085/api/v1/accounts";
 
-    private url = "http://localhost:8085/api/v1/accounts";
 
-    constructor(private http: HttpClient, private httpHeaders:HttpHeaders) { }
+  constructor(private http: HttpClient, private httpHeaders:HttpHeaders) { }
 
     /*getAll():Observable<Account[]> {
         return this.http.get<Account[]>(this.url)
@@ -31,13 +33,22 @@ export class AccountService {
             })
         )
     }*/
-      
-    login(username: string, password: string):Observable<any> {
-        return this.http.post(this.url + 'login', { username, password }, httpOptions);
-      }
 
-    register(username:string, password:string, email:string ): Observable<any>{
-        return this.http.post(this.url + 'signup', {username, password, email}, httpOptions);
-    }
-    
+  login(username: string, password: string):Observable<any> {
+        return this.http.post(this._baseUrl + 'login', { username, password }, httpOptions);
+  }
+
+  register(username:string, password:string, email:string ): Observable<any>{
+        return this.http.post(this._baseUrl + 'signup', {username, password, email}, httpOptions);
+  }
+
+
+  getAll():Observable<Account[]> {
+        return this.http.get<Account[]>(this._baseUrl)
+  }
+
+  createAccount(account: Account): Observable<Account> {
+    return this.http.post<Account>(`${this._baseUrl}`, account);
+  }
 }
+

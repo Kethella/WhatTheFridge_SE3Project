@@ -9,8 +9,8 @@ import { IRecipe } from '../models/recipe';
 export class RecipeService {
 
   data = {};
-  private _baseUriRecipe: string = "http://localhost:8085/api/v1/recipes/oa=1326530421101200/"
-  private _baseUriTags: string = "http://localhost:8085/api/v1/recipes/tags/oa=1326530421101200/"
+  private _baseUriRecipe: string = "http://localhost:8085/api/v1/recipes/oa=1845400701742500/"
+  private _baseUriTags: string = "http://localhost:8085/api/v1/recipes/tags/oa=1845400701742500/"
 
   constructor(private http: HttpClient) { }
 
