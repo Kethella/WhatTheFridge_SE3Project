@@ -1,0 +1,40 @@
+#dialog-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#recipeName {
+    width: 800px;
+}
+
+.centeredImage {
+    margin: 10px auto 20px;
+    display: block;
+    border-radius: 15px;
+}
+
+.headers{
+    font-weight: bold;
+    padding-top: 15px;
+}
+
+.tag-button {
+    border-radius: 25px;
+    background-color: #5FC1AC;
+}
+
+#recipe-description{
+    background-color: #b0e2d7;
+    color: black;
+    border-radius: 25px;
+    padding: 10px;
+}
+
+
+
+
+
+
+
+

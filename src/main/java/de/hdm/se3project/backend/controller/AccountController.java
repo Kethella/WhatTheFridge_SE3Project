@@ -3,18 +3,11 @@ package de.hdm.se3project.backend.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import de.hdm.se3project.backend.exception.ResourceNotFoundException;
+import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Account;
 import de.hdm.se3project.backend.repository.AccountRepository;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.web.bind.annotation.RequestMapping;
+import de.hdm.se3project.backend.services.IdGenerationService;
+import org.springframework.web.bind.annotation.*;
 
 /* Controller class for "accounts" MongoDB collection
  * author: ag186
@@ -53,7 +46,7 @@ public class AccountController implements Serializable {
 
     @PostMapping("/accounts")
     Account createAccount(@RequestBody Account newAccount){ //whatever data you submit prom the client side will be accepted in the post object
-
+        newAccount.setId(IdGenerationService.generateId(newAccount));
         return repository.save(newAccount);
     }
 

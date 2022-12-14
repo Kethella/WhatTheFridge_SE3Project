@@ -1,23 +1,44 @@
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError, Subject } from 'rxjs';
 import { Recipe } from '../models/recipe';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
-  private recipesUrl: string;
 
-  constructor(private http: HttpClient) {
-    this.recipesUrl = 'http://localhost:8085/api/v1/recipes';
+  data = {};
+  private _baseUriRecipe: string = "http://localhost:8085/api/v1/recipes/oa=1310140241453400/"
+  private _baseUriTags: string = "http://localhost:8085/api/v1/recipes/tags/oa=1310140241453400/"
+
+  constructor(private http: HttpClient) { }
+
+  getRecipes(queryParams: HttpParams): Observable<Recipe[]> {
+    if (queryParams) {
+      return this.http.get<Recipe[]>(this._baseUriRecipe, {params:queryParams})
+      .pipe(catchError(this.errorHandler));
+    }
+    else {
+      return this.http.get<Recipe[]>(this._baseUriRecipe)
+      .pipe(catchError(this.errorHandler));
+    }
+
   }
 
-  public findAll(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.recipesUrl);
+  getTags(): Observable<String[]> {
+
+    return this.http.get<String[]>(this._baseUriTags)
+    .pipe(catchError(this.errorHandler));
+
+  }
+
+  private errorHandler(error: HttpErrorResponse){
+    return throwError(error.message || "Server Error")
   }
 
   public save(recipe: Recipe) {
-    return this.http.post<Recipe>(this.recipesUrl, recipe);
+    return this.http.post<Recipe>(this._baseUriRecipe, recipe);
   }
+
 }
