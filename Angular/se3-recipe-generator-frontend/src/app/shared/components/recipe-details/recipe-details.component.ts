@@ -10,10 +10,12 @@ import { RecipeService } from 'src/app/services/recipe.service';
 })
 export class RecipeDetailsComponent implements OnInit {
   selectedRecipe: Recipe;
+  ingredients: Ingredient[];
 
   constructor(
     public dialogRef: MatDialogRef<RecipeDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+      this.ingredients = [];
     }
 
   onNoClick(): void {
@@ -27,14 +29,33 @@ export class RecipeDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.selectedRecipe = this.data.selectedRecipe;
-    console.log(this.selectedRecipe)
+    this.ingredients = this.generateIngredients(this.selectedRecipe);
+    console.log(this.ingredients);
   }
 
   onCloseClick() {
     this.dialogRef.close();
   }
+
+  generateIngredients(recipe: Recipe): Ingredient[]{
+
+    recipe.ingredientNames.forEach((value, index) => {
+      var temp: Ingredient = {
+        "name": value,
+        "measure": recipe.ingredientMeasures[index]
+      }
+      this.ingredients.push(temp);
+    });
+
+    return this.ingredients;
+  }
 }
 
 export interface DialogData {
   selectedRecipe: Recipe
+}
+
+export interface Ingredient {
+  name: string;
+  measure: string;
 }
