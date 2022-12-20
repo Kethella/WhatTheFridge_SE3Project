@@ -1,9 +1,12 @@
-import { Component, Output, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Inject, OnInit, LOCALE_ID } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { ICategory } from 'src/app/models/category';
+import { FormBuilder, FormGroup,FormControl,Validators } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 
 
@@ -20,7 +23,7 @@ export class RecipeSortFilterComponent{
 
   public queryParams = new HttpParams();
 
-  selectedCategory: string;
+  selectedCategory: ICategory;
 
   tags: string[];
   selectedTagsAsArray: string[];
@@ -34,11 +37,11 @@ export class RecipeSortFilterComponent{
 
 
   constructor(public dialog: MatDialog) {
-    this.selectedCategory = "";
     this.selectedIngredients = "";
     this.selectedTags = "";
     this.selectedTagsAsArray = [];
     this.tags = [];
+    this.selectedCategory = {text: "", enumValue: ""};
   }
 
 
@@ -52,8 +55,14 @@ export class RecipeSortFilterComponent{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.selectedCategory = result.selectedCategory;
-      this.selectedTagsAsArray = result.selectedTagsAsArray;
+      if (result?.selectedCategory != null) {
+        this.selectedCategory = result.selectedCategory;
+      }
+
+      if(result?.selectedTagsAsArray != null) {
+        this.selectedTagsAsArray = result.selectedTagsAsArray;
+      }
+
 
       if (!this.selectedTagsAsArray.length){
         this.selectedTags = "";
@@ -78,16 +87,16 @@ export class RecipeSortFilterComponent{
   }
 
   query(){
-    if (this.selectedCategory){
-      this.queryParams = this.queryParams.append("category",this.selectedCategory);
+    if (this.selectedCategory && this.selectedCategory.text != ""){
+      this.queryParams = this.queryParams.append("category", this.selectedCategory.enumValue);
     }
 
     if (this.selectedTags){
-      this.queryParams = this.queryParams.append("tags",this.selectedTags);
+      this.queryParams = this.queryParams.append("tags", this.selectedTags);
     }
 
     if (this.selectedIngredients){
-      this.queryParams = this.queryParams.append("ingredientNames",this.selectedIngredients);
+      this.queryParams = this.queryParams.append("ingredientNames", this.selectedIngredients);
     }
 
     this.newQueryEvent.emit(this.queryParams);
@@ -139,10 +148,6 @@ export class RecipeSortFilterComponent{
   }
 }
 
-interface Category {
-  backendValue: string;
-  text: string;
-}
 export interface Ingredient {
   name: string;
 }
@@ -151,46 +156,39 @@ export interface Ingredient {
 @Component({
   selector: 'recipe-filter-dialog',
   templateUrl: 'recipe-filter-dialog.html',
+  styleUrls: ['./recipe-filter-dialog.css']
 })
 export class RecipeFilterDialog implements OnInit{
 
   public queryParams = new HttpParams();
 
   tags: String[] = [];
-  selectedCategory: String;
   selectedTagsAsArray: String[];
-
-  categories: Category[] = [
-    {backendValue: 'MAINCOURSE', text: 'Main Course'},
-    {backendValue: 'DESSERT', text: 'Dessert'},
-    {backendValue: 'SIDE', text: 'Side dish'},
-    {backendValue: 'STARTER', text: 'Starter'},
-    {backendValue: 'DRINKS', text: 'Drinks'},
-    {backendValue: 'BREAKFAST', text: 'Breakfast'},
-  ];
+  selectedCategory: ICategory = {"enumValue": "", "text":""};
+  categories: ICategory[];
 
   constructor(
     public dialogRef: MatDialogRef<RecipeFilterDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private _recipeService: RecipeService) {
+      this.selectedCategory = data.selectedCategory;
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this._recipeService.getTags()
     .subscribe(data => this.tags = data);
+
+    this.categories = await this._recipeService.getCategories();
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  categoryWasSelected(categoryToCheck: String, previousSelectedCategory: String): boolean {
-    if (categoryToCheck == previousSelectedCategory){
-        return true;
-    }
-
-    return false;
+  onCloseClick(categories: ICategory[], selectedCategory: ICategory): void {
+    this.data.selectedCategory = this.setSelectedCategory(categories, selectedCategory)
+    this.dialogRef.close(this.data)
   }
 
   tagWasSelected(tagToCheck: String, tagsAsArray: String[]): boolean {
@@ -202,12 +200,22 @@ export class RecipeFilterDialog implements OnInit{
     return false;
   }
 
+  setSelectedCategory(categories: ICategory[], selectedCategory: ICategory): ICategory{
+
+    for (let category of categories){
+      if (selectedCategory.text == category.text){
+        selectedCategory.enumValue = category.enumValue;
+      }
+    }
+
+    return selectedCategory;
+  }
+
+
 }
 
 export interface DialogData {
-  categories: Category[],
-  selectedCategory: string;
-  tags: String[],
+  selectedCategory: ICategory;
   selectedTagsAsArray: String[]
 }
 

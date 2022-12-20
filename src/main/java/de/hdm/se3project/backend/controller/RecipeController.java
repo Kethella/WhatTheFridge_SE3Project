@@ -5,8 +5,11 @@ import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.model.enums.Category;
 import de.hdm.se3project.backend.services.RecipeService;
 import org.springframework.web.bind.annotation.*;
+import org.json.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -55,6 +58,23 @@ public class RecipeController {
 
         return recipeService.getAllRecipeTags(ownerAccount);
     }
+
+    @GetMapping("/categories")
+    String getAllSecurityQuestions() {
+        JSONArray array = new JSONArray();
+
+        for(Category c: Category.values()) {
+
+            HashMap<String, String> seqQuestion = new HashMap<String, String>();
+            seqQuestion.put("enumValue", c.toString());
+            seqQuestion.put("text", c.getText());
+            JSONObject seqQuestionObject = new JSONObject(seqQuestion);
+            array.put(seqQuestionObject);
+        }
+
+        return array.toString();
+    }
+
 
 
 }

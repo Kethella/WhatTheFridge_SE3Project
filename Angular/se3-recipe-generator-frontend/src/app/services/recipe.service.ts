@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError, Subject } from 'rxjs';
+import { Observable, catchError, throwError, Subject, firstValueFrom } from 'rxjs';
 import { IRecipe } from '../models/recipe';
+import { ICategory } from '../models/category';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,10 @@ export class RecipeService {
 
   private errorHandler(error: HttpErrorResponse){
     return throwError(error.message || "Server Error")
+  }
+
+  async getCategories(): Promise<ICategory[]> {
+    return firstValueFrom(this.http.get<ICategory[]>("http://localhost:8085/api/v1/categories"))
   }
 
 

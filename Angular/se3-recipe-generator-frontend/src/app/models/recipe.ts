@@ -1,7 +1,7 @@
 export interface IRecipe{
   id: String,
   name: string,
-  category: String,
+  category: string,
   instructions: String,
   image: String,
   tags: [],
