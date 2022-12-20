@@ -15,27 +15,17 @@ export class RecipeService {
 
   constructor(private http: HttpClient) { }
 
-  getRecipes(queryParams: HttpParams): Observable<IRecipe[]> {
+  async getRecipes(queryParams: HttpParams): Promise<IRecipe[]> {
     if (queryParams) {
-      return this.http.get<IRecipe[]>(this._baseUriRecipe, {params:queryParams})
-      .pipe(catchError(this.errorHandler));
+      return firstValueFrom(this.http.get<IRecipe[]>(this._baseUriRecipe, {params:queryParams}));
     }
     else {
-      return this.http.get<IRecipe[]>(this._baseUriRecipe)
-      .pipe(catchError(this.errorHandler));
+      return firstValueFrom(this.http.get<IRecipe[]>(this._baseUriRecipe));
     }
-
   }
 
-  getTags(): Observable<String[]> {
-
-    return this.http.get<String[]>(this._baseUriTags)
-    .pipe(catchError(this.errorHandler));
-
-  }
-
-  private errorHandler(error: HttpErrorResponse){
-    return throwError(error.message || "Server Error")
+  async getTags(): Promise<String[]> {
+    return firstValueFrom(this.http.get<String[]>(this._baseUriTags));
   }
 
   async getCategories(): Promise<ICategory[]> {

@@ -176,9 +176,7 @@ export class RecipeFilterDialog implements OnInit{
   }
 
   async ngOnInit() {
-    this._recipeService.getTags()
-    .subscribe(data => this.tags = data);
-
+    this.tags = await this._recipeService.getTags();
     this.categories = await this._recipeService.getCategories();
   }
 

@@ -16,17 +16,14 @@ export class HomeComponent {
   constructor(private _recipeService: RecipeService) {
   }
 
-  ngOnInit(): void {
-    this._recipeService.getRecipes(this.queryParams)
-        .subscribe(data => this.recipes = data
-          .sort((a: IRecipe, b: IRecipe) => a.name.localeCompare(b.name)),
-                  error => this.errorMsg = error);
+  async ngOnInit() {
+    this.recipes = await this._recipeService.getRecipes(this.queryParams)
+    this.recipes = this.recipes.sort((a: IRecipe, b: IRecipe) => a.name.localeCompare(b.name));
   }
 
-  restart(queryParams: HttpParams): void {
-    this._recipeService.getRecipes(queryParams)
-        .subscribe(data => this.recipes = data
-          .sort((a: IRecipe, b: IRecipe) => a.name.localeCompare(b.name)));
+  async restart(queryParams: HttpParams) {
+    this.recipes = await this._recipeService.getRecipes(queryParams);
+    this.recipes = this.recipes.sort((a: IRecipe, b: IRecipe) => a.name.localeCompare(b.name));
   }
 
   sort(criteria: string): void {
