@@ -16,10 +16,11 @@
   <button mat-button class="tag-button" *ngFor="let tags of selectedRecipe.tags">{{tags}}</button>
 
   <h4 class="headers" id="ingredientsHeader"> Here's what you need!</h4>
-    <ul style="list-style-type:circle;">
-      <li *ngFor="let measures of selectedRecipe.ingredientMeasures">{{measures}}</li>
-      <li *ngFor="let ingredient of selectedRecipe.ingredientNames">{{ingredient}}</li>
-    </ul>
+      <ul style="list-style-type:circle;">
+        <li *ngFor="let ingredient of ingredientsAsStrings">
+          {{ingredient}}
+        </li>
+      </ul>
 
   <h4 class="headers">How to make it: </h4>
     <p id="recipe-description">{{selectedRecipe.instructions}}</p>

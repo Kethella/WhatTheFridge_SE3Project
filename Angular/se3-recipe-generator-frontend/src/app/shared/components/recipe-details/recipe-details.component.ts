@@ -11,11 +11,13 @@ import { RecipeService } from 'src/app/services/recipe.service';
 export class RecipeDetailsComponent implements OnInit {
   selectedRecipe: Recipe;
   ingredients: Ingredient[];
+  ingredientsAsStrings: string[];
 
   constructor(
     public dialogRef: MatDialogRef<RecipeDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
       this.ingredients = [];
+      this.ingredientsAsStrings = [];
     }
 
   onNoClick(): void {
@@ -30,7 +32,7 @@ export class RecipeDetailsComponent implements OnInit {
   ngOnInit() {
     this.selectedRecipe = this.data.selectedRecipe;
     this.ingredients = this.generateIngredients(this.selectedRecipe);
-    console.log(this.ingredients);
+    this.ingredientsAsStrings = this.generateIngredientsAsStrings(this.ingredients);
   }
 
   onCloseClick() {
@@ -48,6 +50,18 @@ export class RecipeDetailsComponent implements OnInit {
     });
 
     return this.ingredients;
+  }
+
+  generateIngredientsAsStrings(ingredients: Ingredient[]): string[] {
+    ingredients.forEach((value) => {
+      var temp: string = value.name;
+      if(value.measure != "" && value.measure != null){
+        temp = temp.concat(" - " + value.measure)
+      }
+      this.ingredientsAsStrings.push(temp);
+    });
+
+    return this.ingredientsAsStrings;
   }
 }
 
