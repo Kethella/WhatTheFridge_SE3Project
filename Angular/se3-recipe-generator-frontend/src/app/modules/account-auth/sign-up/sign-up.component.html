@@ -6,7 +6,7 @@
         </mat-card-header>
 
         <mat-card-content>
-            <form class="sign-up-form" (ngSubmit)="onSignUp()">
+            <form class="sign-up-form" (ngSubmit)="onSignUp()" >
                 <mat-stepper id="stepper" #stepper="matHorizontalStepper">
                     <mat-step [stepControl]="firstFormGroup">
                         <form [formGroup]="firstFormGroup">
@@ -24,13 +24,25 @@
 
                             <mat-form-field>
                                 <mat-label>Password</mat-label>
-                                <input matInput formControlName="password" required>
+                                <input matInput formControlName="password" required [type]="changetype?'password':'text'">
+                                <span class="eyeicon"><mat-icon (click)="viewpass()" [ngClass]="visible?'visibility':'visibility_off'">
+                                    visibility
+                                </mat-icon></span>
                             </mat-form-field>
 
                             <mat-form-field>
-                                <mat-label>Confirm password</mat-label>
-                                <input matInput formControlName="passwordRepeat" required>
+                                <mat-label for="passwordRepeat">Confirm password</mat-label>
+                                <input matInput formControlName="passwordRepeat" required [type]="changetype?'password':'text'" >
+                                <!--<div class="invalid-feedback">Passwords don't match</div>-->
+                                <span class="eyeicon"><mat-icon (click)="viewpass()" [ngClass]="visible?'visibility':'visibility_off'">
+                                    visibility
+                                </mat-icon></span>     
                             </mat-form-field>
+                            <div class="alert"
+                                        *ngIf="firstFormGroup.errors?.['confirmedValidator'] 
+                                        || (firstFormGroup.controls['passwordRepeat'].hasError('required') && firstFormGroup.controls['passwordRepeat'].touched)">
+                                Passwords don't match
+                                </div>
 
                             <div class="buttons">
                                 <button mat-raised-button matStepperNext>Next</button>
@@ -45,7 +57,7 @@
                                 <mat-form-field>
                                     <mat-label>Select a security question</mat-label>
                                     <mat-select formControlName="securityQuestion" required>
-                                        <mat-option *ngFor="let question of securityQuestions" [value]="question.enumValue">
+                                        <mat-option *ngFor="let question of securityQuestions" value="question.enumValue">
                                             {{question.text}}
                                         </mat-option>
                                     </mat-select>
@@ -63,6 +75,9 @@
                         </form>
                     </mat-step>
                 </mat-stepper>
+                <div>                
+                    <a style="display: flex; justify-content: flex-end" routerLink="../login"> Already registered? </a>
+                  </div>
             </form>
         </mat-card-content>
 

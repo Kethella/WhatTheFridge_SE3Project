@@ -45,3 +45,15 @@ mat-form-field {
     flex-direction: row;
     gap: 10px;
 }
+
+.eyeicon {
+    position: absolute;
+    right: -10px;
+    top: 17px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.alert{
+    color: red;
+}

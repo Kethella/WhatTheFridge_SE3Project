@@ -6,6 +6,10 @@ import { AccountService } from 'src/app/services/account.service';
 import { HttpClient } from '@angular/common/http';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { ISecurityQuestion } from 'src/app/models/securityQuestions';
+import { ValidationService } from 'src/app/services/validation.service';
+import { ValidationErrors } from '@angular/forms';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { throwError } from 'rxjs';
 
 
 @Component({
@@ -27,10 +31,16 @@ export class SignUpComponent implements OnInit {
   account: Account;
 
   securityQuestions: ISecurityQuestion[]
+ 
+  visible:boolean = true;
+  changetype:boolean =true;
+  
+
 
   constructor( private _formBuilder: FormBuilder,
     private _accountService: AccountService,
-    private router: Router) {
+    private router: Router,
+    private _validationService: ValidationService) {
 
   }
 
@@ -43,6 +53,9 @@ export class SignUpComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
       passwordRepeat: [null, Validators.required]
+    }, {
+      //validator: this._validationService.passwordMatchValidator("password", "passwordRepeat")
+      validator: this.ConfirmedValidator("password", "passwordRepeat") //works both ways, possible TODO: del validation service
     });
 
     this.secondFormGroup = this._formBuilder.group({
@@ -57,6 +70,25 @@ export class SignUpComponent implements OnInit {
       this.securityQuestions = res;
       console.log(this.securityQuestions)
   }
+
+  ConfirmedValidator(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors['confirmedValidator']
+      ) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmedValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
+  }
+
 
   async onSignUp(){
 
@@ -82,7 +114,29 @@ export class SignUpComponent implements OnInit {
       this.router.navigate(['home']);
     }
     else {
-      //TODO: error message
+      (      //TODO: error message
+      err: any) => {
+        console.log(err)
+        this.handleError(err)
+      }
     }
+  }
+
+  viewpass(){
+    this.visible = !this.visible;
+    this.changetype = !this.changetype;
+  }
+
+  handleError(err: { error: any; message: any; status: any; }) {
+    let errorMessage = '';
+    if (err.error instanceof ErrorEvent) {
+      // if error is client-side error
+      errorMessage = `Error: ${err.message}`;
+    } else {
+      // if error is server-side error
+      errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
+    }
+    alert(errorMessage);
+    return throwError(errorMessage);  
   }
 }
