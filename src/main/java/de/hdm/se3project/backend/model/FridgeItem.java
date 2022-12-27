@@ -1,12 +1,11 @@
 package de.hdm.se3project.backend.model;
 
-import com.mongodb.lang.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
 
-@Document(collection = "fridgeItems")
+@Document(collection = "fridgeItems") //Document to be stored on MongoDb - FridgeItem
 public class FridgeItem {
 
     @Id
