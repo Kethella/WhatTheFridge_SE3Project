@@ -3,13 +3,9 @@ package de.hdm.se3project.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-<<<<<<< Updated upstream
-@Document(collection = "fridgeItems")
-=======
 import java.util.Objects;
 
 @Document(collection = "fridgeItems") //Document to be stored on MongoDb - FridgeItem
->>>>>>> Stashed changes
 public class FridgeItem {
 
     @Id
@@ -20,9 +16,13 @@ public class FridgeItem {
     private String ownerAccount;
 
     public FridgeItem() {
+        ownerAccount = " ";
+        name = " ";
+        amount = 0;
     }
 
-    public FridgeItem(String name, int amount, String expirationDate, String ownerAccount) {
+    public FridgeItem(String id, String name, int amount, String expirationDate, String ownerAccount) {
+        this.id = id;
         this.name = name;
         this.amount = amount;
         this.expirationDate = expirationDate;
@@ -67,6 +67,19 @@ public class FridgeItem {
 
     public void setOwnerAccount(String ownerAccount) {
         this.ownerAccount = ownerAccount;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        FridgeItem that = (FridgeItem) obj;
+        return amount == that.amount && name.equals(that.name) && Objects.equals(expirationDate, that.expirationDate) && ownerAccount.equals(that.ownerAccount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, amount, expirationDate, ownerAccount);
     }
 }
 

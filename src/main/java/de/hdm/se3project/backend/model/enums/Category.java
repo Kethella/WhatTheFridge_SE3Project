@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum Category{
 
-
     @JsonProperty("MAINCOURSE")
     MAINCOURSE("Main Course"),
     @JsonProperty("DESSERT")

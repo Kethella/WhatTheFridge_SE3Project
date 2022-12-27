@@ -9,9 +9,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RecipeRepository extends MongoRepository<Recipe, String> {
+public interface RecipeRepository extends MongoRepository<Recipe, String> {}
 
-
-
-
-}

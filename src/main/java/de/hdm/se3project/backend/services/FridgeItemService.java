@@ -7,10 +7,9 @@ import java.util.List;
 
 public interface FridgeItemService {
 
-    List<FridgeItem> getFridgeItems();
-    FridgeItem getFridgeItemById(String id) throws ResourceNotFoundException;
     FridgeItem createFridgeItem(FridgeItem item);
-    FridgeItem updateFridgeItem(String id, FridgeItem newItem) throws ResourceNotFoundException;
-    void deleteFridgeItem(String id);
-
+    FridgeItem updateFridgeItem(String id, FridgeItem itemToBeUpdated) throws ResourceNotFoundException;
+    void deleteFridgeItem(String id) throws ResourceNotFoundException;
+    FridgeItem getFridgeItemById(String id) throws ResourceNotFoundException;
+    List<FridgeItem> getFridgeItems(String ownerAccount);
 }
