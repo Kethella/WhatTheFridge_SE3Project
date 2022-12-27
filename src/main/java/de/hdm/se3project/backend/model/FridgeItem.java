@@ -3,7 +3,13 @@ package de.hdm.se3project.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+<<<<<<< Updated upstream
 @Document(collection = "fridgeItems")
+=======
+import java.util.Objects;
+
+@Document(collection = "fridgeItems") //Document to be stored on MongoDb - FridgeItem
+>>>>>>> Stashed changes
 public class FridgeItem {
 
     @Id
