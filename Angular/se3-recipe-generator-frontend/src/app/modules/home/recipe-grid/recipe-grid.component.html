@@ -1,6 +1,5 @@
 <div class="recipe-grid">
-      <mat-card *ngFor="let recipe of recipes">
-
+      <mat-card *ngFor="let recipe of recipes" (click) ="openDialog(recipe)" matRipple class="clickable">
         <img mat-card-image [src]="recipe.image" alt="Recipe photo">
 
         <mat-card-header>{{recipe.name}}</mat-card-header>

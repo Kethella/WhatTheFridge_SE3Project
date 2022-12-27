@@ -1,4 +1,4 @@
-export interface IRecipe{
+export interface Recipe{
   id: String,
   name: string,
   category: string,

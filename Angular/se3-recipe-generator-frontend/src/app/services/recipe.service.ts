@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError, Subject, firstValueFrom } from 'rxjs';
-import { IRecipe } from '../models/recipe';
 import { ICategory } from '../models/category';
+import { Recipe } from '../models/recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,12 @@ export class RecipeService {
 
   constructor(private http: HttpClient) { }
 
-  async getRecipes(queryParams: HttpParams): Promise<IRecipe[]> {
+  async getRecipes(queryParams: HttpParams): Promise<Recipe[]> {
     if (queryParams) {
-      return firstValueFrom(this.http.get<IRecipe[]>(this._baseUriRecipe, {params:queryParams}));
+      return firstValueFrom(this.http.get<Recipe[]>(this._baseUriRecipe, {params:queryParams}));
     }
     else {
-      return firstValueFrom(this.http.get<IRecipe[]>(this._baseUriRecipe));
+      return firstValueFrom(this.http.get<Recipe[]>(this._baseUriRecipe));
     }
   }
 
@@ -32,5 +32,8 @@ export class RecipeService {
     return firstValueFrom(this.http.get<ICategory[]>("http://localhost:8085/api/v1/categories"))
   }
 
+  public save(recipe: Recipe) {
+    return this.http.post<Recipe>(this._baseUriRecipe, recipe);
+  }
 
 }

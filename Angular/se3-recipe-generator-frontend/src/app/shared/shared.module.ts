@@ -5,12 +5,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { HeaderComponent } from './components/header/header.component';
 import { PersonalMaterialModule } from '../material.module';
+import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
 
 
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { PersonalMaterialModule } from '../material.module';
     PersonalMaterialModule
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    RecipeDetailsComponent
   ]
 })
 export class SharedModule { }

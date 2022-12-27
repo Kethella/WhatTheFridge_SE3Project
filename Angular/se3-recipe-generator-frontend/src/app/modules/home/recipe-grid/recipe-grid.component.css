@@ -13,6 +13,14 @@ mat-card {
   height: 400px;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
+mat-card:hover {
+  background: #333333;
+}
+
 
 img{
   padding-top: 15px;
