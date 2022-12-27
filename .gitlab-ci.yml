@@ -12,7 +12,7 @@ stages:
 
 build-job:
   stage: build
-  image: maven:3.6.3-openjdk-17
+  image: maven:3.8.6-openjdk-17
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
     - "echo 'Starting Build Stage'"
@@ -20,7 +20,7 @@ build-job:
 
 test-job1:
   stage: test
-  image: maven:3.6.3-openjdk-17
+  image: maven:3.8.6-openjdk-17
   script:
     - echo "This job tests something"
     - "echo 'Starting Test Stage'"
@@ -28,7 +28,7 @@ test-job1:
 
 test-job2:
   stage: test
-  image: maven:3.6.3-openjdk-17
+  image: maven:3.8.6-openjdk-17
   script:
     - echo "This job tests something, but takes more time than test-job1."
     - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
