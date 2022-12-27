@@ -34,10 +34,6 @@ const routes: Routes = [
         component: DummyPagesComponent
       },
       {
-        path: 'fav_recipes',
-        title: 'DELETE',
-        component: DummyPagesComponent},
-      {
         path: 'account_settings',
         title: 'Account',
         component: DummyPagesComponent},

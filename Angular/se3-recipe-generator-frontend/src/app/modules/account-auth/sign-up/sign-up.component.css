@@ -1,16 +1,24 @@
-.card{
-    border:none;
-    width:500px;
-    padding:50px;
-    margin-top: 50px;
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
-    background: white;
+.bg{
+    background: rgb(95, 193, 172);
+    height : 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#stepper{
+
+mat-card {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+form {
+    background-color: transparent;
+}
+
+mat-stepper {
     background-color: rgb(230, 244, 246);
 }
 
@@ -22,7 +30,30 @@
     color: black;
 }
 
-.bg{
-    background: rgb(95, 193, 172);
-    height : 100vh;
+.form-unit{
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+mat-form-field {
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.eyeicon {
+    position: absolute;
+    right: -10px;
+    top: 17px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.alert{
+    color: red;
 }

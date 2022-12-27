@@ -7,7 +7,7 @@
                     <h1>Welcome back.</h1>
                     <h6>Clean out your fridge and enjoy a delicious meal</h6>
                 </div>
-                <form class="sign-up-form">
+                <form class="sign-up-form" (ngSubmit)="login()">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -18,7 +18,7 @@
                         <input type="password" class="form-control" id="exampleInputPassword1">
                       </div>
                       <div>
-                        <button type="submit" class="btn btn-primary" routerLink="">Login</button>
+                        <button type="button" class="btn btn-primary" routerLink="">Login</button>
                         <a style="display: flex; justify-content: flex-end" routerLink="../sign-up"> New User? Click to sign up! </a>
                       </div>
                 </form>

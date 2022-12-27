@@ -1,9 +1,8 @@
 export class Account {
-    id?: number;
-    userName: string;
-    firstName: string;
+    id: string;
+    name: string;
     email: string;
     password: string;
     securityQuestion: string;
-    secAnswer:string;
+    securityAnswer:string;
 }
