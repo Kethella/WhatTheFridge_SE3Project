@@ -86,23 +86,6 @@ class AccountControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.securityAnswer", is("Buddy")));
     }
 
-    /**
-    @Test
-    @Description("")
-    void getAccountSecurityQuestionTextTest() throws Exception {
-
-        Account account = ACCOUNT_3;
-
-        Mockito.when(accountRepository.findById(account.getId())).thenReturn(java.util.Optional.ofNullable(account));
-
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/accounts/{id}", account.getId())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-     */
-
-
     @Test
     @Description("Testing Method: createAccount - Should create a new account - POST request")
     void createAccountTest() throws Exception {
