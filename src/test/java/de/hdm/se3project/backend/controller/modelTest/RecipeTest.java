@@ -19,7 +19,8 @@ public class RecipeTest {
     String[] ingArr = {"ingredients 01", "ingredients 02"};
     String[] measArr = {"measures 01", "measures 02"};
 
-    Recipe RECIPE_1 = new Recipe("1", "Pasta", "instructions - how to make pasta", Category.MAINCOURSE, TagArr, "image", "link", ingArr, measArr, "1");
+    Recipe RECIPE_1 = new Recipe("1", "Pasta", "instructions - how to make pasta",
+            Category.MAINCOURSE, TagArr, "image", "link", ingArr, measArr, "1");
 
     @BeforeEach
     void setUp(){
@@ -51,5 +52,4 @@ public class RecipeTest {
         assertNotNull(recipe.getIngredientMeasures());
         assertNotNull(recipe.getOwnerAccount());
     }
-
 }

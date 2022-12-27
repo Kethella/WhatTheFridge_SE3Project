@@ -2,6 +2,7 @@ package de.hdm.se3project.backend.controller.controllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import de.hdm.se3project.backend.controller.MediaController;
 import de.hdm.se3project.backend.model.Media;
 import de.hdm.se3project.backend.services.MediaService;
@@ -13,17 +14,24 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.tags.EscapeBodyTag;
+
+import java.io.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,19 +48,39 @@ public class MediaControllerTest {
     @InjectMocks
     private MediaController mediaController;
 
-    Media MEDIA = new Media();
+    //@Autowired
+    //private WebApplicationContext webApplicationContext;
+
+    public MediaControllerTest() throws IOException {
+    }
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(mediaController).build();
+        //this.objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 
     @Test
-    void uploadAccountImg() throws Exception {
-        Mockito.when(mediaService.uploadMedia((MultipartFile)MEDIA)).thenReturn(String.valueOf(MEDIA));
+    public void uploadMediaTest() throws Exception {
 
-        String contentStr = objectWriter.writeValueAsString(MEDIA);
+        MockMultipartFile file
+                = new MockMultipartFile(
+                "file",
+                "hello.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes());
+
+
+        Mockito.when(mediaService.uploadMedia(file)).thenReturn(String.valueOf(file));
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .post("/media/upload")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        /**
+        String contentStr = objectWriter.writeValueAsString(file);
 
         MockHttpServletRequestBuilder mockRequest
                 = MockMvcRequestBuilders.post("/media/upload")
@@ -61,10 +89,9 @@ public class MediaControllerTest {
                 .content(contentStr);
 
         this.mockMvc.perform(mockRequest)
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers
-                        .jsonPath("$", notNullValue()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.filename", is("nameFile01")));
+                .andExpect(status().isOk());
+
+         */
     }
 
     @Test

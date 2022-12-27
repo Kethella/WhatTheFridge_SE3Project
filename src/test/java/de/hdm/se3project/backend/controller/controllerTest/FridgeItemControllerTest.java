@@ -94,7 +94,8 @@ class FridgeItemControllerTest {
 
         String idItem = "5";
 
-        Mockito.when(fridgeItemService.getFridgeItemById(idItem)).thenThrow(new ResourceNotFoundException("Item not found for this id :: " + idItem));
+        Mockito.when(fridgeItemService.getFridgeItemById(idItem)).thenThrow(new ResourceNotFoundException(
+                "Item not found for this id :: " + idItem));
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/fridgeItems/{id}", idItem)
@@ -142,7 +143,8 @@ class FridgeItemControllerTest {
 
         String updatedContent = objectWriter.writeValueAsString(fridgeItemUpdated);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/fridgeItems/{id}", FRIDGE_ITEM_1.getId())
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/fridgeItems/{id}",
+                        FRIDGE_ITEM_1.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(updatedContent);

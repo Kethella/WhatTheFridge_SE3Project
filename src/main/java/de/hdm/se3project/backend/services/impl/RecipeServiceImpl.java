@@ -68,7 +68,8 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
-    public List<Recipe> getRecipes(String ownerAccount,String defaultRecipes,String category, String ingredientNames, String tags) throws ResourceNotFoundException {
+    public List<Recipe> getRecipes(String ownerAccount,String defaultRecipes,String category, String ingredientNames,
+                                   String tags) throws ResourceNotFoundException {
         List<Recipe> recipes = getAllRecipes();
 
         recipes = getRecipesByOwnerAccount(ownerAccount, recipes);

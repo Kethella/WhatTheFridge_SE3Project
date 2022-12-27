@@ -45,8 +45,13 @@ class RecipeControllerTest {
     @InjectMocks
     private RecipeController recipeController;
 
-    Recipe RECIPE_1 = new Recipe("1", "Pasta", "instructions - how to make pasta", Category.MAINCOURSE, new String[]{"tag 01"}, "image", "link", new String[]{"ingredients 01", "ingredients 02"}, new String[]{"measures 01", "measures 02"}, "1");
-    Recipe RECIPE_2 = new Recipe("2", "Chocolate Cake", "instructions - how to make a chocolate cake", Category.DESSERT, new String[]{"tag 01"}, "image", "link", new String[]{"ingredients 01", "ingredients 02"}, new String[]{"measures 01", "measures 02"}, "1");
+    Recipe RECIPE_1 = new Recipe("1", "Pasta", "instructions - how to make pasta",
+            Category.MAINCOURSE, new String[]{"tag 01"}, "image", "link", new String[]{"ingredients 01",
+            "ingredients 02"}, new String[]{"measures 01", "measures 02"}, "1");
+
+    Recipe RECIPE_2 = new Recipe("2", "Chocolate Cake", "instructions - how to make a chocolate cake",
+            Category.DESSERT, new String[]{"tag 01"}, "image", "link", new String[]{"ingredients 01",
+            "ingredients 02"}, new String[]{"measures 01", "measures 02"}, "1");
 
     @BeforeEach
     void setUp() {
@@ -108,7 +113,8 @@ class RecipeControllerTest {
 
         String idItem = "10";
 
-        Mockito.when(recipeService.getRecipeById(idItem)).thenThrow(new ResourceNotFoundException("Item not found for this id :: " + idItem));
+        Mockito.when(recipeService.getRecipeById(idItem)).thenThrow(new ResourceNotFoundException(
+                "Item not found for this id :: " + idItem));
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/recipes/{id}", idItem)
@@ -133,7 +139,8 @@ class RecipeControllerTest {
 
         String updatedContent = objectWriter.writeValueAsString(recipeUpdated);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/recipes/{id}", RECIPE_2.getId())
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/recipes/{id}",
+                        RECIPE_2.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(updatedContent);
@@ -163,8 +170,10 @@ class RecipeControllerTest {
 
         List<Recipe> recipeList = new ArrayList<>(Arrays.asList(RECIPE_1, RECIPE_2));
 
-        //TODO: should this method just use TAG, OWNER ACCOUNT and CATEGORY as parameter?
-        Mockito.when(recipeService.getRecipes("1", "no", null, "ingredients 01", "tag 01" )).thenReturn(recipeList);
+        //PathVariable notation (Owner account) is the only mandatory field, the RequestParam notation
+        //is not mandatory but necessary to create the tests to check if the parameters works.
+        Mockito.when(recipeService.getRecipes("1", "no", null, "ingredients 01",
+                "tag 01" )).thenReturn(recipeList);
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/recipes/oa=1/")

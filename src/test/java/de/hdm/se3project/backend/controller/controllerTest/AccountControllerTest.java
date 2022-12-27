@@ -44,9 +44,12 @@ class AccountControllerTest {
     @InjectMocks
     private AccountController accountController;
 
-    Account ACCOUNT_1 = new Account("1", "user", "user@mailmail.com", "123456", SecurityQuestion.Q2, "Buddy", null, null);
-    Account ACCOUNT_2 = new Account("2", "user2", "user2@mailmail.com", "987654", SecurityQuestion.Q1, "Math", null, null);
-    Account ACCOUNT_3 = new Account("3", "use3", "user3@mailmail.com", "741852", SecurityQuestion.Q4, "UserNick", null, null);
+    Account ACCOUNT_1 = new Account("1", "user", "user@mailmail.com", "123456",
+            SecurityQuestion.Q2, "Buddy", null, null);
+    Account ACCOUNT_2 = new Account("2", "user2", "user2@mailmail.com", "987654",
+            SecurityQuestion.Q1, "Math", null, null);
+    Account ACCOUNT_3 = new Account("3", "use3", "user3@mailmail.com", "741852",
+            SecurityQuestion.Q4, "UserNick", null, null);
 
     @BeforeEach
     void setUp() {
@@ -117,7 +120,8 @@ class AccountControllerTest {
     }
 
     @Test
-    @Description("Testing method: replaceAccount - should change the name, the security question and the password of the account - PUT request ")
+    @Description("Testing method: replaceAccount - " +
+            "should change the name, the security question and the password of the account - PUT request ")
     void replaceAccountTest() throws Exception {
         Account account = ACCOUNT_2;
 
@@ -134,7 +138,8 @@ class AccountControllerTest {
 
         String replacedAccount = objectWriter.writeValueAsString(account);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/accounts/{id}", account.getId())
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/accounts/{id}",
+                        account.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(replacedAccount);

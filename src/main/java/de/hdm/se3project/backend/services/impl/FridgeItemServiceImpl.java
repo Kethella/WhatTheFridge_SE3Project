@@ -46,7 +46,6 @@ public class FridgeItemServiceImpl implements FridgeItemService {
         FridgeItem fridgeItem = fridgeItemRepository.findById(updateItem.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id"));
 
-        //set the new values to update. The not null condition is on FridgeItem model class
         if (updateItem.getName() != null) {
             fridgeItem.setName(updateItem.getName());
         }

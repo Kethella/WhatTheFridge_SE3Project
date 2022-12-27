@@ -34,7 +34,7 @@ public class AccountController implements Serializable {
     }
 
     @PostMapping("/accounts")
-    Account createAccount(@RequestBody Account newAccount){ //whatever data you submit prom the client side will be accepted in the post object
+    Account createAccount(@RequestBody Account newAccount){ //whatever data you submit from the client side will be accepted in the post object
         newAccount.setId(IdGenerationService.generateId(newAccount));
         return repository.save(newAccount);
     }

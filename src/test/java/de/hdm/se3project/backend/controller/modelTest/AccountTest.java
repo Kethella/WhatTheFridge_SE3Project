@@ -13,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AccountTest {
     Account account;
 
-    Account ACCOUNT_1 = new Account("1", "userName", "user@mailmail.com", "123456", SecurityQuestion.Q1, "Chemistry", null, null);
+    Account ACCOUNT_1 = new Account("1", "userName", "user@mailmail.com", "123456",
+            SecurityQuestion.Q1, "Chemistry", null, null);
 
     @BeforeEach
     void setUp() {account = new Account();}
