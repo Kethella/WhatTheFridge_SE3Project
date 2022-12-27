@@ -24,7 +24,7 @@ test-job1:
   script:
     - echo "This job tests something"
     - "echo 'Starting Test Stage'"
-    - "mvn test -Dtest='!AccountControllerTest,!FridgeItemControllerTest,!RecipeControllerTest'"
+    - "mvn -Dtest=AccountControllerTest test"
   artifacts:
     reports:
       junit:
