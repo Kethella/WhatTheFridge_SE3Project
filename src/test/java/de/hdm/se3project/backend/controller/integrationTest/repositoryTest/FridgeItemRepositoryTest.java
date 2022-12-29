@@ -1,20 +1,45 @@
 package de.hdm.se3project.backend.controller.integrationTest.repositoryTest;
 
-import de.hdm.se3project.backend.controller.integrationTest.AbstractIntegrationTest;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.repository.FridgeItemRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.List;
 
-public class FridgeItemRepositoryTest extends AbstractIntegrationTest {
+@Testcontainers//need to enable to run the tc Junit 5 into test container mode --> it runs all containers annotated with @container
+@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+public class FridgeItemRepositoryTest {
 
     @Autowired
     private FridgeItemRepository fridgeItemRepository;  //getting instance of the Fridge Item Repository
+
+    @Container  //creating a mongoDB container obj and keeping it until the end of all tests, then it will be deleted
+    public static MongoDBContainer container = new MongoDBContainer(DockerImageName.parse("mongo:latest")); //class MongoDBContainer coming through library passing desired Docker image
+
+    @DynamicPropertySource //Connecting to our local dockerized MongoDB instance
+    public static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri", container::getReplicaSetUrl);
+    }
+
+    @BeforeAll //starting the container
+    static void initAll(){
+        container.start();
+    }
 
     @AfterEach
     void cleanUp(){
@@ -74,6 +99,14 @@ public class FridgeItemRepositoryTest extends AbstractIntegrationTest {
 
         List<FridgeItem> fridgeItems = fridgeItemRepository.findAll();
         Assertions.assertEquals(1, fridgeItems.size());
+    }
+
+    private void assertThatPortIsAvailable(MongoDBContainer container){
+        try { //container will start in host and run in the port number, if it is running fine, if not, create exception
+            new Socket(container.getHost(), container.getFirstMappedPort());
+        } catch (IOException e) {
+            throw new AssertionError("The expected port " + container.getFirstMappedPort() + " is not available");
+        }
     }
 
 }
