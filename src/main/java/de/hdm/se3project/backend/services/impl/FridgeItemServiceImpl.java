@@ -18,7 +18,7 @@ public class FridgeItemServiceImpl implements FridgeItemService {
 
     final static Logger log = LogManager.getLogger(FridgeItemServiceImpl.class); // can't be private
 
-    private FridgeItemRepository fridgeItemRepository;
+    private final FridgeItemRepository fridgeItemRepository;
 
     public FridgeItemServiceImpl(FridgeItemRepository fridgeItemRepository) {
         this.fridgeItemRepository = fridgeItemRepository;
