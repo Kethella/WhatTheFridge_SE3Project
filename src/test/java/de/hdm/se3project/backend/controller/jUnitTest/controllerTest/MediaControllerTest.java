@@ -29,6 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class MediaControllerTest {
 
+    /**
+
     private MockMvc mockMvc;
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -70,20 +72,6 @@ public class MediaControllerTest {
                         .post("/media/upload")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
-        /**
-        String contentStr = objectWriter.writeValueAsString(file);
-
-        MockHttpServletRequestBuilder mockRequest
-                = MockMvcRequestBuilders.post("/media/upload")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(contentStr);
-
-        this.mockMvc.perform(mockRequest)
-                .andExpect(status().isOk());
-
-         */
     }
 
     @Test
@@ -91,4 +79,5 @@ public class MediaControllerTest {
         //Test here
     }
 
+     */
 }
