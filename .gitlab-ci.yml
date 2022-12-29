@@ -16,9 +16,6 @@ services:
     # explicitly disable tls to avoid docker startup interruption
     command: [ "--tls=false" ]
 
-before_script:
-  - docker info
-
 stages:
   - build
   - test
