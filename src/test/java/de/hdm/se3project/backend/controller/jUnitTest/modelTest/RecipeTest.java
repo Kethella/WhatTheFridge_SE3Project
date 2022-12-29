@@ -1,4 +1,4 @@
-package de.hdm.se3project.backend.controller.modelTest;
+package de.hdm.se3project.backend.controller.jUnitTest.modelTest;
 
 import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.model.enums.Category;

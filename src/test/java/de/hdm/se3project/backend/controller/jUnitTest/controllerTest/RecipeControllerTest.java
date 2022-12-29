@@ -1,4 +1,4 @@
-package de.hdm.se3project.backend.controller.controllerTest;
+package de.hdm.se3project.backend.controller.jUnitTest.controllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
