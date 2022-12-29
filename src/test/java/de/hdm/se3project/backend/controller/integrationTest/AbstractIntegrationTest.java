@@ -1,5 +1,6 @@
 package de.hdm.se3project.backend.controller.integrationTest;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -30,4 +31,5 @@ public abstract class AbstractIntegrationTest {
     static void initAll(){
         container.start();
     }
+
 }
