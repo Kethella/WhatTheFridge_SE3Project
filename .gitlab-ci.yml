@@ -32,4 +32,6 @@ test-job-Integration:
   script:
     - echo "This job tests something"
     - "echo 'Running Integration for packages'"
-    - "mvn '-Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.*Test' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.AccountRepositoryTest' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.FridgeItemRepositoryTest' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.RecipeRepositoryTest' test"

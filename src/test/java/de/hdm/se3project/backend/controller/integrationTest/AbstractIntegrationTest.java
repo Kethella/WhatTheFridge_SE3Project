@@ -10,9 +10,8 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-//PS: using @DataMongoTest because with @SpringBootTest the test objects goes to my real DB
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)  //Notation to make it run as a test
-//@ActiveProfiles("test")
+import java.io.IOException;
+import java.net.Socket;
 
 @Testcontainers //need to enable to run the tc Junit 5 into test container mode --> it runs all containers annotated with @container
 @DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
@@ -29,5 +28,14 @@ public abstract class AbstractIntegrationTest {
     @BeforeAll //starting the container
     static void initAll(){
         container.start();
+    }
+
+    //Used on containerStartsAndPublicPortIsAvailable test classes in each repository test
+    protected void assertThatPortIsAvailable(MongoDBContainer container){
+        try { //container will start in host and run in the port number, if it is running fine, if not, create exception
+            new Socket(container.getHost(), container.getFirstMappedPort());
+        } catch (IOException e) {
+            throw new AssertionError("The expected port " + container.getFirstMappedPort() + " is not available");
+        }
     }
 }

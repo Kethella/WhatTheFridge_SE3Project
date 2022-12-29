@@ -6,12 +6,9 @@ import de.hdm.se3project.backend.repository.FridgeItemRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.testcontainers.containers.MongoDBContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.util.List;
 
 public class FridgeItemRepositoryTest extends AbstractIntegrationTest {
@@ -77,14 +74,6 @@ public class FridgeItemRepositoryTest extends AbstractIntegrationTest {
 
         List<FridgeItem> fridgeItems = fridgeItemRepository.findAll();
         Assertions.assertEquals(1, fridgeItems.size());
-    }
-
-    private void assertThatPortIsAvailable(MongoDBContainer container){
-        try { //container will start in host and run in the port number, if it is running fine, if not, create exception
-            new Socket(container.getHost(), container.getFirstMappedPort());
-        } catch (IOException e) {
-            throw new AssertionError("The expected port " + container.getFirstMappedPort() + " is not available");
-        }
     }
 
 }

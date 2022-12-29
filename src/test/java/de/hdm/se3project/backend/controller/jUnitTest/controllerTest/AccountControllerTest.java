@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(MockitoJUnitRunner.class)
 @Description("Testing class: AccountController")
-class AccountControllerTest {
+public class AccountControllerTest {
 
     private MockMvc mockMvc;
 
@@ -59,7 +59,7 @@ class AccountControllerTest {
 
     @Test
     @Description("Testing method: getAllAccounts - Should get all accounts in DB - GET request")
-    void getAllAccountsTest() throws Exception{
+    public void getAllAccountsTest() throws Exception{
         List<Account> accountList = new ArrayList<>(Arrays.asList(ACCOUNT_1, ACCOUNT_2, ACCOUNT_3));
 
         Mockito.when(accountRepository.findAll()).thenReturn(accountList);
@@ -77,7 +77,7 @@ class AccountControllerTest {
 
     @Test
     @Description("testing method: getOneAccount - Should get one account based on its owners ID - GET request")
-    void getOneAccountTest() throws Exception{
+    public void getOneAccountTest() throws Exception{
 
         Mockito.when(accountRepository.findById("1")).thenReturn(java.util.Optional.ofNullable(ACCOUNT_1));
 
