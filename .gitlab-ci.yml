@@ -11,11 +11,6 @@ variables:
   # Improve performance with overlayfs.
   DOCKER_DRIVER: overlay2
 
-services:
-  - name: docker:dind
-    # explicitly disable tls to avoid docker startup interruption
-    command: [ "--tls=false" ]
-
 stages:
   - build
   - test
@@ -40,6 +35,17 @@ test-job-JUnit:
 test-job-Integration:
   stage: test
   image: maven:3-openjdk-17
+  services:
+    - name: docker:dind
+      # explicitly disable tls to avoid docker startup interruption
+      command: [ "--tls=false" ]
+  variables:
+    # Instruct Testcontainers to use the daemon of DinD, use port 2735 for non-tls connections.
+    DOCKER_HOST: "tcp://docker:2375"
+    # Instruct Docker not to start over TLS - Transport Layer Security.
+    DOCKER_TLS_CERTDIR: ""
+    # Improve performance with overlayfs.
+    DOCKER_DRIVER: overlay2
   script:
     - echo "This job tests something"
     - "echo 'Running Integration for packages'"
