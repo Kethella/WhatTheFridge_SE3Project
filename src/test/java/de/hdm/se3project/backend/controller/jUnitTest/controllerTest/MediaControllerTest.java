@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class MediaControllerTest {
 
-    /**
+    /*
 
     private MockMvc mockMvc;
 

@@ -1,0 +1,52 @@
+cache:
+  paths:
+    - .m2/repository
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  # Instruct Testcontainers to use the daemon of DinD, use port 2735 for non-tls connections.
+  DOCKER_HOST: "tcp://docker:2375"
+  # Instruct Docker not to start over TLS - Transport Layer Security.
+  DOCKER_TLS_CERTDIR: ""
+  # Improve performance with overlayfs.
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+  - test
+
+build-job:
+  stage: build
+  image: maven:3-openjdk-17
+  script:
+    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - "echo 'Starting Build Stage'"
+    - "mvn compile"
+
+test-job-JUnit:
+  stage: test
+  image: maven:3-openjdk-17
+  script:
+    - echo "This job tests something"
+    - "echo 'Running JUnitTest for packages'"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
+
+test-job-Integration:
+  stage: test
+  image: maven:3-openjdk-17
+  services:
+    - name: docker:dind
+      # explicitly disable tls to avoid docker startup interruption
+      command: [ "--tls=false" ]
+  variables:
+    # Instruct Testcontainers to use the daemon of DinD, use port 2735 for non-tls connections.
+    DOCKER_HOST: "tcp://docker:2375"
+    # Instruct Docker not to start over TLS - Transport Layer Security.
+    DOCKER_TLS_CERTDIR: ""
+    # Improve performance with overlayfs.
+    DOCKER_DRIVER: overlay2
+  script:
+    - echo "This job tests something"
+    - "echo 'Running Integration for packages'"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.integrationTest.*.*Test' test"
