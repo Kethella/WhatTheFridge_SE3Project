@@ -24,7 +24,7 @@
   #Login in the gitlab container registry, building in a docker image and push it
   build-docker-image:
     stage: package
-    image: docker
+    image: docker:20.10.21
     services:
       - docker:dind
     script:
@@ -34,11 +34,11 @@
 
   curl-api-testing:
     stage: acceptance
-    image: docker
+    image: docker:20.10.21
     services:
       - docker:dind
     script:
       - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $SCI_REGISTRY --password-stdin
       - docker run -d -p 8085:8085 $CI_REGISTRY_IMAGE
       - apk add curl
-      - curl http://docker:8085/status | grep "UP"
+      - curl http://docker:2375/status | grep "UP"
