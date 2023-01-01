@@ -90,40 +90,6 @@ public class AccountControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.securityAnswer", is("Buddy")));
     }
 
-    /*
-    //Not possible to create JUnit test that runs offline because the createAccount method has "IdGenerationService.generateId(newAccount)"
-    //as id generator to setId, so it always calls MongoDB
-    @Test
-    @Description("Testing Method: createAccount - Should create a new account - POST request")
-    void createAccountTest() throws Exception {
-
-        Account newAccount = new Account();
-
-        newAccount.setName("NewUser");
-        newAccount.setEmail("NewUser@mailmail.com");
-        newAccount.setPassword("123654");
-        newAccount.setSecurityQuestion(SecurityQuestion.Q5);
-        newAccount.setSecurityAnswer("NewAnswer");
-        newAccount.setPersonalRecipes(newAccount.getPersonalRecipes());
-        newAccount.setFridgeItems(newAccount.getFridgeItems());
-
-        Mockito.when(accountRepository.save(newAccount)).thenReturn(newAccount);
-
-        String account = objectWriter.writeValueAsString(newAccount);
-
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/v1/accounts")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(account);
-
-        this.mockMvc.perform(mockRequest)
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("NewUser")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", is("NewUser@mailmail.com")));
-    }
-    */
-
     @Test
     @Description("Testing method: replaceAccount - " +
             "should change the name, the security question and the password of the account - PUT request ")

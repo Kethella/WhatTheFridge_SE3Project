@@ -1,0 +1,45 @@
+  stages:
+    - build
+    - test
+    - package
+    - acceptance
+
+  build:
+    stage: build
+    image: maven:3-openjdk-17
+    script:
+      - echo "Hello, $GITLAB_USER_LOGIN!"
+      - "echo 'Starting Build Stage'"
+      - "mvn compile"
+
+  test-job-JUnit:
+    stage: test
+    image: maven:3-openjdk-17
+    script:
+      - echo "This job tests something"
+      - "echo 'Running JUnitTest for packages'"
+      - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
+      - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
+
+  #Login in the gitlab container registry, building in a docker image and push it
+  build-docker-image:
+    stage: package
+    image: docker:latest
+    services:
+      - docker:dind
+    script:
+      - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $SCI_REGISTRY --password-stdin
+      - docker build -t $CI_REGISTRY_IMAGE .
+      - docker push $CI_REGISTRY_IMAGE
+
+  test-job-Integration:
+    stage: acceptance
+    image: mongo:latest
+    services:
+      - name: $CI_REGISTRY_IMAGE
+        alias: mongo_db
+    script:
+      - curl http://mongo_db:2375/status | grep "UP"
+      - echo "This job tests something"
+      - "echo 'Running Integration for packages'"
+      - "mvn '-Dtest=de.hdm.se3project.backend.controller.integrationTest.*.*Test' test"
