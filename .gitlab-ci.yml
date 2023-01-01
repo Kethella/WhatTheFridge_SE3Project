@@ -5,7 +5,7 @@ cache:
     - .m2/repository
 
 services:
-  - name: docker:dind #docker in docker
+  - name: docker:19.03.0-dind #docker in docker
     # explicitly disable tls to avoid docker startup interruption
     command: [ "--tls=false" ]
 
