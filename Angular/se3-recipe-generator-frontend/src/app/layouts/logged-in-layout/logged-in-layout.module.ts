@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { LoggedInLayoutComponent } from './logged-in-layout.component';
 import { HomeComponent } from 'src/app/modules/home/home.component';
 import { DummyPagesComponent } from 'src/app/modules/dummy-pages/dummy-pages.component';
+import { FridgeComponent, NewFridgeItemDialog } from 'src/app/modules/fridge/fridge.component';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PersonalMaterialModule } from 'src/app/material.module';
@@ -21,7 +22,9 @@ import { RecipeFilterDialog, RecipeSortFilterComponent } from 'src/app/modules/h
     DummyPagesComponent,
     RecipeGridComponent,
     RecipeSortFilterComponent,
-    RecipeFilterDialog
+    RecipeFilterDialog,
+    FridgeComponent,
+    NewFridgeItemDialog
   ],
   imports: [
     CommonModule,
