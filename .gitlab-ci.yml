@@ -1,44 +1,52 @@
-  stages:
-    - build
-    - test
-    - package
-    - acceptance
+cache:
+  paths:
+    - .m2/repository
 
-  build:
-    stage: build
-    image: maven:3-openjdk-17
-    script:
-      - echo "Hello, $GITLAB_USER_LOGIN!"
-      - "echo 'Starting Build Stage'"
-      - "mvn compile"
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  # Instruct Testcontainers to use the daemon of DinD, use port 2735 for non-tls connections.
+  DOCKER_HOST: "tcp://docker:2375"
+  # Instruct Docker not to start over TLS - Transport Layer Security.
+  DOCKER_TLS_CERTDIR: ""
+  # Improve performance with overlayfs.
+  DOCKER_DRIVER: overlay2
 
-  test-job-JUnit:
-    stage: test
-    image: maven:3-openjdk-17
-    script:
-      - echo "This job tests something"
-      - "echo 'Running JUnitTest for packages'"
-      #- "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
-      - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
+stages:
+  - build
+  - test
 
-  #Login in the gitlab container registry, building in a docker image and push it
-  build-docker-image:
-    stage: package
-    image: docker:20.10.21
-    services:
-      - docker:dind
-    script:
-      - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $SCI_REGISTRY --password-stdin
-      - docker build -t $CI_REGISTRY_IMAGE .
-      - docker push $CI_REGISTRY_IMAGE
+build-job:
+  stage: build
+  image: maven:3-openjdk-17
+  script:
+    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - "echo 'Starting Build Stage'"
+    - "mvn compile"
 
-  curl-api-testing:
-    stage: acceptance
-    image: docker:20.10.21
-    services:
-      - docker:dind
-    script:
-      - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $SCI_REGISTRY --password-stdin
-      - docker run -d -p 8085:8085 $CI_REGISTRY_IMAGE
-      - apk add curl
-      - curl http://docker:2375/status | grep "UP"
+test-job-JUnit:
+  stage: test
+  image: maven:3-openjdk-17
+  script:
+    - echo "This job tests something"
+    - "echo 'Running JUnitTest for packages'"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
+
+test-job-Integration:
+  stage: test
+  image: maven:3-openjdk-17
+  services:
+    - name: docker:dind
+      # explicitly disable tls to avoid docker startup interruption
+      command: [ "--tls=false" ]
+  variables:
+    # Instruct Testcontainers to use the daemon of DinD, use port 2735 for non-tls connections.
+    DOCKER_HOST: "tcp://docker:2375"
+    # Instruct Docker not to start over TLS - Transport Layer Security.
+    DOCKER_TLS_CERTDIR: ""
+    # Improve performance with overlayfs.
+    DOCKER_DRIVER: overlay2
+  script:
+    - echo "This job tests something"
+    - "echo 'Running Integration for packages'"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.integrationTest.*.*Test' test"
