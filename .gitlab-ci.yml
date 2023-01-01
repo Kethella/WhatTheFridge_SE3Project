@@ -1,11 +1,11 @@
-image: maven:3-openjdk-17
-
+#image: docker:20.10.11-dind
 cache:
   paths:
     - .m2/repository
 
 services:
-  - name: docker:19.03.0-dind #docker in docker
+  - name: docker:20.10.11-dind #docker in docker
+    alias: docker
     # explicitly disable tls to avoid docker startup interruption
     command: [ "--tls=false" ]
 
@@ -24,6 +24,7 @@ stages:
 
 build-job:
   stage: build
+  image: maven:3-openjdk-17
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
     - "echo 'Starting Build Stage'"
@@ -34,15 +35,17 @@ build-job:
 
 test-job-JUnit:
   stage: test
+  image: maven:3-openjdk-17
   script:
-    - echo "This job tests something"
+    - echo "This job tests JUnit"
     - "echo 'Running JUnitTest for packages'"
     #- "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
     - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
 
 test-job-Integration:
   stage: test
+  image: maven:3-openjdk-17
   script:
-    - echo "This job tests something"
+    - echo "This job tests Integrations"
     - "echo 'Running Integration for packages'"
     - "mvn '-Dtest=de.hdm.se3project.backend.controller.integrationTest.*.*Test' test"
