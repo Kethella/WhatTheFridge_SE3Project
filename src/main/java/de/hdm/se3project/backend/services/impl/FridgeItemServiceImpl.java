@@ -20,6 +20,7 @@ public class FridgeItemServiceImpl implements FridgeItemService {
 
     private final FridgeItemRepository fridgeItemRepository;
 
+    //Constructor necessary for the integration tests
     public FridgeItemServiceImpl(FridgeItemRepository fridgeItemRepository) {
         this.fridgeItemRepository = fridgeItemRepository;
     }

@@ -23,29 +23,29 @@ import java.util.List;
 
 @Testcontainers//need to enable to run the tc Junit 5 into test container mode --> it runs all containers annotated with @container
 @DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
-public class FridgeItemServiceTest {
+public class FridgeItemServiceImpTest {
 
     @Autowired
     private FridgeItemRepository fridgeItemRepository;
-    private FridgeItemServiceImpl FridgeItemServiceImpl;
+    private FridgeItemServiceImpl fridgeItemServiceImpl;
 
 
     @Container  //creating a mongoDB container obj and keeping it until the end of all tests, then it will be deleted
     public static MongoDBContainer container = new MongoDBContainer(DockerImageName.parse("mongo:latest")); //class MongoDBContainer coming through library passing desired Docker image
 
-     @DynamicPropertySource //Connecting to our local dockerized MongoDB instance
-     public static void setProperties(DynamicPropertyRegistry registry) {
-     registry.add("spring.data.mongodb.uri", container::getReplicaSetUrl);
-     }
+    @DynamicPropertySource //Connecting to our local dockerized MongoDB instance
+    public static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri", container::getReplicaSetUrl);
+    }
 
-     @BeforeAll //starting the container
-     static void initAll(){
+    @BeforeAll //starting the container
+    static void initAll(){
      container.start();
      }
 
     @BeforeEach
     void setUp(){
-        this.FridgeItemServiceImpl = new FridgeItemServiceImpl(fridgeItemRepository);
+        this.fridgeItemServiceImpl = new FridgeItemServiceImpl(fridgeItemRepository);
     }
 
     @AfterEach
@@ -68,7 +68,7 @@ public class FridgeItemServiceTest {
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        List<FridgeItem> result = FridgeItemServiceImpl.getFridgeItems();
+        List<FridgeItem> result = fridgeItemServiceImpl.getFridgeItems();
         Assertions.assertEquals(2, result.size());
     }
 
@@ -86,7 +86,7 @@ public class FridgeItemServiceTest {
 
         fridgeItem1.setAmount(3);
 
-        FridgeItem fridgeItem2 = this.FridgeItemServiceImpl.updateFridgeItem(fridgeItem.getId(), fridgeItem1);
+        FridgeItem fridgeItem2 = this.fridgeItemServiceImpl.updateFridgeItem(fridgeItem.getId(), fridgeItem1);
         Assertions.assertEquals(3, fridgeItem2.getAmount());
         Assertions.assertEquals("chocolate milk", fridgeItem2.getName());
         Assertions.assertEquals("3", fridgeItem2.getOwnerAccount());
@@ -101,9 +101,9 @@ public class FridgeItemServiceTest {
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        this.FridgeItemServiceImpl.deleteFridgeItem(fridgeItem1.getId());
+        this.fridgeItemServiceImpl.deleteFridgeItem(fridgeItem1.getId());
 
-        List<FridgeItem> fridgeItems = FridgeItemServiceImpl.getFridgeItems();
+        List<FridgeItem> fridgeItems = fridgeItemServiceImpl.getFridgeItems();
         Assertions.assertEquals(1, fridgeItems.size());
      }
 
@@ -116,9 +116,9 @@ public class FridgeItemServiceTest {
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        List<FridgeItem> fridgeItems = FridgeItemServiceImpl.getFridgeItems();
+        List<FridgeItem> fridgeItems = fridgeItemServiceImpl.getFridgeItems();
 
-        List<FridgeItem> result = FridgeItemServiceImpl.getFridgeItemsByOwnerAccount("2", fridgeItems);
+        List<FridgeItem> result = fridgeItemServiceImpl.getFridgeItemsByOwnerAccount("2", fridgeItems);
         Assertions.assertEquals(1, result.size());
     }
 

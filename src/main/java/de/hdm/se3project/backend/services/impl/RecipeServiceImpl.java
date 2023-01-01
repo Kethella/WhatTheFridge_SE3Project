@@ -10,16 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    @Autowired
-    private RecipeRepository recipeRepository;
+    //@Autowired
+    private final RecipeRepository recipeRepository;
+
+    //Constructor necessary for the integration tests
+    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
+    }
 
     @Override
     public Recipe createRecipe(Recipe recipe) {
