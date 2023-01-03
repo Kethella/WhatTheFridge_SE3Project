@@ -24,10 +24,10 @@ test-job-Integration:
   variables:
     MONGO_INITDB_ROOT_USERNAME: "root"
     MONGO_INITDB_ROOT_PASSWORD: "example"
+    CI_DEBUG_SERVICES: "true"
 
   services:
     - name: mongo:latest
-      alias: mongodb
 
   script:
     - "echo 'Running Integration tests for all packages'"
