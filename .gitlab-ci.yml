@@ -30,9 +30,8 @@ test-job-JUnit:
     - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
     - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
 
-
 test-job-Integration:
   stage: test
   script:
     - "echo 'Running Integration tests for all packages'"
-    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
+    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.servicesTest.*Test test"
