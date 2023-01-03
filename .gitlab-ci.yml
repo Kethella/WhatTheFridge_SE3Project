@@ -6,7 +6,7 @@ services:
 
 variables:
   # Instruct Testcontainers to use the daemon of DinD.
-  DOCKER_HOST: "tcp://localhost:2375"
+  DOCKER_HOST: "tcp://localhost:2376"
   # Instruct Docker not to start over TLS.
   DOCKER_TLS_CERTDIR: ""
   # Improve performance with overlayfs.
