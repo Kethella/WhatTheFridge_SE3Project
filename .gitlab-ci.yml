@@ -27,7 +27,7 @@ test-job-Integration:
 
   services:
     - name: mongo:latest
-      alias: mongodb-container
+      alias: mongodb
 
   script:
     - "echo 'Running Integration tests for all packages'"
