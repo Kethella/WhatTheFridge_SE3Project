@@ -1,19 +1,38 @@
+image: maven:3.8-openjdk-18
+
+services:
+  - name: docker:dind
+    command: ["--tls=false"]
+
+variables:
+  # Instruct Testcontainers to use the daemon of DinD.
+  DOCKER_HOST: "tcp://docker:2375"
+  # Instruct Docker not to start over TLS.
+  DOCKER_TLS_CERTDIR: ""
+  # Improve performance with overlayfs.
+  DOCKER_DRIVER: overlay2
+
 stages:
   - build
   - test
 
 build-job:
   stage: build
-  image: maven:3.8-openjdk-18
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
     - "echo 'Starting Build Stage'"
 
 test-job-JUnit:
   stage: test
-  image: maven:3.8-openjdk-18
   script:
     - echo "This job tests JUnit"
     - "echo 'Running JUnitTest for packages'"
     - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
     - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
+
+
+test-job-Integration:
+  stage: test
+  script:
+    - "echo 'Running Integration tests for all packages'"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
