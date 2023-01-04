@@ -13,8 +13,10 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -26,7 +28,8 @@ import java.util.List;
 
 //@Testcontainers//need to enable to run the tc Junit 5 into test container mode --> it runs all containers annotated with @container
 //@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
-
+@SpringBootTest
+@TestPropertySource(locations = "/application-test.properties")
 public class RecipeServiceImpTest {
 
     @Autowired
@@ -45,12 +48,13 @@ public class RecipeServiceImpTest {
     static void initAll(){
         container.start();
     }
+*/
 
     @BeforeEach
     void setUp(){
         this.recipeServiceImpl = new RecipeServiceImpl(recipeRepository);
     }
-*/
+
     @AfterEach
     void cleanUp(){
         this.recipeRepository.deleteAll();

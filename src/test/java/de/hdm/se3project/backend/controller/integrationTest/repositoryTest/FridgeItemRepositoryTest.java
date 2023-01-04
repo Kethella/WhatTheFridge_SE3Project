@@ -23,8 +23,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
-//@SpringBootTest
-//@TestPropertySource(locations = "/application-test.properties")
 @SpringBootTest
 @TestPropertySource(locations = "/application-test.properties")
 public class FridgeItemRepositoryTest {
