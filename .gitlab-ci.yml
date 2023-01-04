@@ -1,11 +1,13 @@
 variables:
   MONGO_INITDB_ROOT_USERNAME: "root"
-  MONGO_INITDB_ROOT_PASSWORD: "example"
-  SPRING_DATA_MONGODB_URI: "mongodb://root:example@mongo"
+  MONGO_INITDB_ROOT_PASSWORD: "dummy"
+  MONGO_SERVICE_ALIAS: "mongo-integration"
+  SPRING_DATA_MONGODB_URI: "mongodb://root:example@$MONGO_SERVICE_ALIAS"
   CI_DEBUG_SERVICES: "true"
 
 services:
   - name: mongo:4.4
+    alias: $MONGO_SERVICE_ALIAS
 
 stages:
   - build
@@ -33,3 +35,4 @@ test-job-Integration:
   script:
     - "echo 'Running Integration tests for all packages'"
     - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.AccountRepositoryTest test"
+    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.servicesTest.FridgeItemServiceImpTest test"
