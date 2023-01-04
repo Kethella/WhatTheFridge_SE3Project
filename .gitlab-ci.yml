@@ -1,11 +1,11 @@
 variables:
   MONGO_INITDB_ROOT_USERNAME: "root"
   MONGO_INITDB_ROOT_PASSWORD: "example"
+  SPRING_DATA_MONGODB_URI: "mongodb://root:example@mongo"
   CI_DEBUG_SERVICES: "true"
 
 services:
   - name: mongo:latest
-    alias: mongointegration
 
 stages:
   - build
