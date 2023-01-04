@@ -1,13 +1,11 @@
 variables:
   MONGO_INITDB_ROOT_USERNAME: "root"
   MONGO_INITDB_ROOT_PASSWORD: "dummy"
-  MONGO_SERVICE_ALIAS: "mongo-integration"
-  SPRING_DATA_MONGODB_URI: "mongodb://root:example@$MONGO_SERVICE_ALIAS"
+  SPRING_DATA_MONGODB_URI: "mongodb://root:example@mongo"
   CI_DEBUG_SERVICES: "true"
 
 services:
   - name: mongo:4.4
-    alias: $MONGO_SERVICE_ALIAS
 
 stages:
   - build
