@@ -5,7 +5,7 @@ variables:
   CI_DEBUG_SERVICES: "true"
 
 services:
-  - name: mongo:latest
+  - name: mongo:4.4
 
 stages:
   - build
