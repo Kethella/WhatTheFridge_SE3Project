@@ -32,8 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 @Description("Testing class: AccountController")
 public class AccountControllerTest {
-
-    /*private MockMvc mockMvc;
+/*
+    private MockMvc mockMvc;
 
     ObjectMapper objectMapper = new ObjectMapper();
     ObjectWriter objectWriter = objectMapper.writer();
@@ -135,6 +135,5 @@ public class AccountControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/accounts/{id}", accountId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
-*/
+    }*/
 }
