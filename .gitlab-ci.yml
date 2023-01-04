@@ -33,6 +33,7 @@ integration-tests:
   image: maven:3.8-openjdk-18
 
   script:
+    - echo "This job tests Integration Tests"
     - "echo 'Running Integration tests for all packages'"
-    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.AccountRepositoryTest test"
-    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.servicesTest.FridgeItemServiceImpTest test"
+    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.*Test test"
+    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.servicesTest.*Test test"

@@ -104,12 +104,12 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(1, accounts.size());
     }
 
-    private void assertThatPortIsAvailable(MongoDBContainer container){
+    /*private void assertThatPortIsAvailable(MongoDBContainer container){
         try { //container will start in host and run in the port number, if it is running fine, if not, create exception
             new Socket(container.getHost(), container.getFirstMappedPort());
         } catch (IOException e) {
             throw new AssertionError("The expected port " + container.getFirstMappedPort() + " is not available");
         }
-    }
+    }*/
 
 }

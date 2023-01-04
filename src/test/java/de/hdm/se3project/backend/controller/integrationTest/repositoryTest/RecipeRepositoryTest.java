@@ -11,8 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -22,14 +24,16 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
-@Testcontainers//need to enable to run the tc Junit 5 into test container mode --> it runs all containers annotated with @container
-@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+//@Testcontainers//need to enable to run the tc Junit 5 into test container mode --> it runs all containers annotated with @container
+//@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+@SpringBootTest
+@TestPropertySource(locations = "/application-test.properties")
 public class RecipeRepositoryTest {
 
     @Autowired
     private RecipeRepository recipeRepository; //getting instance of the Recipe Repository
 
-    @Container  //creating a mongoDB container obj and keeping it until the end of all tests, then it will be deleted
+    /*@Container  //creating a mongoDB container obj and keeping it until the end of all tests, then it will be deleted
     public static MongoDBContainer container = new MongoDBContainer(DockerImageName.parse("mongo:latest")); //class MongoDBContainer coming through library passing desired Docker image
 
     @DynamicPropertySource //Connecting to our local dockerized MongoDB instance
@@ -41,17 +45,17 @@ public class RecipeRepositoryTest {
     static void initAll(){
         container.start();
     }
-
+*/
     @AfterEach
     void cleanUp(){
         this.recipeRepository.deleteAll();
     }
 
-    @Test
+   /* @Test
     @Description("Check if Container has started and the public port is available")
     void containerStartsAndPublicPortIsAvailable() {
         assertThatPortIsAvailable(container);
-    }
+    }*/
 
     @Test
     @Description("Verifies if container is empty before save recipe")
@@ -117,11 +121,11 @@ public class RecipeRepositoryTest {
         Assertions.assertEquals(1, recipes.size());
     }
 
-    private void assertThatPortIsAvailable(MongoDBContainer container){
+    /*private void assertThatPortIsAvailable(MongoDBContainer container){
         try { //container will start in host and run in the port number, if it is running fine, if not, create exception
             new Socket(container.getHost(), container.getFirstMappedPort());
         } catch (IOException e) {
             throw new AssertionError("The expected port " + container.getFirstMappedPort() + " is not available");
         }
-    }
+    }*/
 }

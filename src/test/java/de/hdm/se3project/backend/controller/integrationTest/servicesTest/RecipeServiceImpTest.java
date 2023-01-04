@@ -24,15 +24,16 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
-@Testcontainers//need to enable to run the tc Junit 5 into test container mode --> it runs all containers annotated with @container
-@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+//@Testcontainers//need to enable to run the tc Junit 5 into test container mode --> it runs all containers annotated with @container
+//@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+
 public class RecipeServiceImpTest {
 
     @Autowired
     private RecipeRepository recipeRepository;
     private RecipeServiceImpl recipeServiceImpl;
 
-    @Container  //creating a mongoDB container obj and keeping it until the end of all tests, then it will be deleted
+    /*@Container  //creating a mongoDB container obj and keeping it until the end of all tests, then it will be deleted
     public static MongoDBContainer container = new MongoDBContainer(DockerImageName.parse("mongo:latest")); //class MongoDBContainer coming through library passing desired Docker image
 
     @DynamicPropertySource //Connecting to our local dockerized MongoDB instance
@@ -49,17 +50,17 @@ public class RecipeServiceImpTest {
     void setUp(){
         this.recipeServiceImpl = new RecipeServiceImpl(recipeRepository);
     }
-
+*/
     @AfterEach
     void cleanUp(){
         this.recipeRepository.deleteAll();
     }
 
-    @Test
+   /* @Test
     @Description("Check if Container has started and the public port is available")
     void containerStartsAndPublicPortIsAvailable() {
         assertThatPortIsAvailable(container);
-    }
+    }*/
 
     @Test
     @Description("Checks method getAllRecipes in RecipeServiceImpl class")
@@ -136,11 +137,11 @@ public class RecipeServiceImpTest {
         Assertions.assertEquals(1, result.size());
     }
 
-    protected void assertThatPortIsAvailable(MongoDBContainer container){
+    /*protected void assertThatPortIsAvailable(MongoDBContainer container){
         try { //container will start in host and run in the port number, if it is running fine, if not, create exception
             new Socket(container.getHost(), container.getFirstMappedPort());
         } catch (IOException e) {
             throw new AssertionError("The expected port " + container.getFirstMappedPort() + " is not available");
         }
-    }
+    }*/
 }
