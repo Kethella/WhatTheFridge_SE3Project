@@ -13,14 +13,13 @@ import { FridgeComponent } from './modules/fridge/fridge.component';
 const routes: Routes = [
   {
     path: '',
+    title: 'Login',
+    component: LoginComponent},
+  {
+    path: '',
     title: '',
     component: LoggedInLayoutComponent,
     children: [
-      {
-        path: '',
-        title: 'Home',
-        component: HomeComponent
-      },
       {
         path: 'home',
         title: 'Home',

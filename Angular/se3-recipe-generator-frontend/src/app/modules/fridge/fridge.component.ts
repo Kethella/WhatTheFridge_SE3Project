@@ -18,8 +18,9 @@ export class FridgeComponent {
   }
 
   async ngOnInit() {
-    this.fridgeItems = await this._fridgeService.getFridgeItems();
-    this.fridgeItems = this.fridgeItems.sort((a: FridgeItem, b: FridgeItem) => a.name.localeCompare(b.name));
+    this.fridgeItems = await this._fridgeService.getFridgeItems().then(
+      this.fridgeItems = this.fridgeItems.sort((a: FridgeItem, b: FridgeItem) => a.name.localeCompare(b.name))
+    );
   }
 
   async restart() {

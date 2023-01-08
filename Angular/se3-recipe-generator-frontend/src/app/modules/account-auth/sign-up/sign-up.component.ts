@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/account';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
-import { HttpClient } from '@angular/common/http';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { ISecurityQuestion } from 'src/app/models/securityQuestions';
 import { ValidationService } from 'src/app/services/validation.service';
-import { ValidationErrors } from '@angular/forms';
-import { MatOptionSelectionChange } from '@angular/material/core';
 import { throwError } from 'rxjs';
 
 
@@ -75,7 +72,6 @@ export class SignUpComponent implements OnInit {
   async getSecQuestions() {
     const res: any = await this._accountService.getSecurityQuestions();
     this.securityQuestions = res;
-    console.log(this.securityQuestions)
   }
 
   ConfirmedValidator(controlName: string, matchingControlName: string) {
@@ -116,6 +112,7 @@ export class SignUpComponent implements OnInit {
       this.firstFormGroup.reset();  //check if you actually need it
       this.secondFormGroup.reset(); //same as above
 
+      this._accountService.sendOwnerAccountToServices(this.account.id);
       this.router.navigate(['home']);
     }
     else {

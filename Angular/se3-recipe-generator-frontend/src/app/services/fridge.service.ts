@@ -7,7 +7,7 @@ import { FridgeItem } from '../models/fridgeItem';
   providedIn: 'root'
 })
 export class FridgeService {
-  private ownerAccount: string = "1310140241453400"
+  private ownerAccount: string = ""
   private _baseUri: string = "http://localhost:8085/api/v1/fridgeItems";
 
   constructor(private http: HttpClient) { }
@@ -23,5 +23,9 @@ export class FridgeService {
 
   async deleteItem(fridgeItem: FridgeItem): Promise<any> {
     return firstValueFrom(this.http.delete(`${this._baseUri}/${fridgeItem.id}`));
+  }
+
+  setOwnerAccount(oa: string): void{
+    this.ownerAccount = oa;
   }
 }
