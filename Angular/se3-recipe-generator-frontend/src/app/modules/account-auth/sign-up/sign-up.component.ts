@@ -28,13 +28,20 @@ export class SignUpComponent implements OnInit {
   secondFormGroup: FormGroup;
   signUpSuccessful: boolean;
 
-  account: Account;
+  account: Account = {
+    "id": "",
+    "name": "",
+    "email": "",
+    "password": "",
+    "securityQuestion": "",
+    "securityAnswer": ""
+  };
 
   securityQuestions: ISecurityQuestion[]
- 
+
   visible:boolean = true;
   changetype:boolean =true;
-  
+
 
 
   constructor( private _formBuilder: FormBuilder,
@@ -66,9 +73,9 @@ export class SignUpComponent implements OnInit {
   }
 
   async getSecQuestions() {
-    const res: any = await this._accountService.getSecurityQuestions().toPromise();
-      this.securityQuestions = res;
-      console.log(this.securityQuestions)
+    const res: any = await this._accountService.getSecurityQuestions();
+    this.securityQuestions = res;
+    console.log(this.securityQuestions)
   }
 
   ConfirmedValidator(controlName: string, matchingControlName: string) {
@@ -103,10 +110,8 @@ export class SignUpComponent implements OnInit {
       }
       console.log(this.account)
 
-      const res: any = await this._accountService.createAccount(this.account)
-      .toPromise();
-      this.account = res; //to get the actual id
-      console.log(res)
+      this.account = await this._accountService.createAccount(this.account); //to get the actual id
+      console.log(this.account);
 
       this.firstFormGroup.reset();  //check if you actually need it
       this.secondFormGroup.reset(); //same as above
@@ -137,6 +142,6 @@ export class SignUpComponent implements OnInit {
       errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
     }
     alert(errorMessage);
-    return throwError(errorMessage);  
+    return throwError(errorMessage);
   }
 }
