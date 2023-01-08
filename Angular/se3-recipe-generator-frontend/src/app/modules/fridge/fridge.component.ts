@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 })
 export class FridgeComponent {
   public fridgeItems = [] as any;
+  text: string = "";
 
   constructor(
     private _fridgeService: FridgeService,
@@ -32,8 +33,15 @@ export class FridgeComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.restart()
+      this.ngOnInit();
     });
+  }
+
+  async deleteItem(fridgeItem: FridgeItem) {
+    console.log("delete and restart");
+    this.text = await this._fridgeService.deleteItem(fridgeItem);
+    console.log(this.text)
+    this.ngOnInit();
   }
 }
 
@@ -44,7 +52,13 @@ export class FridgeComponent {
 })
 export class NewFridgeItemDialog implements OnInit{
 
-  newItem: FridgeItem;
+  newItem: FridgeItem = {
+    "id": "",
+    "name": "",
+    "amount": 0,
+    "expirationDate": "",
+    "ownerAccount": ""
+  };
 
   constructor(
     public dialogRef: MatDialogRef<NewFridgeItemDialog>,
@@ -59,8 +73,10 @@ export class NewFridgeItemDialog implements OnInit{
     this.dialogRef.close();
   }
 
-  onAddClick(): void {
-    this._fridgeService.saveItem(this.newItem);
+  async onAddClick() {
+    console.log(this.newItem)
+    this.newItem = await this._fridgeService.saveItem(this.newItem);
+    console.log(this.newItem)
     this.dialogRef.close();
   }
 }

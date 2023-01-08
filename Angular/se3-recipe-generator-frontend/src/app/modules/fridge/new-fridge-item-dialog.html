@@ -7,17 +7,17 @@
     <form class="item-form">
       <mat-form-field>
         <mat-label>Name</mat-label>
-        <input matInput placeholder="Ex. Tomato">
+        <input matInput placeholder="Ex. Tomato" name="name" [(ngModel)]="newItem.name">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Amount</mat-label>
-        <input matInput placeholder="Ex. 5">
+        <input matInput placeholder="Ex. 5" name="amount" [(ngModel)]="newItem.amount">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Expiration date</mat-label>
-        <input matInput [matDatepicker]="picker">
+        <input matInput [matDatepicker]="picker" name="expirationDate" [(ngModel)]="newItem.expirationDate">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>

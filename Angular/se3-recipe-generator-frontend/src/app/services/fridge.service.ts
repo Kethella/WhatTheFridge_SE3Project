@@ -1,8 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { FridgeItem } from '../models/fridgeItem';
-import { Recipe } from '../models/recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,11 @@ export class FridgeService {
     return firstValueFrom(this.http.get<FridgeItem[]>(this._baseUri));
   }
 
-  public saveItem(fridgeItem: FridgeItem) {
-    return this.http.post<Recipe>(this._baseUri, fridgeItem);
+  async saveItem(fridgeItem: FridgeItem): Promise<FridgeItem>  {
+    return firstValueFrom(this.http.post<FridgeItem>(this._baseUri, fridgeItem));
+  }
+
+  async deleteItem(fridgeItem: FridgeItem): Promise<any> {
+    return firstValueFrom(this.http.delete(`${this._baseUri}/${fridgeItem.id}`));
   }
 }
