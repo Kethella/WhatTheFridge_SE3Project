@@ -7,16 +7,17 @@ import { FridgeItem } from '../models/fridgeItem';
   providedIn: 'root'
 })
 export class FridgeService {
-
+  private ownerAccount: string = "1310140241453400"
   private _baseUri: string = "http://localhost:8085/api/v1/fridgeItems";
 
   constructor(private http: HttpClient) { }
 
   async getFridgeItems(): Promise<FridgeItem[]> {
-    return firstValueFrom(this.http.get<FridgeItem[]>(this._baseUri));
+    return firstValueFrom(this.http.get<FridgeItem[]>(`${this._baseUri}/oa=${this.ownerAccount}`));
   }
 
   async saveItem(fridgeItem: FridgeItem): Promise<FridgeItem>  {
+    fridgeItem.ownerAccount = this.ownerAccount;
     return firstValueFrom(this.http.post<FridgeItem>(this._baseUri, fridgeItem));
   }
 

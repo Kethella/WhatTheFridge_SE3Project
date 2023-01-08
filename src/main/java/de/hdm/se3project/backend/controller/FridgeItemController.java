@@ -19,9 +19,9 @@ public class FridgeItemController {
         this.service = service;
     }
 
-    @GetMapping("/fridgeItems")
-    List<FridgeItem> getAllFridgeItems() {
-        return  service.getFridgeItems();
+    @GetMapping("/fridgeItems/oa={ownerAccount}")
+    List<FridgeItem> getAllFridgeItems(@PathVariable String ownerAccount) {
+        return  service.getFridgeItems(ownerAccount);
     }
 
     @GetMapping("/fridgeItems/{id}")
