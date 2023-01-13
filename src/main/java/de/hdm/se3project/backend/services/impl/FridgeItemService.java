@@ -3,7 +3,6 @@ package de.hdm.se3project.backend.services.impl;
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.repository.FridgeItemRepository;
-import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
@@ -14,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FridgeItemServiceImpl implements FridgeItemService {
+public class FridgeItemService implements de.hdm.se3project.backend.services.FridgeItemService {
 
-    final static Logger log = LogManager.getLogger(FridgeItemServiceImpl.class); // can't be private
+    final static Logger log = LogManager.getLogger(FridgeItemService.class); // can't be private
 
     private final FridgeItemRepository fridgeItemRepository;
 
     //Constructor necessary for the integration tests
-    public FridgeItemServiceImpl(FridgeItemRepository fridgeItemRepository) {
+    public FridgeItemService(FridgeItemRepository fridgeItemRepository) {
         this.fridgeItemRepository = fridgeItemRepository;
     }
 

@@ -3,7 +3,7 @@ package de.hdm.se3project.backend.controller.integrationTest.servicesTest;
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.repository.FridgeItemRepository;
-import de.hdm.se3project.backend.services.impl.FridgeItemServiceImpl;
+import de.hdm.se3project.backend.services.impl.FridgeItemService;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +14,16 @@ import java.util.List;
 
 @SpringBootTest
 @TestPropertySource(locations = "/application-test.properties")
-public class FridgeItemServiceImpTest {
+public class FridgeItemServiceTest {
 
     @Autowired
     private FridgeItemRepository fridgeItemRepository;
 
-    //TODO: use FridgeItemService instead
-    private FridgeItemServiceImpl fridgeItemServiceImpl;
+    private FridgeItemService fridgeItemService;
 
     @BeforeEach
     void setUp(){
-        this.fridgeItemServiceImpl = new FridgeItemServiceImpl(fridgeItemRepository);
+        this.fridgeItemService = new FridgeItemService(fridgeItemRepository);
     }
 
     @AfterEach
@@ -41,7 +40,7 @@ public class FridgeItemServiceImpTest {
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        List<FridgeItem> result = fridgeItemServiceImpl.getFridgeItems();
+        List<FridgeItem> result = fridgeItemService.getFridgeItems();
         Assertions.assertEquals(2, result.size());
     }
 
@@ -59,7 +58,7 @@ public class FridgeItemServiceImpTest {
 
         fridgeItem1.setAmount(3);
 
-        FridgeItem fridgeItem2 = this.fridgeItemServiceImpl.updateFridgeItem(fridgeItem.getId(), fridgeItem1);
+        FridgeItem fridgeItem2 = this.fridgeItemService.updateFridgeItem(fridgeItem.getId(), fridgeItem1);
         Assertions.assertEquals(3, fridgeItem2.getAmount());
         Assertions.assertEquals("chocolate milk", fridgeItem2.getName());
         Assertions.assertEquals("3", fridgeItem2.getOwnerAccount());
@@ -74,9 +73,9 @@ public class FridgeItemServiceImpTest {
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        this.fridgeItemServiceImpl.deleteFridgeItem(fridgeItem1.getId());
+        this.fridgeItemService.deleteFridgeItem(fridgeItem1.getId());
 
-        List<FridgeItem> fridgeItems = fridgeItemServiceImpl.getFridgeItems();
+        List<FridgeItem> fridgeItems = fridgeItemService.getFridgeItems();
         Assertions.assertEquals(1, fridgeItems.size());
      }
 
@@ -89,9 +88,9 @@ public class FridgeItemServiceImpTest {
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        List<FridgeItem> fridgeItems = fridgeItemServiceImpl.getFridgeItems();
+        List<FridgeItem> fridgeItems = fridgeItemService.getFridgeItems();
 
-        List<FridgeItem> result = fridgeItemServiceImpl.getFridgeItemsByOwnerAccount("2", fridgeItems);
+        List<FridgeItem> result = fridgeItemService.getFridgeItemsByOwnerAccount("2", fridgeItems);
         Assertions.assertEquals(1, result.size());
     }
 
