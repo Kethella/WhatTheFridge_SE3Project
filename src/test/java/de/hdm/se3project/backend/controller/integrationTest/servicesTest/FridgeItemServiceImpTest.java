@@ -18,6 +18,8 @@ public class FridgeItemServiceImpTest {
 
     @Autowired
     private FridgeItemRepository fridgeItemRepository;
+
+    //TODO: use FridgeItemService instead
     private FridgeItemServiceImpl fridgeItemServiceImpl;
 
     @BeforeEach
