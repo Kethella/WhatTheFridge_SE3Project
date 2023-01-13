@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FridgeItemService implements de.hdm.se3project.backend.services.FridgeItemService {
+public class FridgeItemServiceImpl implements de.hdm.se3project.backend.services.FridgeItemService {
 
-    final static Logger log = LogManager.getLogger(FridgeItemService.class); // can't be private
+    final static Logger log = LogManager.getLogger(FridgeItemServiceImpl.class); // can't be private
 
     private final FridgeItemRepository fridgeItemRepository;
 
     //Constructor necessary for the integration tests
-    public FridgeItemService(FridgeItemRepository fridgeItemRepository) {
+    public FridgeItemServiceImpl(FridgeItemRepository fridgeItemRepository) {
         this.fridgeItemRepository = fridgeItemRepository;
     }
 

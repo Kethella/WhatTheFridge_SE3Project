@@ -3,7 +3,7 @@ package de.hdm.se3project.backend.controller.integrationTest.servicesTest;
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.repository.FridgeItemRepository;
-import de.hdm.se3project.backend.services.impl.FridgeItemService;
+import de.hdm.se3project.backend.services.impl.FridgeItemServiceImpl;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +14,16 @@ import java.util.List;
 
 @SpringBootTest
 @TestPropertySource(locations = "/application-test.properties")
-public class FridgeItemServiceTest {
+public class FridgeItemServiceImplTest {
 
     @Autowired
     private FridgeItemRepository fridgeItemRepository;
 
-    private FridgeItemService fridgeItemService;
+    private FridgeItemServiceImpl fridgeItemService;
 
     @BeforeEach
     void setUp(){
-        this.fridgeItemService = new FridgeItemService(fridgeItemRepository);
+        this.fridgeItemService = new FridgeItemServiceImpl(fridgeItemRepository);
     }
 
     @AfterEach
