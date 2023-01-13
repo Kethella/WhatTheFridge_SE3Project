@@ -24,9 +24,10 @@ integration-tests:
   variables:
     MONGO_INITDB_ROOT_USERNAME: "root"
     MONGO_INITDB_ROOT_PASSWORD: "dummy"
-    SPRING_DATA_MONGODB_URI: "mongodb://root:dummy@mongo"
-    CI_DEBUG_SERVICES: "true"
+    #SPRING_DATA_MONGODB_URI: "mongodb://root:dummy@mongo"
+    #CI_DEBUG_SERVICES: "true"
 
+  #mongo image is used only here
   services:
     - name: mongo:4.4
 
