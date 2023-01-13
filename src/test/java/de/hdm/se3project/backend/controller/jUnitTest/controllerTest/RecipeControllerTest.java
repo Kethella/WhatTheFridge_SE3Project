@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,6 +58,27 @@ class RecipeControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+    }
+
+    @Test
+    @Description("Testing method: getRecipes - Should get all the recipes - GET request")
+    void getRecipesTest() throws Exception {
+
+        List<Recipe> recipeList = new ArrayList<>(Arrays.asList(RECIPE_1, RECIPE_2));
+
+        //PathVariable notation (Owner account) is the only mandatory field, the RequestParam notation
+        //is not mandatory but necessary to create the tests to check if the parameters works.
+        Mockito.when(recipeService.getRecipes("1", "no", null, "ingredients 01",
+                "tag 01" )).thenReturn(recipeList);
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/v1/recipes/oa=1/")
+                        .param("defaultRecipes", "no")
+                        .param("ingredientNames", "ingredients 01")
+                        .param("tags", "tag 01")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)));
     }
 
     @Test
@@ -155,33 +177,25 @@ class RecipeControllerTest {
     @Test
     @Description("Testing method:  deleteRecipe - Should delete an recipe based on its id - DELETE request")
     void deleteRecipeTest() throws Exception{
+
         String itemId = "1";
 
         Mockito.when(recipeService.getRecipeById(itemId)).thenReturn(RECIPE_1);
 
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/recipes/{id}", itemId)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    @Description("Testing method: getRecipes - Should get all the recipes - GET request")
-    void getRecipesTest() throws Exception {
-
-        List<Recipe> recipeList = new ArrayList<>(Arrays.asList(RECIPE_1, RECIPE_2));
-
-        //PathVariable notation (Owner account) is the only mandatory field, the RequestParam notation
-        //is not mandatory but necessary to create the tests to check if the parameters works.
-        Mockito.when(recipeService.getRecipes("1", "no", null, "ingredients 01",
-                "tag 01" )).thenReturn(recipeList);
-
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/recipes/oa=1/")
-                        .param("defaultRecipes", "no")
-                        .param("ingredientNames", "ingredients 01")
-                        .param("tags", "tag 01")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)));
+    @Description("It checks if the deleteById method on RecipeServiceImpl mock object was called with the same id")
+    public void testDelete() {
+        String id = "1";
+        // Act
+        recipeService.deleteRecipe(id);
+        // Assert
+        Mockito.verify(recipeService).deleteRecipe(id);
+        Mockito.verify(recipeService, times(1)).deleteRecipe(id);
     }
+
 }

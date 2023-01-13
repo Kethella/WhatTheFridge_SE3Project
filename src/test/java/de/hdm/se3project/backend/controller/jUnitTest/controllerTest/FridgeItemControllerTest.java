@@ -21,8 +21,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.*;
 
 import java.util.ArrayList;
@@ -162,12 +163,22 @@ class FridgeItemControllerTest {
     void deleteFridgeItemTest() throws Exception {
 
         String itemId = "2";
-
         Mockito.when(fridgeItemService.getFridgeItemById(itemId)).thenReturn(FRIDGE_ITEM_2);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/v1/fridgeItems/{id}", itemId)
+                .delete("/api/v1/fridgeItems/{id}", FRIDGE_ITEM_2.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @Description("It checks if the deleteById method on FridgeItemServiceImpl mock object was called with the same id")
+    public void testDelete() throws ResourceNotFoundException {
+        String id = "1";
+        // Act
+        fridgeItemService.deleteFridgeItem(id);
+        // Assert
+        Mockito.verify(fridgeItemService).deleteFridgeItem(id);
+        Mockito.verify(fridgeItemService, times(1)).deleteFridgeItem(id);
     }
 }
