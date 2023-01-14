@@ -1,50 +1,39 @@
 .recipe-grid {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-left: 10%;
-    margin-right: 10%;
-  }
-
-mat-card {
-    background: #f5f3f3;
-    width: 750px;
-    height: 100px;
-  }
-
-.clickable {
-    cursor: pointer;
-  }
-  
-mat-card:hover {
-    background: #d6d5d5;
-  }
-
-img{
-  object-fit: contain;
-  border-radius: 10px;
-  height: 100%;
-  width: min-content;
-  display: block;
-  margin-left: 0%;
-  
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
-mat-card-actions{
-    align-self:flex-end;
-    visibility: inherit;
+.clickable {
+  cursor: pointer;
+}
+
+mat-card {
+  background: #f5f3f3;
+  width: 750px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+}
+
+img{
+  height: 100%;
+  border-radius: 10px;
+  width: min-content;
+  margin-left: 0%;
 }
 
 mat-card-header{
+  width: 100%;
   font-size: large;
   align-self: center;
   text-align: center;
-  color: black; 
+  color: black;
   padding-top: 15px;
-  visibility: visible;
 }
-
 
 
 
