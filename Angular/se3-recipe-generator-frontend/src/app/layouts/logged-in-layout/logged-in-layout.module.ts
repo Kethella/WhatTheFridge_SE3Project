@@ -12,6 +12,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PersonalMaterialModule } from 'src/app/material.module';
 import { RecipeGridComponent } from 'src/app/modules/home/recipe-grid/recipe-grid.component';
 import { RecipeFilterDialog, RecipeSortFilterComponent } from 'src/app/modules/home/recipe-sort-filter/recipe-sort-filter.component';
+import { MyRecipesComponent } from 'src/app/modules/my-recipes/my-recipes.component';
+import { RecipeListComponent } from 'src/app/modules/my-recipes/recipe-list/recipe-list.component';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { RecipeFilterDialog, RecipeSortFilterComponent } from 'src/app/modules/h
     DummyPagesComponent,
     RecipeGridComponent,
     RecipeSortFilterComponent,
-    RecipeFilterDialog
+    RecipeFilterDialog,
+    MyRecipesComponent,
+    RecipeListComponent
   ],
   imports: [
     CommonModule,
