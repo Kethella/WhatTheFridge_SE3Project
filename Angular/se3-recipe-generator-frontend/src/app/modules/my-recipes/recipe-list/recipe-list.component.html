@@ -1,0 +1,7 @@
+<div class="recipe-grid">
+    <mat-card *ngFor="let recipe of recipes" matRipple class="clickable">
+        <img mat-card-image [src]="recipe.image">
+        <mat-card-header><mat-card-title>{{recipe.name}}</mat-card-title></mat-card-header>
+        <mat-card-actions><button><mat-icon onclick="delete(recipe)">Delete</mat-icon></button></mat-card-actions>
+    </mat-card>
+</div>

@@ -1,0 +1,14 @@
+.recipe-list{
+    padding-top: 50px;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+h2{
+    padding-top: 50px;
+    margin-left: 100px;
+}
