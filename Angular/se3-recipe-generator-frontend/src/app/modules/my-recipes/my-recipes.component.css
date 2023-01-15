@@ -1,14 +1,17 @@
 .recipe-list{
     padding-top: 50px;
+    transform: translate(-50%, -50%);
+
 }
 
 .container{
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: column;
+  
 }
 
 h2{
     padding-top: 50px;
-    margin-left: 100px;
+    
 }

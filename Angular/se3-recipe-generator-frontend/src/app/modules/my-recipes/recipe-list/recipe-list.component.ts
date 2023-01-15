@@ -1,10 +1,10 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Recipe } from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RecipeDetailsComponent} from 'src/app/shared/components/recipe-details/recipe-details.component';
-
+import { Account } from 'src/app/models/account';
 
 
 @Component({
@@ -17,9 +17,8 @@ export class RecipeListComponent {
   @Input() public recipes;
 
   @Output() public restartAfterDeleteEvent = new EventEmitter();
-
-
-  constructor(private _recipeService: RecipeService,
+  
+  constructor(private recipeService:RecipeService,
     public dialog:MatDialog) {
   }
 
@@ -27,10 +26,9 @@ export class RecipeListComponent {
     console.log("Hi")
   }
 
-  delete(recipe: Recipe){
-    //this._recipeService.delete(recipe) create the method in the service
+  delete(id: string){
     this.restartAfterDeleteEvent.emit()
-    console.log("delete")
+    this.recipeService.deleteRecipe(id);
   }
 
   openDialog(selectedRecipe: Recipe){

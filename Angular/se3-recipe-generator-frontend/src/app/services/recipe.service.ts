@@ -11,7 +11,8 @@ export class RecipeService {
 
   data = {};
   private _baseUriRecipe: string = "http://localhost:8085/api/v1/recipes/oa=2238550034095900/"
-  private _baseUriTags: string = "http://localhost:8085/api/v1/recipes/tags/oa=2238550034095900/"
+  private _baseUriTags: string = "http://localhost:8085/api/v1/recipes/tags/oa=1310140241453400/"
+  private _basiUriDel: string = "http://localhost:8085/api/v1/recipes/"
 
   constructor(private http: HttpClient) { }
 
@@ -34,6 +35,11 @@ export class RecipeService {
 
   public save(recipe: Recipe) {
     return this.http.post<Recipe>(this._baseUriRecipe, recipe);
+  }
+
+  public deleteRecipe(id: string){
+    this.http.delete(this._basiUriDel+id).subscribe();
+    
   }
 
 }
