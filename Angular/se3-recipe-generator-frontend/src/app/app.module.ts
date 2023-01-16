@@ -14,9 +14,10 @@ import { LoginComponent } from './modules/account-auth/login/login.component';
 import { DummyPagesComponent } from './modules/dummy-pages/dummy-pages.component';
 
 
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

@@ -38,11 +38,12 @@
                                     visibility
                                 </mat-icon></span>     
                             </mat-form-field>
-                            <div class="alert"
-                                        *ngIf="firstFormGroup.errors?.['confirmedValidator'] 
+                            <div class="alert"                          
+                                        *ngIf="firstFormGroup.errors?.['confirmedValidator']                                        
                                         || (firstFormGroup.controls['passwordRepeat'].hasError('required') && firstFormGroup.controls['passwordRepeat'].touched)">
                                 Passwords don't match
-                                </div>
+                            </div> <!-- password matching works but somehow div doesn't show up-->
+                            
 
                             <div class="buttons">
                                 <button mat-raised-button matStepperNext>Next</button>

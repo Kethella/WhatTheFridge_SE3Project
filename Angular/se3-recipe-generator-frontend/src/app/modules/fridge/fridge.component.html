@@ -1,0 +1,37 @@
+<div id="fridge">
+
+  <div id="top-part">
+    <h1>Fridge items</h1>
+    <button mat-raised-button (click)="openDialog()">
+      <mat-icon matListItemIcon>add</mat-icon>
+      Add an item
+    </button>
+  </div>
+
+  <mat-list>
+
+    <mat-list-item *ngFor="let fridgeItem of fridgeItems">
+
+        <div class="item">
+
+          <img src="../../../assets/groceries-paper-bag.jpg" alt="Fridge item photo">
+
+          <div class="item-text">
+            <h3 class="item-name">{{fridgeItem.name}}</h3>
+            <div class="item-amount">Amount: {{fridgeItem.amount}}</div>
+            <div class="item-date">Expiration date: {{fridgeItem.expirationDate}}</div>
+          </div>
+
+          <button mat-icon-button id="delete-button" (click)="deleteItem(fridgeItem)">
+            <mat-icon id="delete-icon">delete</mat-icon>
+          </button>
+
+        </div>
+
+    </mat-list-item>
+
+  </mat-list>
+
+
+</div>
+

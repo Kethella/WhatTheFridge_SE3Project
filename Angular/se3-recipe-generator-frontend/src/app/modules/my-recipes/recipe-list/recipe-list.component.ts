@@ -4,7 +4,6 @@ import { Recipe } from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RecipeDetailsComponent} from 'src/app/shared/components/recipe-details/recipe-details.component';
-import { Account } from 'src/app/models/account';
 
 
 @Component({

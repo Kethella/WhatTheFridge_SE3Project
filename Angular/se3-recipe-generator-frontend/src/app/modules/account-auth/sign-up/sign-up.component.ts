@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/account';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
 import { HttpClient } from '@angular/common/http';
@@ -52,7 +52,7 @@ export class SignUpComponent implements OnInit {
       username : [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
-      passwordRepeat: [null, Validators.required]
+      passwordRepeat: new FormControl("", Validators.required)
     }, {
       //validator: this._validationService.passwordMatchValidator("password", "passwordRepeat")
       validator: this.ConfirmedValidator("password", "passwordRepeat") //works both ways, possible TODO: del validation service
@@ -66,7 +66,7 @@ export class SignUpComponent implements OnInit {
   }
 
   async getSecQuestions() {
-    const res: any = await this._accountService.getSecurityQuestions().toPromise();
+    const res: any = await this._accountService.getSecurityQuestions();
       this.securityQuestions = res;
       console.log(this.securityQuestions)
   }
@@ -103,8 +103,7 @@ export class SignUpComponent implements OnInit {
       }
       console.log(this.account)
 
-      const res: any = await this._accountService.createAccount(this.account)
-      .toPromise();
+      const res: any = await this._accountService.createAccount(this.account);
       this.account = res; //to get the actual id
       console.log(res)
 

@@ -2,12 +2,14 @@ package de.hdm.se3project.backend.services.impl;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
+import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.repository.FridgeItemRepository;
 import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,9 +20,24 @@ public class FridgeItemServiceImpl implements FridgeItemService {
 
     //TODO : having a problem to use it as a list
     @Override
-    public List<FridgeItem> getFridgeItems() {
+    public List<FridgeItem> getFridgeItems(String ownerAccount) {
 
-        return fridgeItemRepository.findAll();
+        List<FridgeItem> allFridgeItems = fridgeItemRepository.findAll();
+
+
+        List<FridgeItem> result = new ArrayList<>();
+
+        for (FridgeItem fridgeItem: allFridgeItems){
+            if (fridgeItem.getOwnerAccount().equals(ownerAccount)){
+                result.add(fridgeItem);
+            }
+        }
+
+        if(result.isEmpty()){
+            return null;
+        }
+
+        return result;
     }
 
     @Override

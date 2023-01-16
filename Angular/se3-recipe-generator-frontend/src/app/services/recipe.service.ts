@@ -10,23 +10,25 @@ import { Recipe } from '../models/recipe';
 export class RecipeService {
 
   data = {};
-  private _baseUriRecipe: string = "http://localhost:8085/api/v1/recipes/oa=2238550034095900/"
-  private _baseUriTags: string = "http://localhost:8085/api/v1/recipes/tags/oa=1310140241453400/"
+
+  private ownerAccount: string = "";
+  private _baseUri: string = "http://localhost:8085/api/v1/recipes"
   private _basiUriDel: string = "http://localhost:8085/api/v1/recipes/"
 
   constructor(private http: HttpClient) { }
 
   async getRecipes(queryParams: HttpParams): Promise<Recipe[]> {
+    console.log(this.ownerAccount)
     if (queryParams) {
-      return firstValueFrom(this.http.get<Recipe[]>(this._baseUriRecipe, {params:queryParams}));
+      return firstValueFrom(this.http.get<Recipe[]>(`${this._baseUri}/oa=${this.ownerAccount}/`, {params:queryParams}));
     }
     else {
-      return firstValueFrom(this.http.get<Recipe[]>(this._baseUriRecipe));
+      return firstValueFrom(this.http.get<Recipe[]>(`${this._baseUri}/oa=${this.ownerAccount}/`));
     }
   }
 
   async getTags(): Promise<String[]> {
-    return firstValueFrom(this.http.get<String[]>(this._baseUriTags));
+    return firstValueFrom(this.http.get<String[]>(`${this._baseUri}/tags/oa=${this.ownerAccount}`));
   }
 
   async getCategories(): Promise<ICategory[]> {
@@ -34,7 +36,11 @@ export class RecipeService {
   }
 
   public save(recipe: Recipe) {
-    return this.http.post<Recipe>(this._baseUriRecipe, recipe);
+    return this.http.post<Recipe>(`${this._baseUri}/oa=${this.ownerAccount}`, recipe);
+  }
+
+  setOwnerAccount(oa: string): void{
+    this.ownerAccount = oa;
   }
 
   public deleteRecipe(id: string){

@@ -5,12 +5,11 @@
   <a mat-button routerLink="/fridge">Fridge</a>
   <a mat-button [matMenuTriggerFor]="recipes">Recipes</a>
      <mat-menu #recipes="matMenu">
-        <button mat-menu-item routerLink="/my-recipes">My recipes</button>
-        <button mat-menu-item routerLink="/fav_recipes">Favourite recipes</button>
+        <button mat-menu-item routerLink="/my_recipes">My recipes</button>
      </mat-menu>
   </div>
   <div class="spacer"></div>
   <a mat-button><mat-icon>notifications</mat-icon></a>
   <a mat-button routerLink="/account_settings"><mat-icon>manage_accounts</mat-icon></a>
-  <a mat-button routerLink="login"><mat-icon>logout</mat-icon></a>
+  <a mat-button routerLink="/login"><mat-icon>logout</mat-icon></a>
 </mat-toolbar>
