@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule } from '@angular/forms';
 
 import { AuthLayoutComponent } from './auth-layout.component';
 
@@ -21,7 +22,8 @@ import { PersonalMaterialModule } from 'src/app/material.module';
     CommonModule,
     RouterModule,
     FlexLayoutModule,
-    PersonalMaterialModule
+    PersonalMaterialModule,
+    FormsModule
   ]
 })
 export class AuthLayoutModule { }

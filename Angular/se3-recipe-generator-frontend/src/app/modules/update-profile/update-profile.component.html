@@ -1,0 +1,40 @@
+<!-- How to access the account data of the logged-in user? -->
+<div class="profile-container">
+
+    <div class="info-strip">
+        <mat-form-field class="userName-form-field">
+            <mat-label class="header">User Name </mat-label>
+            <input matInput type="text" [(ngModel)]="userName">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
+    <div class="info-strip">
+        <form class="email-form">
+            <mat-form-field class="full-width">
+            <mat-label class="header">Email</mat-label>
+            <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('required')">
+                Email is <strong>required</strong>
+            </mat-error>
+            </mat-form-field>
+        </form>
+    </div>
+
+    <div class="info-strip">
+        <mat-form-field class="password-form-field">
+            <mat-label class="header">Password </mat-label>
+            <input matInput type="text" [(ngModel)]="password">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
+</div>
+<!-- Changed Data needs to be sent back to backend to update the database of accounts! post reguests? how?  -->

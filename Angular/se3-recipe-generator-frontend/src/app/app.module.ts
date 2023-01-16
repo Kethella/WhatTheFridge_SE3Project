@@ -12,11 +12,14 @@ import { AuthLayoutModule } from './layouts/auth-layout/auth-layout.module';
 import { SignUpComponent } from './modules/account-auth/sign-up/sign-up.component';
 import { LoginComponent } from './modules/account-auth/login/login.component';
 import { DummyPagesComponent } from './modules/dummy-pages/dummy-pages.component';
+import { AccountViewComponent } from './modules/account-view/account-view.component';
+import { UpdateProfileComponent } from './modules/update-profile/update-profile.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UpdateProfileComponent,
   ],
   imports: [
     BrowserModule,

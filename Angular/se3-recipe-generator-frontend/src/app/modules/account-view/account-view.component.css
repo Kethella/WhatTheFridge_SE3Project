@@ -1,0 +1,11 @@
+.info-strip {
+    display: flex;
+}
+
+.header {
+    flex: 1
+}
+
+.detail {
+    flex: 2
+}

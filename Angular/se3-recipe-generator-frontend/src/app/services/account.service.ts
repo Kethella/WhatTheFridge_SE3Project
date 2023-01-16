@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Account } from '../models/account'
 import { ISecurityQuestion } from '../models/securityQuestions';
+import { firstValueFrom } from 'rxjs';
+import { RecipeService } from './recipe.service';
+
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,18 +14,29 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AccountService {
-
+  
   private _baseUrl = "http://localhost:8085/api/v1/accounts";
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    //private _fridgeService: FridgeService,
+    private _recipeService: RecipeService,) { }
 
-  createAccount(account: Account): Observable<Account> {
-    return this.http.post<Account>(`${this._baseUrl}`, account);
+  async createAccount(account: Account): Promise<Account> {
+    return firstValueFrom(this.http.post<Account>(this._baseUrl, account));
   }
 
-  getSecurityQuestions(): Observable<ISecurityQuestion[]> {
-    return this.http.get<ISecurityQuestion[]>("http://localhost:8085/api/v1/securityQuestions")
+  async findAccount(queryParams: HttpParams): Promise<Account> {
+    return firstValueFrom(this.http.get<Account>("http://localhost:8085/api/v1/accounts/one", {params:queryParams}));
+  }
+
+
+  async getSecurityQuestions(): Promise<ISecurityQuestion[]> {
+    return firstValueFrom(this.http.get<ISecurityQuestion[]>("http://localhost:8085/api/v1/securityQuestions"));
+  }
+
+  sendOwnerAccountToServices(oa: string): void {
+    // this._fridgeService.setOwnerAccount(oa);
+    this._recipeService.setOwnerAccount(oa);
   }
 }
-
