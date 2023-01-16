@@ -1,7 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { FridgeService } from 'src/app/services/fridge.service';
 import { FridgeItem } from 'src/app/models/fridgeItem';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-fridge',
@@ -11,24 +11,31 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class FridgeComponent {
   public fridgeItems = [] as any;
   text: string = "";
+  makeNoItemsElementVisible = true;
 
   constructor(
     private _fridgeService: FridgeService,
     public dialog: MatDialog) {
   }
 
-  async ngOnInit() {
-    this.fridgeItems = await this._fridgeService.getFridgeItems().then(
-      this.fridgeItems = this.fridgeItems.sort((a: FridgeItem, b: FridgeItem) => a.name.localeCompare(b.name))
-    );
+  ngOnInit() {
+    this.loadItems();
+
   }
 
-  async restart() {
+  async loadItems() {
     this.fridgeItems = await this._fridgeService.getFridgeItems();
-    this.fridgeItems = this.fridgeItems.sort((a: FridgeItem, b: FridgeItem) => a.name.localeCompare(b.name));
+    if(this.fridgeItems){
+      this.makeNoItemsElementVisible = false;
+      this.fridgeItems = this.fridgeItems.sort((a: FridgeItem, b: FridgeItem) => a.name.localeCompare(b.name));
+    }
+    else{
+      this.makeNoItemsElementVisible = true;
+    }
   }
 
-  openDialog(): void {
+
+  openAddDialog(): void {
     const dialogRef = this.dialog.open(NewFridgeItemDialog, {
       width: '500px'
     });
@@ -44,6 +51,26 @@ export class FridgeComponent {
     console.log(this.text)
     this.ngOnInit();
   }
+
+  handleDate(dateToFix: string): string {
+    var whereIsT = dateToFix.indexOf("T");
+    var fixedDate = dateToFix.substring(0, whereIsT)
+
+    return fixedDate;
+  }
+
+  openEditDialog(fridgeItem: FridgeItem) {
+    const dialogRef = this.dialog.open(EditFridgeItemDialog, {
+      width: '500px',
+      data: {
+        selectedItem: fridgeItem
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.ngOnInit();
+    });
+  }
 }
 
 @Component({
@@ -53,21 +80,14 @@ export class FridgeComponent {
 })
 export class NewFridgeItemDialog implements OnInit{
 
-  newItem: FridgeItem = {
-    "id": "",
-    "name": "",
-    "amount": 0,
-    "expirationDate": "",
-    "ownerAccount": ""
-  };
+  newItem = new FridgeItem;
 
   constructor(
     public dialogRef: MatDialogRef<NewFridgeItemDialog>,
     private _fridgeService: FridgeService) {
   }
 
-  async ngOnInit() {
-
+  ngOnInit() {
   }
 
   onCancelClick(): void {
@@ -75,10 +95,45 @@ export class NewFridgeItemDialog implements OnInit{
   }
 
   async onAddClick() {
-    console.log(this.newItem)
     this.newItem = await this._fridgeService.saveItem(this.newItem);
     console.log(this.newItem)
     this.dialogRef.close();
   }
+}
+
+@Component({
+  selector: 'edit-fridge-item-dialog',
+  templateUrl: './edit-fridge-item-dialog.html',
+  styleUrls: ['./edit-fridge-item-dialog.css']
+})
+export class EditFridgeItemDialog implements OnInit{
+
+  selectedItem = new FridgeItem;
+
+  constructor(public dialogRef: MatDialogRef<EditFridgeItemDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private _fridgeService: FridgeService) {
+  }
+
+  ngOnInit() {
+    this.selectedItem = this.data.selectedItem;
+    console.log(this.selectedItem)
+    console.log(this.selectedItem.name)
+  }
+
+  onCancelClick(): void {
+    this.dialogRef.close();
+
+  }
+
+  async onSaveClick() {
+    this.selectedItem = await this._fridgeService.updateItem(this.selectedItem);
+    console.log("updated:")
+    console.log(this.selectedItem)
+  }
+}
+
+export interface DialogData {
+  selectedItem: FridgeItem
 }
 
