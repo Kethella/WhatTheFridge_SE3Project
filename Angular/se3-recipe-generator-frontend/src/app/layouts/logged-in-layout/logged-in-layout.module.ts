@@ -15,6 +15,7 @@ import { RecipeGridComponent } from 'src/app/modules/home/recipe-grid/recipe-gri
 import { RecipeFilterDialog, RecipeSortFilterComponent } from 'src/app/modules/home/recipe-sort-filter/recipe-sort-filter.component';
 import { MyRecipesComponent } from 'src/app/modules/my-recipes/my-recipes.component';
 import { RecipeListComponent } from 'src/app/modules/my-recipes/recipe-list/recipe-list.component';
+import { CreateRecipeComponent } from 'src/app/modules/my-recipes/create-recipe/create-recipe.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { RecipeListComponent } from 'src/app/modules/my-recipes/recipe-list/reci
     MyRecipesComponent,
     RecipeListComponent,
     FridgeComponent,
-    NewFridgeItemDialog
+    NewFridgeItemDialog,
+    CreateRecipeComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,7 @@ import { RecipeListComponent } from 'src/app/modules/my-recipes/recipe-list/reci
     FlexLayoutModule,
     FormsModule,
     SharedModule,
-    PersonalMaterialModule
+    PersonalMaterialModule,
   ]
 })
 export class LoggedInLayoutModule { }

@@ -1,1 +1,30 @@
-<p>create-recipe works!</p>
+<div id="dialog-header">
+    <h3 mat-dialog-title id="recipeName">Create Recipe</h3>
+  
+    <mat-dialog-actions id="actions">
+      <button mat-mini-fab mat-dialog-close id="close-button" (click)="onCloseClick()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-dialog-actions>
+</div>
+<mat-dialog-content>
+  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    
+
+    <mat-form-field>
+        <mat-label>Ingredient</mat-label>
+        <input matInput formControlName="ingredient" required>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Amount</mat-label>
+        <input matInput formControlName="amount" required>
+    </mat-form-field>
+    <div class="buttons">
+    
+      <button mat-raised-button (click)="onSubmit()">Sign Up</button>
+  </div>
+</form>
+</mat-dialog-content>
+
+  

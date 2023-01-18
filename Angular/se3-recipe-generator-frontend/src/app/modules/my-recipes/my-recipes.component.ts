@@ -1,6 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 
 
 @Component({
@@ -12,8 +14,9 @@ export class MyRecipesComponent {
 
   public recipes = [] as any;
   public queryParams = new HttpParams();
+  public ingredients: string;
 
-  constructor(private _recipeService: RecipeService){
+  constructor(private _recipeService: RecipeService, private dialog:MatDialog){
 
   }
 
@@ -24,5 +27,14 @@ export class MyRecipesComponent {
   async loadRecipes() {
     this.queryParams = this.queryParams.append("defaultRecipes", "no")
     this.recipes = await this._recipeService.getRecipes(this.queryParams);
+  }
+
+  openDialog(){
+    console.log("dialog opened")
+    const dialogRef=this.dialog.open(CreateRecipeComponent, {
+      data: this.ingredients,
+      height: '400px',
+      width: '600px',
+    })
   }
 }

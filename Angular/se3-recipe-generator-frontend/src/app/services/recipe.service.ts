@@ -45,7 +45,7 @@ export class RecipeService {
 
   public deleteRecipe(id: string){
     this.http.delete(this._basiUriDel+id).subscribe();
-    
+  
   }
 
 }
