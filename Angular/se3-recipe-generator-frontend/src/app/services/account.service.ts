@@ -51,7 +51,7 @@ export class AccountService {
     return firstValueFrom(this.http.put(`${this._baseUrl}/${this.ownerAccountId}`, account))
   }
 
-  async deleteAccount(account: Account): Promise<any> {
+  async deleteAccount(): Promise<any> {
     return firstValueFrom(this.http.delete(`${this._baseUrl}/${this.ownerAccountId}`))
   }
 }
