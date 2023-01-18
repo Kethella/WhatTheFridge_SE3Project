@@ -35,25 +35,6 @@ export class LoginComponent implements OnInit {
     })
   }
 
-
-  /*onLogin(){
-      this.http.get<any>("http://localhost:8085/api/v1/accounts")
-      .subscribe(res=>{
-        const user = res.find((a:any)=>{
-          return a.email === this.loginForm.value.email && a.password === this.loginForm.value.password
-        });
-        if(user){
-          alert('Login Succesful');
-          this.loginForm.reset()
-        this.router.navigate(["home"])
-        }else{
-          alert("user not found")
-        }
-      },err=>{
-        alert("Something went wrong")
-      })
-  }*/
-
   async login(){
     this.queryParams = this.queryParams.append("email", this.account.email);
     this.queryParams = this.queryParams.append("password", this.account.password);

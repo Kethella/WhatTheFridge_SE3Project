@@ -41,4 +41,17 @@ export class AccountService {
     this._fridgeService.setOwnerAccount(oa);
     this._recipeService.setOwnerAccount(oa);
   }
+
+
+  async getAccountInfo(): Promise<Account> {
+    return firstValueFrom(this.http.get<Account>(`${this._baseUrl}/${this.ownerAccountId}`))
+  }
+
+  async updateAccountInfo(account: Account): Promise<any> {
+    return firstValueFrom(this.http.put(`${this._baseUrl}/${this.ownerAccountId}`, account))
+  }
+
+  async deleteAccount(account: Account): Promise<any> {
+    return firstValueFrom(this.http.delete(`${this._baseUrl}/${this.ownerAccountId}`))
+  }
 }

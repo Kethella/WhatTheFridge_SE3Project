@@ -11,7 +11,7 @@ export class RecipeService {
 
   data = {};
 
-  private ownerAccount: string = "";
+  private ownerAccount: string = "2238550034095900";
   private _baseUri: string = "http://localhost:8085/api/v1/recipes"
 
   constructor(private http: HttpClient) { }

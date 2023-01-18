@@ -40,6 +40,7 @@ export class FridgeService {
 
 
   async getUpdatedNotifications(): Promise<FridgeItem[]> {
+    console.log("oa " + this.ownerAccount)
     this.fridgeItems = await this.getFridgeItems()
     this.expiringFridgeItems = [];
 

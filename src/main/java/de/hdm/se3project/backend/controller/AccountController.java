@@ -12,6 +12,7 @@ import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.model.enums.SecurityQuestion;
 import de.hdm.se3project.backend.repository.AccountRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.json.*;
 
@@ -23,11 +24,29 @@ import org.json.*;
 @CrossOrigin(origins = "http://localhost:4200")
 public class AccountController implements Serializable {
 
+    @Autowired
     private final AccountRepository repository;
 
     public AccountController(AccountRepository repository) {
         this.repository = repository;
     }
+
+
+    //DO NOT DELETE THIS IS FOR FRONTEND LOGIN
+    @GetMapping("/accounts/one")
+    Account getOneAccount(@RequestParam(required = false, value = "email") String email,
+                          @RequestParam(required = false, value = "password") String password){
+
+        List<Account> allAccounts = repository.findAll();
+        for (Account account: allAccounts) {
+            if(account.getEmail().equals(email) && account.getPassword().equals(password)){
+                return account;
+            }
+        }
+
+        return null;
+    }
+
 
     @GetMapping("/accounts")
     public List<Account> getAllAccounts(){
@@ -39,7 +58,6 @@ public class AccountController implements Serializable {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
     }
-
 
     @PostMapping("/accounts")
     public Account createAccount(@RequestBody Account newAccount){ //whatever data you submit from the client side will be accepted in the post object
@@ -58,8 +76,8 @@ public class AccountController implements Serializable {
         account.setPassword(newAccount.getPassword());
         account.setSecurityQuestion(newAccount.getSecurityQuestion());
         account.setSecurityAnswer(newAccount.getSecurityAnswer());
-        account.setPersonalRecipes(newAccount.getPersonalRecipes());
-        account.setFridgeItems(newAccount.getFridgeItems());
+        //account.setPersonalRecipes(newAccount.getPersonalRecipes());
+        //account.setFridgeItems(newAccount.getFridgeItems());
 
         return repository.save(account);
     }
