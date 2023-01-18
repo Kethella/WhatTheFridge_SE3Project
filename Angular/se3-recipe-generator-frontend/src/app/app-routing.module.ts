@@ -7,9 +7,9 @@ import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/account-auth/login/login.component';
 import { SignUpComponent } from './modules/account-auth/sign-up/sign-up.component';
 import { Title } from '@angular/platform-browser';
-// import { FridgeComponent } from './modules/fridge/fridge.component';
 import { AccountViewComponent } from './modules/account-view/account-view.component';
 import { UpdateProfileComponent } from './modules/update-profile/update-profile.component';
+import { FridgeComponent } from './modules/fridge/fridge.component';
 
 //TODO: Replace with actual paths, change routerLinks in navbar component
 const routes: Routes = [
@@ -26,10 +26,10 @@ const routes: Routes = [
         path: 'home',
         title: 'Home',
         component: HomeComponent},
-      //{
-      //  path: 'fridge',
-      //  title: 'Fridge',
-      //  component: FridgeComponent},
+      {
+        path: 'fridge',
+        title: 'Fridge',
+        component: FridgeComponent},
       {
         path: 'my_recipes',
         title: 'My Recipes',
@@ -38,11 +38,13 @@ const routes: Routes = [
       {
         path: 'account_settings',
         title: 'Account',
-        component: AccountViewComponent},
-        {
-          path: 'update_account',
-          title: 'Edit Profile',
-          component: UpdateProfileComponent},
+        component: AccountViewComponent
+      },
+      {
+        path: 'update_account',
+        title: 'Edit Profile',
+        component: UpdateProfileComponent
+      },
     ]
   },
   {

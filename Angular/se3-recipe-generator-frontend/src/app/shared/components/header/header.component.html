@@ -10,7 +10,14 @@
      </mat-menu>
   </div>
   <div class="spacer"></div>
-  <a mat-button><mat-icon>notifications</mat-icon></a>
-  <a mat-button routerLink="account_settings"><mat-icon>manage_accounts</mat-icon></a>
+
+  <button mat-button [matMenuTriggerFor]="notif">
+    <mat-icon [matBadge]="count">notifications</mat-icon>
+    <mat-menu #notif="matMenu">
+      <button mat-menu-item *ngFor="let fridgeItem of expFrigdeItems">{{fridgeItem.name}}</button>
+   </mat-menu>
+  </button>
+
+  <a mat-button routerLink="/account_settings"><mat-icon>manage_accounts</mat-icon></a>
   <a mat-button routerLink="login"><mat-icon>logout</mat-icon></a>
 </mat-toolbar>

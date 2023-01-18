@@ -4,20 +4,13 @@ import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.FridgeItem;
 import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-
+@CrossOrigin(origins = "http://localhost:4200")
 public class FridgeItemController {
 
     private final FridgeItemService service;
@@ -26,9 +19,9 @@ public class FridgeItemController {
         this.service = service;
     }
 
-    @GetMapping("/fridgeItems")
-    List<FridgeItem> getAllFridgeItems() {
-        return  service.getFridgeItems();
+    @GetMapping("/fridgeItems/oa={ownerAccount}")
+    List<FridgeItem> getAllFridgeItems(@PathVariable String ownerAccount) {
+        return  service.getFridgeItems(ownerAccount);
     }
 
     @GetMapping("/fridgeItems/{id}")

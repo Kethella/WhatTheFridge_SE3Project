@@ -8,6 +8,7 @@ import java.util.List;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Account;
+import de.hdm.se3project.backend.model.Recipe;
 import de.hdm.se3project.backend.model.enums.SecurityQuestion;
 import de.hdm.se3project.backend.repository.AccountRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
@@ -34,11 +35,11 @@ public class AccountController implements Serializable {
     }
 
     @GetMapping("/accounts/{id}")
-    Account getOneAccount(@PathVariable String id) throws ResourceNotFoundException {
-
+    public Account getOneAccount(@PathVariable String id) throws ResourceNotFoundException {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
     }
+
 
     //temporary for testing
     @GetMapping("/accounts/seqQuestion/{id}")
