@@ -5,6 +5,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 //The API implementation happens in the repository.
 // It acts as a link between the model and the database, and has all the methods for CRUD operations.
-public interface AccountRepository extends MongoRepository<Account, String> {
-
-}
+public interface AccountRepository extends MongoRepository<Account, String> {}

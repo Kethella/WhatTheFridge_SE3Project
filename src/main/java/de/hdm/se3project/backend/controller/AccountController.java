@@ -30,7 +30,7 @@ public class AccountController implements Serializable {
     }
 
     @GetMapping("/accounts")
-    List<Account> getAllAccounts(){
+    public List<Account> getAllAccounts(){
         return repository.findAll();
     }
 
@@ -41,24 +41,14 @@ public class AccountController implements Serializable {
     }
 
 
-    //temporary for testing
-    @GetMapping("/accounts/seqQuestion/{id}")
-    String getAccountSecurityQuestionText(@PathVariable String id) throws ResourceNotFoundException {
-        Account account = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-
-        return account.getSecurityQuestion().getText();
-    }
-
-
     @PostMapping("/accounts")
-    Account createAccount(@RequestBody Account newAccount){ //whatever data you submit prom the client side will be accepted in the post object
+    public Account createAccount(@RequestBody Account newAccount){ //whatever data you submit from the client side will be accepted in the post object
         newAccount.setId(IdGenerationService.generateId(newAccount));
         return repository.save(newAccount);
     }
 
     @PutMapping("/accounts/{id}")
-    Account replaceAccount(@PathVariable String id, @RequestBody Account newAccount) throws ResourceNotFoundException {
+    public Account replaceAccount(@PathVariable String id, @RequestBody Account newAccount) throws ResourceNotFoundException {
 
         Account account = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
@@ -75,7 +65,7 @@ public class AccountController implements Serializable {
     }
 
     @DeleteMapping("/accounts/{id}")
-    void deleteAccount(@PathVariable String id) {
+    public void deleteAccount(@PathVariable String id) {
         repository.deleteById(id);
     }
 
@@ -97,3 +87,4 @@ public class AccountController implements Serializable {
         return array.toString();
     }
 }
+
