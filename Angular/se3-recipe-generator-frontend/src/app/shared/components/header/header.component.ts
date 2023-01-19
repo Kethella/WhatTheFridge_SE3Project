@@ -17,17 +17,12 @@ export class HeaderComponent implements OnInit {
   constructor(private _fridgeService: FridgeService,
     private route: ActivatedRoute, private router: Router) {
 
-      interval(5000).subscribe(x => {
-        this.getNotif();
-      })
+    
     }
 
-  async ngOnInit() {
-    this.getNotif()
+  ngOnInit() {
+  
   }
 
-  async getNotif() {
-    this.expFrigdeItems = await this._fridgeService.getUpdatedNotifications();
-    this.count = this.expFrigdeItems.length;
-  }
+  
 }

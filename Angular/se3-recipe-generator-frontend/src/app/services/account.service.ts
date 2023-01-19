@@ -29,7 +29,7 @@ export class AccountService {
   }
 
   async findAccount(queryParams: HttpParams): Promise<Account> {
-    return firstValueFrom(this.http.get<Account>("http://localhost:8085/api/v1/accounts/one", {params:queryParams}));
+    return firstValueFrom(this.http.get<Account>("http://localhost:8085/api/v1/accounts/one/", {params:queryParams}));
   }
 
   async getSecurityQuestions(): Promise<ISecurityQuestion[]> {

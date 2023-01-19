@@ -33,7 +33,7 @@ public class AccountController implements Serializable {
 
 
     //DO NOT DELETE THIS IS FOR FRONTEND LOGIN
-    @GetMapping("/accounts/one")
+    @GetMapping("/accounts/one/")
     Account getOneAccount(@RequestParam(required = false, value = "email") String email,
                           @RequestParam(required = false, value = "password") String password){
 
