@@ -1,0 +1,10 @@
+#dialog-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#create-btn {
+  background-color: aquamarine;
+  color: black;
+}

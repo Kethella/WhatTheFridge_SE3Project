@@ -22,7 +22,7 @@ public class MediaController {
     @Autowired
     private MediaService mediaService;
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/")
     public ResponseEntity<?> uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException, ResourceNotFoundException {
         return new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK);
     }

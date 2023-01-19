@@ -35,7 +35,8 @@ export class RecipeService {
     return firstValueFrom(this.http.get<ICategory[]>("http://localhost:8085/api/v1/categories"))
   }
 
-  public save(recipe: Recipe) {
+  public createRecipe(recipe: Recipe) {
+    recipe.ownerAccount = this.ownerAccount;
     return this.http.post<Recipe>(`${this._baseUri}/oa=${this.ownerAccount}`, recipe);
   }
 
@@ -45,7 +46,7 @@ export class RecipeService {
 
   public deleteRecipe(id: string){
     this.http.delete(this._basiUriDel+id).subscribe();
-  
+
   }
 
 }

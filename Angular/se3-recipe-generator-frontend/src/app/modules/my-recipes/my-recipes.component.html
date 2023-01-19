@@ -1,6 +1,10 @@
 <div class="container">
     <div><h2>My recipes</h2></div>
-    <div class="spacer"><button id="create" (click)="openDialog()">Create recipe</button></div>
+
+    <div class="spacer">
+      <button mat-raised-button id="create" (click)="openDialog()">Create recipe</button>
+    </div>
+
     <div><app-recipe-list class="recipe-list" [recipes]="recipes" (restartAfterDeleteEvent)="loadRecipes()"></app-recipe-list></div>
 </div>
 
