@@ -130,6 +130,7 @@ export class EditFridgeItemDialog implements OnInit{
     this.selectedItem = await this._fridgeService.updateItem(this.selectedItem);
     console.log("updated:")
     console.log(this.selectedItem)
+    this.dialogRef.close();
   }
 }
 

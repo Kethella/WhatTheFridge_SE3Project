@@ -14,7 +14,7 @@
   <button mat-button [matMenuTriggerFor]="notif">
     <mat-icon [matBadge]="count">notifications</mat-icon>
     <mat-menu #notif="matMenu">
-      <button mat-menu-item *ngFor="let fridgeItem of expFrigdeItems">{{fridgeItem.item.name}} - {{fridgeItem.status}}</button>
+      <button mat-menu-item *ngFor="let fridgeItem of expFrigdeItems" routerLink="/fridge">{{fridgeItem.item.name}} - {{fridgeItem.status}}</button>
    </mat-menu>
   </button>
 
