@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { FridgeItem } from 'src/app/models/fridgeItem';
-import { FridgeService } from 'src/app/services/fridge.service';
+import { FridgeService, NotifItem } from 'src/app/services/fridge.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +11,7 @@ import { FridgeService } from 'src/app/services/fridge.service';
 })
 export class HeaderComponent implements OnInit {
 
-  public expFrigdeItems: FridgeItem[];
+  public expFrigdeItems: NotifItem[];
   public count: number;
 
   constructor(private _fridgeService: FridgeService,

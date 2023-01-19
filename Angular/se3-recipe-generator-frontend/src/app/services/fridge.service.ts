@@ -11,7 +11,7 @@ export class FridgeService {
   private _baseUri: string = "http://localhost:8085/api/v1/fridgeItems";
 
   private fridgeItems: FridgeItem[] = [];
-  private expiringFridgeItems: FridgeItem[];
+  private expiringFridgeItems: NotifItem[];
 
   constructor(private http: HttpClient) { }
 
@@ -39,29 +39,42 @@ export class FridgeService {
 
 
 
-  async getUpdatedNotifications(): Promise<FridgeItem[]> {
+  async getUpdatedNotifications(): Promise<NotifItem[]> {
     this.fridgeItems = await this.getFridgeItems()
     this.expiringFridgeItems = [];
 
     for (var item of this.fridgeItems) {
       var fridgeItem = <FridgeItem> item;
-      if (this.expiresSoon(fridgeItem.expirationDate)) {
-        //console.log("this expires: " + fridgeItem.name)
-        this.expiringFridgeItems.push(fridgeItem);
+      const itemStatus = this.getExpirationSatus(fridgeItem.expirationDate);
+      if (itemStatus === "expires soon" || itemStatus === "expired") {
+        const tempItem: NotifItem = {
+          item: item,
+          status: itemStatus
+        }
+        this.expiringFridgeItems.push(tempItem);
       }
     }
-
     return this.expiringFridgeItems
   }
 
-  expiresSoon(dateToCheck: string): boolean {
-    const today = new Date();
-    const itemDate = new Date(dateToCheck);
+  getExpirationSatus(dateToCheck: string): string {
+    const today = Date.now();
+    const itemDate = Date.parse(dateToCheck);
 
-    if (itemDate <= today) {
-      return true;
+    if (itemDate < today) {
+      return "expired"
     }
-
-    return false;
+    else if (itemDate > today + 3 * 24 * 60 * 60 * 1000) {
+      return "ok"
+    }
+    else {
+      return "expires soon"
+    }
   }
 }
+
+export interface NotifItem {
+  item: FridgeItem,
+  status: string
+}
+
