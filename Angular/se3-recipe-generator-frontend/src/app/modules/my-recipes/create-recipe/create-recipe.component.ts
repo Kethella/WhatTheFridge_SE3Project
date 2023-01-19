@@ -5,6 +5,9 @@ import { Recipe } from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { DialogData, RecipeDetailsComponent } from 'src/app/shared/components/recipe-details/recipe-details.component';
 import {MatTable} from '@angular/material/table';
+import { ICategory } from 'src/app/models/category';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 
 @Component({
@@ -19,6 +22,8 @@ export class CreateRecipeComponent {
   ingredienNames: String[];
   ingredientAmounts: String[];
   ingredients: Ingredient[];
+  selectedCategory: ICategory = {"enumValue": "", "text":""};
+  categories: ICategory[];
 
   displayedColumns: string[] = ['ingredientName', 'ingredientAmount'];
 
@@ -34,11 +39,17 @@ export class CreateRecipeComponent {
       this.ingredients = []
  }
 
- ngOnInit(){
+  async ngOnInit(){
   this.recipeForm=this._formBuilder.group({
     ingredientName:[null, Validators.required],
-    ingredientAmount:[null, Validators.required]
+    ingredientAmount:[null, Validators.required],
+    name:[null, Validators.required],
+    category:[null, Validators.required],
+    tags:[null, Validators.required],
+    instructions:[null, Validators.required],
+
   })
+  this.categories = await this._recipeService.getCategories();
  }
 
   onCloseClick() {
@@ -48,19 +59,18 @@ export class CreateRecipeComponent {
   onSubmit(){
   if(this.recipeForm.valid){
     this.recipe={
-      ingredientNames: this.recipeForm.get('ingredient')?.value,
+      ingredientNames: this.recipeForm.get('ingredientName')?.value,
       id: '',
-      name:'manja',
-      category:'random',
-      instructions:'idk',
+      name:this.recipeForm.get('name')?.value,
+      category:this.recipeForm.get('category')?.value,
+      instructions:this.recipeForm.get('instructions')?.value,
       image:'http://localhost:8085/media/download/63c95e3d664c9260ee663f9c',
-      tags: [],
+      tags: this.recipeForm.get('tags')?.value,
       link:'',
-      ingredientMeasures:this.recipeForm.get('amount')?.value,
+      ingredientMeasures:this.recipeForm.get('ingredientAmount')?.value,
       ownerAccount:''
     }
-    //this._recipeService.save(this.recipe);
-
+    this._recipeService.createRecipe(this.recipe);
     console.log(this.recipe)
   }
  }
@@ -69,7 +79,7 @@ export class CreateRecipeComponent {
 
   async onAdd(){
 
-    if (this.recipeForm.valid) {
+    
       var name = this.recipeForm.get("ingredientName")?.value
       var amount = this.recipeForm.get("ingredientAmount")?.value
       console.log(name)
@@ -81,19 +91,56 @@ export class CreateRecipeComponent {
       }
       this.ingredients.push(ingredient)
       this.table.renderRows();
+  
+  }
+
+  setSelectedCategory(categories: ICategory[], selectedCategory: ICategory): ICategory{
+
+    for (let category of categories){
+      if (selectedCategory.text == category.text){
+        selectedCategory.enumValue = category.enumValue;
+      }
     }
-    else {
-      //TODO: error message
+    return selectedCategory;
+  }
+
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  tagsArray: Tags[]=[];
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.tagsArray.push({name: value.trim()});
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
     }
   }
 
+  remove(tag: Tags): void {
+    const index = this.tagsArray.indexOf(tag);
 
-
-
-
+    if (index >= 0) {
+      this.tagsArray.splice(index, 1);
+    }
+  }
+  
 }
 
 export interface Ingredient {
   ingredientName: string;
   ingredientAmount: number;
+}
+
+export interface Tags{
+  name: string;
 }

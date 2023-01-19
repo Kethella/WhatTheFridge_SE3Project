@@ -33,8 +33,11 @@ export class MyRecipesComponent {
     console.log("dialog opened")
     const dialogRef=this.dialog.open(CreateRecipeComponent, {
       data: this.ingredients,
-      height: '400px',
-      width: '600px',
+      height: '800px',
+      width: '1200px',
     })
+    dialogRef.afterClosed().subscribe(result => {
+      this.ngOnInit();
+    });
   }
 }

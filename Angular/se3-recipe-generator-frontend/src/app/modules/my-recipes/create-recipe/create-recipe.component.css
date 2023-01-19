@@ -8,3 +8,24 @@
   background-color: aquamarine;
   color: black;
 }
+
+.spacer{
+  padding-bottom: 10px;
+  padding-top: 5px;
+}
+
+.example-chip-list {
+  width: 100%;
+}
+
+
+.instructions{
+  width: 100%;
+  height: auto;
+}
+
+.add{
+  display: inline-block;
+  width: 100%;
+}
+

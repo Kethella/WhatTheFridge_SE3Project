@@ -1,5 +1,5 @@
 <div id="dialog-header">
-    <h3 mat-dialog-title id="recipeName">Create Recipe</h3>
+    <h3 mat-dialog-title id="recipeName">Create Custom Recipe</h3>
 
     <mat-dialog-actions id="actions">
       <button mat-mini-fab mat-dialog-close id="close-button" (click)="onCloseClick()">
@@ -12,26 +12,35 @@
 
   <div id="ingredients">
 
-    <h3>Ingredients</h3>
+    
 
     <form [formGroup]="recipeForm">
 
-
+      <h3>Name your recipe</h3>
       <mat-form-field>
-          <mat-label>Ingredient</mat-label>
-          <input matInput formControlName="ingredientName" required>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required>
       </mat-form-field>
 
-      <mat-form-field>
-          <mat-label>Amount</mat-label>
-          <input matInput formControlName="ingredientAmount" required>
-      </mat-form-field>
+      <div class="add">
+        
+          <h3>Add Ingredients</h3>
+            <mat-form-field>
+              <mat-label>Ingredient</mat-label>
+              <input matInput formControlName="ingredientName" required>
+            </mat-form-field>
 
+            <mat-form-field>
+              <mat-label>Amount</mat-label>
+              <input matInput formControlName="ingredientAmount" required>
+            </mat-form-field>
+        
 
-      <button mat-raised-button (click)="onAdd()">Add</button>
+      
+      <button mat-raised-button (click)="onAdd()" class="addButton">Add</button>
+      </div>
 
-
-      <table mat-table [dataSource]="ingredients" class="mat-elevation-z8">
+      <table mat-table [dataSource]="ingredients" class="mat-elevation-z8" id="table" >
 
         <!-- Name Column -->
         <ng-container matColumnDef="ingredientName">
@@ -49,16 +58,56 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
+
+      <div class="spacer"></div>
+
+        <h3>Categories</h3>
+        <mat-form-field appearance="fill">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category" [(value)]="selectedCategory.text">
+            <mat-option>All</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.text">
+              {{category.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      <div class="spacer"></div>
+
+        <h3>Tags</h3>
+        <mat-form-field class="example-chip-list">
+          <mat-chip-grid #chipGrid>
+            <mat-chip-row *ngFor="let tag of tagsArray"
+                          (removed)="remove(tag)">
+              {{tag.name}}
+              <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input placeholder="Add tag"
+                  [matChipInputFor]="chipGrid"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="add($event)"
+                  formControlName="tags"/>
+          </mat-chip-grid>
+        </mat-form-field>
+        
+        <div class="spacer"></div>
+
+        <h3>Instructions</h3>
+        <mat-form-field appearance="fill" class="instructions">
+          <mat-label>Instructions</mat-label>
+          <textarea matInput formControlName="instructions"></textarea>
+        </mat-form-field>
+        
     </form>
-
-
-
   </div>
 
 
   <div id="action-buttons">
     <button mat-raised-button>Cancel</button>
-    <button mat mat-raised-button id="create-btn">Create</button>
+    <button mat mat-raised-button id="create-btn" (click)="onSubmit()">Create</button>
   </div>
 
 

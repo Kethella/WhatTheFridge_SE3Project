@@ -12,6 +12,7 @@ export class RecipeService {
   data = {};
 
   private ownerAccount: string = "";
+  private recipeId="";
   private _baseUri: string = "http://localhost:8085/api/v1/recipes"
   private _basiUriDel: string = "http://localhost:8085/api/v1/recipes/"
 
@@ -37,6 +38,7 @@ export class RecipeService {
 
   public createRecipe(recipe: Recipe) {
     recipe.ownerAccount = this.ownerAccount;
+    console.log(recipe)
     return this.http.post<Recipe>(`${this._baseUri}/oa=${this.ownerAccount}`, recipe);
   }
 
@@ -44,9 +46,16 @@ export class RecipeService {
     this.ownerAccount = oa;
   }
 
+  setId(id: string):void{
+    this.recipeId=id;
+  }
+
   public deleteRecipe(id: string){
     this.http.delete(this._basiUriDel+id).subscribe();
+  }
 
+  async updateRecipe(updatedRecipe: Recipe):Promise<any>{
+    return firstValueFrom(this.http.put(`${this._baseUri}/${this.recipeId}`, updatedRecipe))
   }
 
 }
