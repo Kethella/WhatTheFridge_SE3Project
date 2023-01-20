@@ -23,7 +23,9 @@ unit-tests:
   script:
     - echo "This job tests JUnit"
     - "echo 'Running JUnitTest for packages'"
-    - "mvn '-Dtest=de.hdm.se3project.backend.jUnitTest.controllerTest.*mvn clean install -DskipTests'"
+    - "mvn '-Dtest=de.hdm.se3project.backend.jUnitTest.controllerTest.*Test' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.jUnitTest.modelTest.*Test' test"
+
 
 integration-tests:
   stage: test
