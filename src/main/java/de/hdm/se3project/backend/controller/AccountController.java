@@ -5,70 +5,61 @@ import java.util.List;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.model.Account;
-import de.hdm.se3project.backend.repository.AccountRepository;
+import de.hdm.se3project.backend.model.FridgeItem;
+import de.hdm.se3project.backend.model.Recipe;
+import de.hdm.se3project.backend.services.AccountService;
+import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
+import de.hdm.se3project.backend.services.RecipeService;
+import de.hdm.se3project.backend.services.impl.FridgeItemServiceImpl;
+import de.hdm.se3project.backend.services.impl.RecipeServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /* Controller class for "accounts" MongoDB collection
  * author: ag186
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/accounts")
 public class AccountController implements Serializable {
 
-    private final AccountRepository repository;
+    private final AccountService accountService;
+    private final RecipeService recipeService;
+    private final FridgeItemService fridgeItemService;
 
-    public AccountController(AccountRepository repository) {
-        this.repository = repository;
+
+    public AccountController(AccountService accountService, RecipeService recipeService, FridgeItemService fridgeItemService, RecipeServiceImpl recipeServiceImpl, FridgeItemServiceImpl fridgeItemServiceImpl) {
+
+        this.accountService = accountService;
+        this.recipeService = recipeService;
+        this.fridgeItemService = fridgeItemService;
     }
 
-    @GetMapping("/accounts")
+    //TODO: delete
+    @GetMapping()
     List<Account> getAllAccounts(){
-        return repository.findAll();
+        return accountService.getAllAccounts();
     }
 
-    @GetMapping("/accounts/{id}")
+    @GetMapping("/{id}")
     Account getOneAccount(@PathVariable String id) throws ResourceNotFoundException {
 
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
+        return accountService.getAccountById(id);
     }
 
-    //temporary for testing
-    @GetMapping("/accounts/seqQuestion/{id}")
-    String getAccountSecurityQuestionText(@PathVariable String id) throws ResourceNotFoundException {
-        Account account = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-
-        return account.getSecurityQuestion().getText();
-    }
-
-
-    @PostMapping("/accounts")
+    @PostMapping()
     Account createAccount(@RequestBody Account newAccount){ //whatever data you submit prom the client side will be accepted in the post object
         newAccount.setId(IdGenerationService.generateId(newAccount));
-        return repository.save(newAccount);
+        return accountService.createAccount(newAccount);
     }
 
-    @PutMapping("/accounts/{id}")
+    @PutMapping("/{id}")
     Account replaceAccount(@PathVariable String id, @RequestBody Account newAccount) throws ResourceNotFoundException {
-
-        Account account = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-
-        account.setName(newAccount.getName());
-        account.setEmail(newAccount.getEmail());
-        account.setPassword(newAccount.getPassword());
-        account.setSecurityQuestion(newAccount.getSecurityQuestion());
-        account.setSecurityAnswer(newAccount.getSecurityAnswer());
-        account.setPersonalRecipes(newAccount.getPersonalRecipes());
-        account.setFridgeItems(newAccount.getFridgeItems());
-
-        return repository.save(account);
+        return accountService.updateAccount(id, newAccount);
     }
 
-    @DeleteMapping("/accounts/{id}")
-    void deleteAccount(@PathVariable String id) {
-        repository.deleteById(id);
+    @DeleteMapping("/{id}")
+    void deleteAccount(@PathVariable String id) throws ResourceNotFoundException {
+        accountService.deleteAccount(id);
     }
 }
