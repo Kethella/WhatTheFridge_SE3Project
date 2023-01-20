@@ -6,7 +6,7 @@ export class Recipe{
   image: string;
   tags: [];
   link: string;
-  ingredientNames: [];
-  ingredientMeasures: [];
+  ingredientNames: string[];
+  ingredientMeasures: string[];
   ownerAccount: string;
 }

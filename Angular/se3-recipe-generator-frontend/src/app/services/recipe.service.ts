@@ -36,10 +36,9 @@ export class RecipeService {
     return firstValueFrom(this.http.get<ICategory[]>("http://localhost:8085/api/v1/categories"))
   }
 
-  public createRecipe(recipe: Recipe) {
+  async createRecipe(recipe: Recipe): Promise<Recipe> {
     recipe.ownerAccount = this.ownerAccount;
-    console.log(recipe)
-    return this.http.post<Recipe>(`${this._baseUri}/oa=${this.ownerAccount}`, recipe);
+    return firstValueFrom(this.http.post<Recipe>(`${this._baseUri}`, recipe));
   }
 
   setOwnerAccount(oa: string): void{

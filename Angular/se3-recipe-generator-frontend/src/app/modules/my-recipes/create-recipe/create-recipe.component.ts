@@ -56,30 +56,30 @@ export class CreateRecipeComponent {
     this.dialogRef.close();
   }
 
-  onSubmit(){
-  if(this.recipeForm.valid){
+  async onSubmit(){
+
     this.recipe={
-      ingredientNames: this.recipeForm.get('ingredientName')?.value,
       id: '',
-      name:this.recipeForm.get('name')?.value,
-      category:this.recipeForm.get('category')?.value,
-      instructions:this.recipeForm.get('instructions')?.value,
+      name:'manja',
+      category:'MAINCOURSE',
+      instructions:'idk',
       image:'http://localhost:8085/media/download/63c95e3d664c9260ee663f9c',
       tags: this.recipeForm.get('tags')?.value,
       link:'',
-      ingredientMeasures:this.recipeForm.get('ingredientAmount')?.value,
+      ingredientMeasures: ["manja", "o6te ne6to"],
+      ingredientNames: ["1", "1"],
       ownerAccount:''
     }
-    this._recipeService.createRecipe(this.recipe);
+
+    this.recipe = await this._recipeService.createRecipe(this.recipe);
     console.log(this.recipe)
-  }
  }
 
 
 
   async onAdd(){
 
-    
+
       var name = this.recipeForm.get("ingredientName")?.value
       var amount = this.recipeForm.get("ingredientAmount")?.value
       console.log(name)
@@ -91,7 +91,7 @@ export class CreateRecipeComponent {
       }
       this.ingredients.push(ingredient)
       this.table.renderRows();
-  
+
   }
 
   setSelectedCategory(categories: ICategory[], selectedCategory: ICategory): ICategory{
@@ -133,7 +133,7 @@ export class CreateRecipeComponent {
       this.tagsArray.splice(index, 1);
     }
   }
-  
+
 }
 
 export interface Ingredient {
