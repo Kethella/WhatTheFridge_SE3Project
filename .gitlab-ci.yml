@@ -36,7 +36,7 @@ integration-tests:
   #mongo image is used only here
   services:
     - name: mongo:4.4
-  image: maven:3.8-openjdk-18
+  image: maven:3-openjdk-17
   script:
     - echo "This job tests Integration Tests"
     - "echo 'Running Integration tests for all packages'"
@@ -44,3 +44,4 @@ integration-tests:
     - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.servicesTest.*Test test"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+
