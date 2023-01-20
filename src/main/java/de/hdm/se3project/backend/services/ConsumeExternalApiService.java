@@ -5,14 +5,13 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Recipe;
-import de.hdm.se3project.backend.model.enums.Category;
+import de.hdm.se3project.backend.models.Recipe;
+import de.hdm.se3project.backend.models.enums.Category;
 import org.bson.Document;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

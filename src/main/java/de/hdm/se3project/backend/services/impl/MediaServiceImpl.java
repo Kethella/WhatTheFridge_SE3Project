@@ -2,15 +2,10 @@ package de.hdm.se3project.backend.services.impl;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Media;
+import de.hdm.se3project.backend.models.Media;
 import de.hdm.se3project.backend.services.MediaService;
 import org.apache.commons.io.IOUtils;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -39,7 +34,7 @@ public class MediaServiceImpl implements MediaService {
 
         if (gridFSFile != null && gridFSFile.getMetadata() != null) {
 
-            media.setFilename( gridFSFile.getFilename() );
+            media.setFileName( gridFSFile.getFilename() );
             media.setFileType( gridFSFile.getMetadata().get("_contentType").toString() );
             media.setFile( IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream()) );
         }

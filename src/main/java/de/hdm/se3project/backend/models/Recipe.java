@@ -1,8 +1,11 @@
-package de.hdm.se3project.backend.model;
+package de.hdm.se3project.backend.models;
 
-import de.hdm.se3project.backend.model.enums.Category;
+import de.hdm.se3project.backend.models.enums.Category;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 
 @Document(collection = "recipes")
@@ -116,26 +119,21 @@ public class Recipe {
     public void setOwnerAccount(String ownerAccount) {
         this.ownerAccount = ownerAccount;
     }
-/*
+
     @Override
-    public int hashCode() {
-        return super.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(name, recipe.name) && category == recipe.category && Objects.equals(instructions, recipe.instructions) && Objects.equals(picture, recipe.picture) && Arrays.equals(tags, recipe.tags) && Objects.equals(link, recipe.link) && Arrays.equals(ingredientNames, recipe.ingredientNames) && Arrays.equals(ingredientMeasures, recipe.ingredientMeasures) && Objects.equals(ownerAccount, recipe.ownerAccount);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        // If the object is compared with itself then return true
-        if (obj == this) {
-            return true;
-        }
-
-        // Check if obj is an instance of Recipe or not
-        if (!(obj instanceof Recipe recipeObj)) {
-            return false;
-        }
-
-        // typecast obj to Recipe so that we can compare data members
-        // Compare the ids
-        return id.equals((recipeObj.id));
-    }*/
+    public int hashCode() {
+        int result = Objects.hash(name, category, instructions, picture, link, ownerAccount);
+        result = 31 * result + Arrays.hashCode(tags);
+        result = 31 * result + Arrays.hashCode(ingredientNames);
+        result = 31 * result + Arrays.hashCode(ingredientMeasures);
+        return result;
+    }
 }

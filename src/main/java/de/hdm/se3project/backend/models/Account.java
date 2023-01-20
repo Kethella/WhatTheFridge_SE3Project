@@ -1,17 +1,18 @@
-package de.hdm.se3project.backend.model;
+package de.hdm.se3project.backend.models;
 
-import de.hdm.se3project.backend.model.enums.SecurityQuestion;
+import de.hdm.se3project.backend.models.enums.SecurityQuestion;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /* Model class for "accounts" MongoDB collection
-* author: ag186
-*/
+ * author: ag186
+ */
 @Document(collection = "accounts")
 public class Account {
 
@@ -129,5 +130,18 @@ public class Account {
 
     public void setFridgeItems(List<FridgeItem> fridgeItems) {
         this.fridgeItems = fridgeItems;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Account account = (Account) obj;
+        return Objects.equals(name, account.name) && securityQuestion == account.securityQuestion && Objects.equals(email, account.email) && Objects.equals(password, account.password) && Objects.equals(securityAnswer, account.securityAnswer) && Objects.equals(pfp, account.pfp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email, password, securityQuestion, securityAnswer, pfp);
     }
 }

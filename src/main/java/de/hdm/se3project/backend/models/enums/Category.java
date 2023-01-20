@@ -1,10 +1,9 @@
-package de.hdm.se3project.backend.model.enums;
+package de.hdm.se3project.backend.models.enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public enum Category{
-
 
     @JsonProperty("MAINCOURSE")
     MAINCOURSE("Main Course"),

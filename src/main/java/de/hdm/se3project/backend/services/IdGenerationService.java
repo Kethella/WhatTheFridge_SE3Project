@@ -3,9 +3,9 @@ package de.hdm.se3project.backend.services;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import de.hdm.se3project.backend.model.Account;
-import de.hdm.se3project.backend.model.FridgeItem;
-import de.hdm.se3project.backend.model.Recipe;
+import de.hdm.se3project.backend.models.Account;
+import de.hdm.se3project.backend.models.FridgeItem;
+import de.hdm.se3project.backend.models.Recipe;
 import org.bson.Document;
 
 import java.time.LocalTime;

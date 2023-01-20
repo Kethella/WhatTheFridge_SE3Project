@@ -1,11 +1,10 @@
 package de.hdm.se3project.backend.services.impl;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Account;
-import de.hdm.se3project.backend.model.FridgeItem;
-import de.hdm.se3project.backend.model.Recipe;
-import de.hdm.se3project.backend.repository.AccountRepository;
-import de.hdm.se3project.backend.repository.RecipeRepository;
+import de.hdm.se3project.backend.models.Account;
+import de.hdm.se3project.backend.models.FridgeItem;
+import de.hdm.se3project.backend.models.Recipe;
+import de.hdm.se3project.backend.repositories.AccountRepository;
 import de.hdm.se3project.backend.services.AccountService;
 import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
@@ -17,14 +16,18 @@ import java.util.List;
 
 @Service
 public class AccountServiceImpl implements AccountService {
-    @Autowired
-    private AccountRepository accountRepository;
+
+    private final AccountRepository accountRepository;
 
     @Autowired
     private RecipeService recipeService;
 
     @Autowired
     private FridgeItemService fridgeItemService;
+
+    public AccountServiceImpl(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     @Override
     public Account createAccount(Account account) {

@@ -1,14 +1,14 @@
-package de.hdm.se3project.backend.controller;
+package de.hdm.se3project.backend.controllers;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Recipe;
+import de.hdm.se3project.backend.models.Recipe;
 import de.hdm.se3project.backend.services.RecipeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/recipes")
 @CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
 
@@ -48,7 +48,7 @@ public class RecipeController {
         return recipeService.getRecipes(ownerAccount, defaultRecipes, category, ingredientNames, tags);
     }
 
-    @GetMapping("/recipes/tags/oa={ownerAccount}/")
+    @GetMapping("/tags/oa={ownerAccount}/")
     List<String> getAllRecipeTags(@PathVariable String ownerAccount) throws ResourceNotFoundException {
 
         return recipeService.getAllRecipeTags(ownerAccount);
@@ -56,6 +56,8 @@ public class RecipeController {
 
 
 }
+
+
 
 
 
