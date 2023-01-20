@@ -17,10 +17,30 @@ build-job:
     - "echo 'Starting Build Stage'"
     - "mvn compile"
 
-test-job1:
+unit-tests:
   stage: test
   image: maven:3-openjdk-17
   script:
-    - echo "This job tests something"
-    - "echo 'Starting Test Stage'"
-    - "mvn -Dtest=AccountControllerTest test"
+    - echo "This job tests JUnit"
+    - "echo 'Running JUnitTest for packages'"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
+
+integration-tests:
+  stage: test
+  variables:
+    MONGO_INITDB_ROOT_USERNAME: "root"
+    MONGO_INITDB_ROOT_PASSWORD: "dummy"
+    #SPRING_DATA_MONGODB_URI: "mongodb://root:dummy@mongo"
+    #CI_DEBUG_SERVICES: "true"
+  #mongo image is used only here
+  services:
+    - name: mongo:4.4
+  image: maven:3.8-openjdk-18
+  script:
+    - echo "This job tests Integration Tests"
+    - "echo 'Running Integration tests for all packages'"
+    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.*Test test"
+    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.servicesTest.*Test test"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
