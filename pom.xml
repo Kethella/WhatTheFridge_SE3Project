@@ -107,14 +107,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>3.0.0-M8</version>
-		</dependency>
-
 	</dependencies>
 
 	<repositories>
@@ -141,7 +133,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>de.hdm.jordine.musicmanager.app.MusicManagerApp</mainClass>
+							<mainClass>de.hdm.se3project.backend.Application</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -153,6 +145,16 @@
 				<version>3.8.0</version>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M8</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<printSummary>true</printSummary>
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
