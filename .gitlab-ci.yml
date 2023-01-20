@@ -15,8 +15,8 @@ unit-tests:
   script:
     - echo "This job tests JUnit"
     - "echo 'Running JUnitTest for packages'"
-    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.controllerTest.*Test' test"
-    - "mvn '-Dtest=de.hdm.se3project.backend.controller.jUnitTest.modelTest.*Test' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.jUnitTest.controllerTest.*Test' test"
+    - "mvn '-Dtest=de.hdm.se3project.backend.jUnitTest.modelTest.*Test' test"
 
 integration-tests:
   stage: test
@@ -36,5 +36,5 @@ integration-tests:
   script:
     - echo "This job tests Integration Tests"
     - "echo 'Running Integration tests for all packages'"
-    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.repositoryTest.*Test test"
-    - "mvn -Dtest=de.hdm.se3project.backend.controller.integrationTest.servicesTest.*Test test"
+    - "mvn -Dtest=de.hdm.se3project.backend.integrationTest.repositoryTest.*Test test"
+    - "mvn -Dtest=de.hdm.se3project.backend.integrationTest.servicesTest.*Test test"
