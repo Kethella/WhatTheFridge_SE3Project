@@ -19,11 +19,11 @@ public class FridgeItemServiceImplTest {
     @Autowired
     private FridgeItemRepository fridgeItemRepository;
 
-    private FridgeItemServiceImpl fridgeItemService;
+    private FridgeItemServiceImpl fridgeItemServiceImpl;
 
     @BeforeEach
     void setUp(){
-        this.fridgeItemService = new FridgeItemServiceImpl(fridgeItemRepository);
+        this.fridgeItemServiceImpl = new FridgeItemServiceImpl(fridgeItemRepository);
     }
 
     @AfterEach
@@ -40,7 +40,7 @@ public class FridgeItemServiceImplTest {
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        List<FridgeItem> result = fridgeItemService.getFridgeItems();
+        List<FridgeItem> result = fridgeItemServiceImpl.getFridgeItems();
         Assertions.assertEquals(2, result.size());
     }
 
@@ -58,7 +58,7 @@ public class FridgeItemServiceImplTest {
 
         fridgeItem1.setAmount(3);
 
-        FridgeItem fridgeItem2 = this.fridgeItemService.updateFridgeItem(fridgeItem.getId(), fridgeItem1);
+        FridgeItem fridgeItem2 = this.fridgeItemServiceImpl.updateFridgeItem(fridgeItem.getId(), fridgeItem1);
         Assertions.assertEquals(3, fridgeItem2.getAmount());
         Assertions.assertEquals("chocolate milk", fridgeItem2.getName());
         Assertions.assertEquals("3", fridgeItem2.getOwnerAccount());
@@ -66,16 +66,16 @@ public class FridgeItemServiceImplTest {
 
     @Test
     @Description("Checks method deleteFridgeItem in FridgeItemServiceImpl class")
-    void shouldDeleteFridgeItems() throws ResourceNotFoundException {
+    void shouldDeleteFridgeItem() throws ResourceNotFoundException {
         FridgeItem fridgeItem1 = new FridgeItem("1", "butter", 1, "22.01.2023", "1");
         FridgeItem fridgeItem2 = new FridgeItem("2", "banana", 6, "26.01.2023", "2");
 
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        this.fridgeItemService.deleteFridgeItem(fridgeItem1.getId());
+        this.fridgeItemServiceImpl.deleteFridgeItem(fridgeItem1.getId());
 
-        List<FridgeItem> fridgeItems = fridgeItemService.getFridgeItems();
+        List<FridgeItem> fridgeItems = fridgeItemServiceImpl.getFridgeItems();
         Assertions.assertEquals(1, fridgeItems.size());
      }
 
@@ -88,9 +88,9 @@ public class FridgeItemServiceImplTest {
         this.fridgeItemRepository.save(fridgeItem1);
         this.fridgeItemRepository.save(fridgeItem2);
 
-        List<FridgeItem> fridgeItems = fridgeItemService.getFridgeItems();
+        List<FridgeItem> fridgeItems = fridgeItemServiceImpl.getFridgeItems();
 
-        List<FridgeItem> result = fridgeItemService.getFridgeItemsByOwnerAccount("2", fridgeItems);
+        List<FridgeItem> result = fridgeItemServiceImpl.getFridgeItemsByOwnerAccount("2", fridgeItems);
         Assertions.assertEquals(1, result.size());
     }
 
