@@ -81,8 +81,6 @@ public class AccountControllerTest {
 
         Mockito.when(accountRepository.findById(ACCOUNT_1.getId())).thenReturn(java.util.Optional.ofNullable(ACCOUNT_1));
 
-        //Mockito.when(accountController.getOneAccount("1")).thenReturn(ACCOUNT_1);
-
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/{id}", ACCOUNT_1.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -90,37 +88,6 @@ public class AccountControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("user")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.securityAnswer", is("Buddy")));
     }
-
-    /* @Test
-    @Description("Testing Method: createAccount - Should create a new account - POST request")
-    public void createAccountTest() throws Exception {
-
-        Account newAccount = new Account();
-
-        newAccount.setName("NewUser");
-        newAccount.setEmail("NewUser@mailmail.com");
-        newAccount.setPassword("123654");
-        newAccount.setSecurityQuestion(SecurityQuestion.Q5);
-        newAccount.setSecurityAnswer("NewAnswer");
-        newAccount.setPersonalRecipes(newAccount.getPersonalRecipes());
-        newAccount.setFridgeItems(newAccount.getFridgeItems());
-
-        //Mockito.when(accountRepository.save(newAccount)).thenReturn(newAccount);
-        Mockito.when(accountController.createAccount(newAccount)).thenReturn(newAccount);
-
-        String account = objectWriter.writeValueAsString(newAccount);
-
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/v1/accounts")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(account);
-
-        this.mockMvc.perform(mockRequest)
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("NewUser")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", is("NewUser@mailmail.com")));
-    }*/
 
     @Test
     @Description("Testing method: replaceAccount - Should change infos of the account - PUT request ")
