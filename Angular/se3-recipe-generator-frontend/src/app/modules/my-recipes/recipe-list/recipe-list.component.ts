@@ -18,13 +18,12 @@ export class RecipeListComponent {
   @Input() public recipes;
 
   @Output() public restartAfterDeleteEvent = new EventEmitter();
-  
+
   constructor(private recipeService:RecipeService,
     public dialog:MatDialog) {
   }
 
   ngOnInit(){
-    console.log("Hi")
   }
 
   delete(id: string){

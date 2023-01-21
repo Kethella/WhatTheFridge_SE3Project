@@ -4,14 +4,17 @@
   justify-content: space-between;
 }
 
+.recipeField {
+  padding-bottom: 30px;
+}
+
+#categoryTitle {
+  padding-top: 15px;
+}
+
 #create-btn {
   background-color: aquamarine;
   color: black;
-}
-
-.spacer{
-  padding-bottom: 10px;
-  padding-top: 5px;
 }
 
 .example-chip-list {
@@ -21,11 +24,6 @@
 
 .instructions{
   width: 100%;
-  height: auto;
 }
 
-.add{
-  display: inline-block;
-  width: 100%;
-}
 

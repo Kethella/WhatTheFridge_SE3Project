@@ -19,7 +19,6 @@ export class RecipeService {
   constructor(private http: HttpClient) { }
 
   async getRecipes(queryParams: HttpParams): Promise<Recipe[]> {
-    console.log(this.ownerAccount)
     if (queryParams) {
       return firstValueFrom(this.http.get<Recipe[]>(`${this._baseUri}/oa=${this.ownerAccount}/`, {params:queryParams}));
     }

@@ -4,7 +4,7 @@ export class Recipe{
   category: string;
   instructions: string;
   image: string;
-  tags: [];
+  tags: string[];
   link: string;
   ingredientNames: string[];
   ingredientMeasures: string[];

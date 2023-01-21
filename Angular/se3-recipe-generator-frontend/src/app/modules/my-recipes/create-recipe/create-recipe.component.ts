@@ -20,13 +20,15 @@ export class CreateRecipeComponent {
   recipeForm: FormGroup;
 
   recipe: Recipe;
-  ingredienNames: String[];
-  ingredientAmounts: String[];
+
+  ingredienNames: string[];
+  ingredientAmounts: string[];
   ingredients: Ingredient[];
+
   selectedCategory: ICategory = {"enumValue": "", "text":""};
   categories: ICategory[];
-  selectedTags: string;
-  tagsArray: Tags[]=[];
+
+  selectedTags: string[];
 
   displayedColumns: string[] = ['ingredientName', 'ingredientAmount'];
 
@@ -43,21 +45,21 @@ export class CreateRecipeComponent {
       this.ingredienNames = []
       this.ingredientAmounts = []
       this.ingredients = [],
-      this.tagsArray=[]
+      this.selectedTags =[]
  }
 
   async ngOnInit(){
-  this.recipeForm=this._formBuilder.group({
-    ingredientName:[null, Validators.required],
-    ingredientAmount:[null, Validators.required],
-    name:[null, Validators.required],
-    category:[null, Validators.required],
-    tags:[null, Validators.required],
-    instructions:[null, Validators.required],
+    this.recipeForm=this._formBuilder.group({
+      ingredientName:[null, Validators.required],
+      ingredientAmount:[null, Validators.required],
+      name:[null, Validators.required],
+      category:[null, Validators.required],
+      tags:[null, Validators.required],
+      instructions:[null, Validators.required]
+    })
 
-  })
-  this.categories = await this._recipeService.getCategories();
- }
+    this.categories = await this._recipeService.getCategories();
+  }
 
   onCloseClick() {
     this.dialogRef.close();
@@ -65,64 +67,45 @@ export class CreateRecipeComponent {
 
   async onSubmit(){
 
+    this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
+
     this.recipe={
       id: '',
       name:this.recipeForm.get('name')?.value,
-      category:'MAINCOURSE',
+      ingredientNames: this.ingredienNames,
+      ingredientMeasures: this.ingredientAmounts,
+      category: this.selectedCategory.enumValue,
+      tags: this.selectedTags,
       instructions:this.recipeForm.get('instructions')?.value,
       image:'http://localhost:8085/media/download/63c95e3d664c9260ee663f9c',
-      tags: this.recipeForm.get('tags')?.value,
       link:'',
-      ingredientMeasures: ["manja", "o6te ne6to"],
-      ingredientNames: ["1", "1"],
       ownerAccount:''
     }
-    console.log(this.selectedTags) //prints only last tag??
     this.recipe = await this._recipeService.createRecipe(this.recipe);
     console.log(this.recipe)
     this.dialogRef.close();
  }
 
-    prepTagsQuery(){
-      this.selectedTags='';
 
-      for (let tag of this.tagsArray){
-        if(this.tagsArray.indexOf(tag) > 0 ){
-          this.selectedTags = this.selectedTags.concat(','+tag.name);
-        }
-        else{
-          this.selectedTags = tag.name;
-        }
-      }
+  async onAddIngredient(){
+    var name = this.recipeForm.get("ingredientName")?.value
+    var amount = this.recipeForm.get("ingredientAmount")?.value
+
+    this.ingredienNames.push(name)
+    this.ingredientAmounts.push(amount)
+
+    const ingredient: Ingredient = {
+      ingredientName: name,
+      ingredientAmount: amount
     }
 
-    query(){
-  
-      if (this.selectedTags){
-        this.queryParams = this.queryParams.append("tags", this.selectedTags);
-      }  
-      this.newQueryEvent.emit(this.queryParams);
-    }
-
-  async onAdd(){
-
-      var name = this.recipeForm.get("ingredientName")?.value
-      var amount = this.recipeForm.get("ingredientAmount")?.value
-      console.log(name)
-      this.ingredienNames.push(name)
-      this.ingredientAmounts.push(amount)
-      const ingredient: Ingredient = {
-        ingredientName: name,
-        ingredientAmount: amount
-      }
-      this.ingredients.push(ingredient)
-      this.table.renderRows();
-
+    this.ingredients.push(ingredient)
+    this.table.renderRows();
   }
 
-  setSelectedCategory(categories: ICategory[], selectedCategory: ICategory): ICategory{
+  setSelectedCategory(selectedCategory: ICategory): ICategory{
 
-    for (let category of categories){
+    for (let category of this.categories){
       if (selectedCategory.text == category.text){
         selectedCategory.enumValue = category.enumValue;
       }
@@ -135,40 +118,27 @@ export class CreateRecipeComponent {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  
 
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
+  addTag(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
 
-    if ((value || '').trim()) {
-      this.tagsArray.push({name: value.trim()});
-      this.prepTagsQuery();
-      this.query();
+    if (value) {
+      this.selectedTags.push(value);
     }
 
-    if (input) {
-      input.value = '';
-    }
+    event.chipInput!.clear();
   }
 
-  remove(tag: Tags): void {
-    const index = this.tagsArray.indexOf(tag);
+  removeTag(tag: string): void {
+    const index = this.selectedTags.indexOf(tag);
 
     if (index >= 0) {
-      this.tagsArray.splice(index, 1);
-      this.prepTagsQuery();
-      this.query();
+      this.selectedTags.splice(index, 1);
     }
   }
-
 }
 
 export interface Ingredient {
   ingredientName: string;
   ingredientAmount: number;
-}
-
-export interface Tags{
-  name: string;
 }

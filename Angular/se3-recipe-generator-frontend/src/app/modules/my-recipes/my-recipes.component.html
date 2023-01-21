@@ -5,6 +5,8 @@
       <button mat-raised-button id="create" (click)="openDialog()">Create recipe</button>
     </div>
 
-    <div><app-recipe-list class="recipe-list" [recipes]="recipes" (restartAfterDeleteEvent)="loadRecipes()"></app-recipe-list></div>
+    <div>
+      <app-recipe-list class="recipe-list" [recipes]="recipes" (restartAfterDeleteEvent)="loadRecipes()"></app-recipe-list>
+    </div>
 </div>
 
