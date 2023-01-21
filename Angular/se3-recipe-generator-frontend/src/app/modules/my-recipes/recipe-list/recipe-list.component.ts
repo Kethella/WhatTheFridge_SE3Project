@@ -4,6 +4,8 @@ import { Recipe } from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RecipeDetailsComponent} from 'src/app/shared/components/recipe-details/recipe-details.component';
+import { CreateRecipeComponent } from '../create-recipe/create-recipe.component';
+import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 
 
 @Component({
@@ -32,6 +34,15 @@ export class RecipeListComponent {
 
   openDialog(selectedRecipe: Recipe){
     this.dialog.open(RecipeDetailsComponent, {
+      width: '900px',
+      data: {
+        selectedRecipe: selectedRecipe
+      }
+    });
+  }
+
+  openDialogEdit(selectedRecipe: Recipe){
+    this.dialog.open(EditRecipeComponent, {
       width: '900px',
       data: {
         selectedRecipe: selectedRecipe

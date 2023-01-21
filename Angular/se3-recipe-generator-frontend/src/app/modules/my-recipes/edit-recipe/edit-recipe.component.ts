@@ -1,37 +1,30 @@
-import { Component, EventEmitter, Inject, Output, ViewChild } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ViewChild, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTable } from '@angular/material/table';
+import { ICategory } from 'src/app/models/category';
 import { Recipe } from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { DialogData, RecipeDetailsComponent } from 'src/app/shared/components/recipe-details/recipe-details.component';
-import {MatTable} from '@angular/material/table';
-import { ICategory } from 'src/app/models/category';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { HttpParams } from '@angular/common/http';
-
+import { CreateRecipeComponent } from '../create-recipe/create-recipe.component';
 
 @Component({
-  selector: 'app-create-recipe',
-  templateUrl: './create-recipe.component.html',
-  styleUrls: ['./create-recipe.component.css']
+  selector: 'app-edit-recipe',
+  templateUrl: './edit-recipe.component.html',
+  styleUrls: ['./edit-recipe.component.css']
 })
-export class CreateRecipeComponent {
+export class EditRecipeComponent {
   recipeForm: FormGroup;
 
   recipe: Recipe;
-  ingredienNames: String[];
+  ingredientNames: String[];
   ingredientAmounts: String[];
   ingredients: Ingredient[];
   selectedCategory: ICategory = {"enumValue": "", "text":""};
   categories: ICategory[];
-  selectedTags: string;
-  tagsArray: Tags[]=[];
 
   displayedColumns: string[] = ['ingredientName', 'ingredientAmount'];
-
-  public queryParams = new HttpParams();
-  @Output() public newQueryEvent = new EventEmitter<HttpParams>();
 
   @ViewChild(MatTable) table: MatTable<Ingredient>;
 
@@ -40,10 +33,9 @@ export class CreateRecipeComponent {
     private _formBuilder: FormBuilder,
     private _recipeService:RecipeService){
 
-      this.ingredienNames = []
+      this.ingredientNames = []
       this.ingredientAmounts = []
-      this.ingredients = [],
-      this.tagsArray=[]
+      this.ingredients = []
  }
 
   async ngOnInit(){
@@ -67,9 +59,9 @@ export class CreateRecipeComponent {
 
     this.recipe={
       id: '',
-      name:this.recipeForm.get('name')?.value,
+      name:'neshto novo',
       category:'MAINCOURSE',
-      instructions:this.recipeForm.get('instructions')?.value,
+      instructions:'idk',
       image:'http://localhost:8085/media/download/63c95e3d664c9260ee663f9c',
       tags: this.recipeForm.get('tags')?.value,
       link:'',
@@ -77,39 +69,18 @@ export class CreateRecipeComponent {
       ingredientNames: ["1", "1"],
       ownerAccount:''
     }
-    console.log(this.selectedTags) //prints only last tag??
-    this.recipe = await this._recipeService.createRecipe(this.recipe);
+
+    this.recipe = await this._recipeService.updateRecipe(this.recipe);
     console.log(this.recipe)
-    this.dialogRef.close();
+    this.dialogRef.close()
  }
-
-    prepTagsQuery(){
-      this.selectedTags='';
-
-      for (let tag of this.tagsArray){
-        if(this.tagsArray.indexOf(tag) > 0 ){
-          this.selectedTags = this.selectedTags.concat(','+tag.name);
-        }
-        else{
-          this.selectedTags = tag.name;
-        }
-      }
-    }
-
-    query(){
-  
-      if (this.selectedTags){
-        this.queryParams = this.queryParams.append("tags", this.selectedTags);
-      }  
-      this.newQueryEvent.emit(this.queryParams);
-    }
 
   async onAdd(){
 
       var name = this.recipeForm.get("ingredientName")?.value
       var amount = this.recipeForm.get("ingredientAmount")?.value
       console.log(name)
-      this.ingredienNames.push(name)
+      this.ingredientNames.push(name)
       this.ingredientAmounts.push(amount)
       const ingredient: Ingredient = {
         ingredientName: name,
@@ -135,7 +106,7 @@ export class CreateRecipeComponent {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  
+  tagsArray: Tags[]=[];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -143,8 +114,6 @@ export class CreateRecipeComponent {
 
     if ((value || '').trim()) {
       this.tagsArray.push({name: value.trim()});
-      this.prepTagsQuery();
-      this.query();
     }
 
     if (input) {
@@ -157,12 +126,11 @@ export class CreateRecipeComponent {
 
     if (index >= 0) {
       this.tagsArray.splice(index, 1);
-      this.prepTagsQuery();
-      this.query();
     }
   }
 
 }
+
 
 export interface Ingredient {
   ingredientName: string;
@@ -172,3 +140,5 @@ export interface Ingredient {
 export interface Tags{
   name: string;
 }
+
+
