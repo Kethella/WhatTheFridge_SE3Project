@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("media")
+@RequestMapping("/api/v1/media")
 @CrossOrigin(origins = "http://localhost:4200")
 public class MediaController {
 
