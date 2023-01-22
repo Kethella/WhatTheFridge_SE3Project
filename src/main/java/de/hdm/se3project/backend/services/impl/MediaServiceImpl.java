@@ -39,7 +39,7 @@ public class MediaServiceImpl implements MediaService {
 
         if (gridFSFile != null && gridFSFile.getMetadata() != null) {
 
-            media.setFilename( gridFSFile.getFilename() );
+            media.setFileName( gridFSFile.getFilename() );
             media.setFileType( gridFSFile.getMetadata().get("_contentType").toString() );
             media.setFile( IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream()) );
         }

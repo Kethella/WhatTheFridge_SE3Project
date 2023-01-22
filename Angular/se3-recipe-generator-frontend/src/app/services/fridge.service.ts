@@ -33,7 +33,7 @@ export class FridgeService {
   }
 
   setOwnerAccount(oa: string): void{
-    this.ownerAccount = oa;
+   // this.ownerAccount = oa;
   }
 
 

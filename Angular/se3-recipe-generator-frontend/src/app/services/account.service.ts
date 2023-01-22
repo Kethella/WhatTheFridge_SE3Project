@@ -16,6 +16,7 @@ const httpOptions = {
 })
 export class AccountService {
 
+  private ownerAccountId: string = "2238550034095900" //todo: change back to empty string
   private _baseUrl = "http://localhost:8085/api/v1/accounts";
 
 
@@ -28,17 +29,29 @@ export class AccountService {
   }
 
   async findAccount(queryParams: HttpParams): Promise<Account> {
-    return firstValueFrom(this.http.get<Account>("http://localhost:8085/api/v1/accounts/one", {params:queryParams}));
+    return firstValueFrom(this.http.get<Account>("http://localhost:8085/api/v1/accounts/one/", {params:queryParams}));
   }
-
 
   async getSecurityQuestions(): Promise<ISecurityQuestion[]> {
     return firstValueFrom(this.http.get<ISecurityQuestion[]>("http://localhost:8085/api/v1/securityQuestions"));
   }
 
   sendOwnerAccountToServices(oa: string): void {
+    this.ownerAccountId = oa;
     this._fridgeService.setOwnerAccount(oa);
     this._recipeService.setOwnerAccount(oa);
   }
-}
 
+
+  async getAccountInfo(): Promise<Account> {
+    return firstValueFrom(this.http.get<Account>(`${this._baseUrl}/${this.ownerAccountId}`))
+  }
+
+  async updateAccountInfo(account: Account): Promise<any> {
+    return firstValueFrom(this.http.put(`${this._baseUrl}/${this.ownerAccountId}`, account))
+  }
+
+  async deleteAccount(): Promise<any> {
+    return firstValueFrom(this.http.delete(`${this._baseUrl}/${this.ownerAccountId}`))
+  }
+}

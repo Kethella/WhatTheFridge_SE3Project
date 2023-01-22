@@ -17,6 +17,7 @@ import { RecipeListComponent } from 'src/app/modules/my-recipes/recipe-list/reci
 import { CreateRecipeComponent } from 'src/app/modules/my-recipes/create-recipe/create-recipe.component';
 import { EditRecipeComponent } from 'src/app/modules/my-recipes/recipe-list/edit-recipe/edit-recipe.component';
 
+import { AccountViewComponent } from 'src/app/modules/account-view/account-view.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { EditRecipeComponent } from 'src/app/modules/my-recipes/recipe-list/edit
     NewFridgeItemDialog,
     EditFridgeItemDialog,
     CreateRecipeComponent,
-    EditRecipeComponent
+    EditRecipeComponent,
+    AccountViewComponent
   ],
   imports: [
     CommonModule,

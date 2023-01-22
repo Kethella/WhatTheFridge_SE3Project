@@ -11,7 +11,7 @@ export class RecipeService {
 
   data = {};
 
-  private ownerAccount: string = "";
+  private ownerAccount: string = "2238550034095900"; //todo: change back to empty string
   private _baseUri: string = "http://localhost:8085/api/v1/recipes"
 
   constructor(private http: HttpClient) { }
@@ -26,7 +26,7 @@ export class RecipeService {
   }
 
   async getTags(): Promise<String[]> {
-    return firstValueFrom(this.http.get<String[]>(`${this._baseUri}/tags/oa=${this.ownerAccount}`));
+    return firstValueFrom(this.http.get<String[]>(`${this._baseUri}/tags/oa=${this.ownerAccount}/`));
   }
 
   async getCategories(): Promise<ICategory[]> {

@@ -8,6 +8,7 @@ import { LoginComponent } from './modules/account-auth/login/login.component';
 import { SignUpComponent } from './modules/account-auth/sign-up/sign-up.component';
 import { Title } from '@angular/platform-browser';
 import { MyRecipesComponent } from './modules/my-recipes/my-recipes.component';
+import { AccountViewComponent } from './modules/account-view/account-view.component';
 import { FridgeComponent } from './modules/fridge/fridge.component';
 
 //TODO: Replace with actual paths, change routerLinks in navbar component
@@ -38,7 +39,8 @@ const routes: Routes = [
       {
         path: 'account_settings',
         title: 'Account',
-        component: DummyPagesComponent},
+        component: AccountViewComponent
+      }
     ]
   },
   {
@@ -76,5 +78,4 @@ export class TemplatePageTitleStrategy extends TitleStrategy {
   ]
 })
 export class AppRoutingModule { }
-
 
