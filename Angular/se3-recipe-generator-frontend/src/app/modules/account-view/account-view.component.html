@@ -1,24 +1,32 @@
-<div class="profile-container">
-   
-        <div class="profile-info-section">
-
-            <div class="info-strip">
-                <p class="header"> User Name </p>
-                <p class="detail"> Username</p>
-            </div>
-            <div class="info-strip">
-                <p class="header"> E-Mail</p>
-                <p class="detail"> {{account.email}}</p>
-            </div>
-            <div class="info-strip">
-                <p class="header"> Password </p>
-                <p class="detail"> ********</p>
-            </div>
-            <div class="info-strip">
-                <p class="header"> Security Question </p>
-                <p class="detail"> {{account.securityQuestion}}</p>
+<div class="bg"> 
+        <mat-card class="profile-container">
+            <div class="wrapper"> 
+                <button id="editButton" mat-raised-button (click)="navigateToUpdateAccount()">Edit</button>
+                <h1 class="heading"> Look! That's You! </h1>
             </div>
 
-        </div>
-   
+            <div class="profile-info-section">
+
+                    <div class="info-strip">
+                        <button mat-raised-button class="header">Name</button>
+                        <p class="detail"> {{account.name}}</p>
+                    </div>
+
+                    <div class="info-strip">
+                        <button mat-raised-button class="header">E-Mail</button>
+                        <p class="detail"> {{account.email}}</p>
+                    </div>
+
+                    <div class="info-strip">
+                        <button mat-raised-button class="header">Password</button>
+                        <p class="detail"> ********</p>
+                    </div>
+
+                    <div class="info-strip">
+                        <button mat-raised-button class="header">Security Question</button>
+                        <p class="detail"> {{account.securityQuestion}}</p>
+                    </div>
+
+                </div>
+        </mat-card>
 </div>
