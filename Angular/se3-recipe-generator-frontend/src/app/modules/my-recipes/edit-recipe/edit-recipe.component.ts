@@ -1,5 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ViewChild, Inject } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { Component, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,84 +17,115 @@ import { CreateRecipeComponent } from '../create-recipe/create-recipe.component'
 })
 export class EditRecipeComponent {
   recipeForm: FormGroup;
-
+  
   recipe: Recipe;
-  ingredientNames: String[];
-  ingredientAmounts: String[];
+  name: string;
+  ingredienNames: string[];
+  ingredientAmounts: string[];
   ingredients: Ingredient[];
+
   selectedCategory: ICategory = {"enumValue": "", "text":""};
   categories: ICategory[];
 
-  displayedColumns: string[] = ['ingredientName', 'ingredientAmount'];
+  selectedTags: string[];
+  
+  displayedColumns: string[] = ['ingredientName', 'ingredientAmount', 'actions'];
+  tagsAsString: string;
+  splitTagsArr:string[];
+  public queryParams = new HttpParams();
+  selectedRecipe: Recipe;
+  @Output() public newQueryEvent = new EventEmitter<HttpParams>();
 
   @ViewChild(MatTable) table: MatTable<Ingredient>;
+  ingredient: Ingredient = {
+    "ingredientName": '',
+    "ingredientAmount": ''
+  }
 
   constructor(public dialogRef:MatDialogRef<CreateRecipeComponent>,
     @Inject(MAT_DIALOG_DATA) public data:any,
     private _formBuilder: FormBuilder,
     private _recipeService:RecipeService){
-
-      this.ingredientNames = []
+      this.name=''
+      this.ingredienNames = []
       this.ingredientAmounts = []
-      this.ingredients = []
+      this.ingredients = [],
+      this.selectedTags =[]
  }
 
   async ngOnInit(){
-  this.recipeForm=this._formBuilder.group({
-    ingredientName:[null, Validators.required],
-    ingredientAmount:[null, Validators.required],
-    name:[null, Validators.required],
-    category:[null, Validators.required],
-    tags:[null, Validators.required],
-    instructions:[null, Validators.required],
+    this.recipeForm=this._formBuilder.group({
+      ingredientName:[null, Validators.required],
+      ingredientAmount:[null, Validators.required],
+      name:[null, Validators.required],
+      category:[null, Validators.required],
+      tags:[null, Validators.required],
+      instructions:[null, Validators.required]
+    })
 
-  })
-  this.categories = await this._recipeService.getCategories();
- }
+    this.categories = await this._recipeService.getCategories();
+    this.selectedRecipe= this.data.selectedRecipe;
+    this.name = this.selectedRecipe.name
+  }
 
   onCloseClick() {
     this.dialogRef.close();
   }
 
+  splitTags(){
+    this.tagsAsString = this.data.selectedTags.toString();
+    this.splitTagsArr = this.tagsAsString.split(", ");
+    console.log(this.splitTagsArr)
+  }
+
   async onSubmit(){
+
+    this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
 
     this.recipe={
       id: '',
-      name:'neshto novo',
-      category:'MAINCOURSE',
-      instructions:'idk',
+      name:this.recipeForm.get('name')?.value,
+      ingredientNames: this.ingredienNames,
+      ingredientMeasures: this.ingredientAmounts,
+      category: this.selectedCategory.enumValue,
+      tags: this.selectedTags,
+      instructions:this.recipeForm.get('instructions')?.value,
       image:'http://localhost:8085/media/download/63c95e3d664c9260ee663f9c',
-      tags: this.recipeForm.get('tags')?.value,
       link:'',
-      ingredientMeasures: ["manja", "o6te ne6to"],
-      ingredientNames: ["1", "1"],
       ownerAccount:''
     }
-
     this.recipe = await this._recipeService.updateRecipe(this.recipe);
     console.log(this.recipe)
-    this.dialogRef.close()
+    this.dialogRef.close();
  }
 
-  async onAdd(){
 
-      var name = this.recipeForm.get("ingredientName")?.value
-      var amount = this.recipeForm.get("ingredientAmount")?.value
-      console.log(name)
-      this.ingredientNames.push(name)
-      this.ingredientAmounts.push(amount)
-      const ingredient: Ingredient = {
-        ingredientName: name,
-        ingredientAmount: amount
-      }
-      this.ingredients.push(ingredient)
-      this.table.renderRows();
+  async onAddIngredient(){
+    var name = this.recipeForm.get("ingredientName")?.value
+    var amount = this.recipeForm.get("ingredientAmount")?.value
+
+    this.ingredienNames.push(name)
+    this.ingredientAmounts.push(amount)
+
+    let ingredient: Ingredient = {
+      ingredientName: name,
+      ingredientAmount: amount
+    }
+
+    this.ingredients.push(ingredient)
+    this.table.renderRows();
 
   }
 
-  setSelectedCategory(categories: ICategory[], selectedCategory: ICategory): ICategory{
+  onDeleteIngredient(index:any){
+    console.log(this.ingredients)
+      this.ingredients.splice(index,1)
+      
+  }
 
-    for (let category of categories){
+  setSelectedCategory(selectedCategory: ICategory): ICategory{
+
+    for (let category of this.categories){
       if (selectedCategory.text == category.text){
         selectedCategory.enumValue = category.enumValue;
       }
@@ -106,39 +138,36 @@ export class EditRecipeComponent {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  tagsArray: Tags[]=[];
 
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
+  addTag(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
 
-    if ((value || '').trim()) {
-      this.tagsArray.push({name: value.trim()});
+    if (value) {
+      this.selectedTags.push(value);
     }
 
-    if (input) {
-      input.value = '';
-    }
+    event.chipInput!.clear();
   }
 
-  remove(tag: Tags): void {
-    const index = this.tagsArray.indexOf(tag);
+  removeTag(tag: string): void {
+    const index = this.selectedTags.indexOf(tag);
 
     if (index >= 0) {
-      this.tagsArray.splice(index, 1);
+      this.selectedTags.splice(index, 1);
     }
   }
-
 }
-
 
 export interface Ingredient {
   ingredientName: string;
-  ingredientAmount: number;
+  ingredientAmount: string;
 }
 
-export interface Tags{
-  name: string;
+export interface tableColumns 
+{ 
+    ingredientName: string,
+    ingredientAmount: string;
+    actions: string 
 }
 
 
