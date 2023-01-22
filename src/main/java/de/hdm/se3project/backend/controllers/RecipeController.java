@@ -51,7 +51,7 @@ public class RecipeController {
     }
 
 
-    @GetMapping("/recipes/tags/oa={ownerAccount}")
+    @GetMapping("/tags/oa={ownerAccount}")
     List<String> getAllRecipeTags(@PathVariable String ownerAccount) throws ResourceNotFoundException {
 
         return recipeService.getAllRecipeTags(ownerAccount);

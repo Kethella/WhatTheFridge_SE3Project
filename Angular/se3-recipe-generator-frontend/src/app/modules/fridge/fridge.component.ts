@@ -9,13 +9,15 @@ import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog
   styleUrls: ['./fridge.component.css']
 })
 export class FridgeComponent {
-  public fridgeItems = [] as any;
+  public fridgeItems: FridgeItem[];
   text: string = "";
   makeNoItemsElementVisible = true;
 
   constructor(
     private _fridgeService: FridgeService,
     public dialog: MatDialog) {
+
+      this.fridgeItems = []
   }
 
   ngOnInit() {
