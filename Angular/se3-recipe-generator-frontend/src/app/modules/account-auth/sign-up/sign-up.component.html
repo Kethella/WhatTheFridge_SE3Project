@@ -36,13 +36,14 @@
                                 <!--<div class="invalid-feedback">Passwords don't match</div>-->
                                 <span class="eyeicon"><mat-icon (click)="viewpass()" [ngClass]="visible?'visibility':'visibility_off'">
                                     visibility
-                                </mat-icon></span>
+                                </mat-icon></span>     
                             </mat-form-field>
-                            <div class="alert"
-                                        *ngIf="firstFormGroup.errors?.['confirmedValidator']
+                            <div class="alert"                          
+                                        *ngIf="firstFormGroup.errors?.['confirmedValidator']                                        
                                         || (firstFormGroup.controls['passwordRepeat'].hasError('required') && firstFormGroup.controls['passwordRepeat'].touched)">
                                 Passwords don't match
-                                </div>
+                            </div> <!-- password matching works but somehow div doesn't show up-->
+                            
 
                             <div class="buttons">
                                 <button mat-raised-button matStepperNext>Next</button>
@@ -57,7 +58,7 @@
                                 <mat-form-field>
                                     <mat-label>Select a security question</mat-label>
                                     <mat-select formControlName="securityQuestion" required>
-                                        <mat-option *ngFor="let question of securityQuestions" [value]="question.enumValue">
+                                        <mat-option *ngFor="let question of securityQuestions" value="question.enumValue">
                                             {{question.text}}
                                         </mat-option>
                                     </mat-select>
@@ -75,7 +76,7 @@
                         </form>
                     </mat-step>
                 </mat-stepper>
-                <div>
+                <div>                
                     <a style="display: flex; justify-content: flex-end" routerLink="../login"> Already registered? </a>
                   </div>
             </form>

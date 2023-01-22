@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/account';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
+import { HttpClient } from '@angular/common/http';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { ISecurityQuestion } from 'src/app/models/securityQuestions';
 import { ValidationService } from 'src/app/services/validation.service';
+import { ValidationErrors } from '@angular/forms';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { throwError } from 'rxjs';
 
 
@@ -25,20 +28,13 @@ export class SignUpComponent implements OnInit {
   secondFormGroup: FormGroup;
   signUpSuccessful: boolean;
 
-  account: Account = {
-    "id": "",
-    "name": "",
-    "email": "",
-    "password": "",
-    "securityQuestion": "",
-    "securityAnswer": ""
-  };
+  account: Account;
 
   securityQuestions: ISecurityQuestion[]
-
+ 
   visible:boolean = true;
   changetype:boolean =true;
-
+  
 
 
   constructor( private _formBuilder: FormBuilder,
@@ -56,7 +52,7 @@ export class SignUpComponent implements OnInit {
       username : [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
-      passwordRepeat: [null, Validators.required]
+      passwordRepeat: new FormControl("", Validators.required)
     }, {
       //validator: this._validationService.passwordMatchValidator("password", "passwordRepeat")
       validator: this.ConfirmedValidator("password", "passwordRepeat") //works both ways, possible TODO: del validation service
@@ -71,7 +67,8 @@ export class SignUpComponent implements OnInit {
 
   async getSecQuestions() {
     const res: any = await this._accountService.getSecurityQuestions();
-    this.securityQuestions = res;
+      this.securityQuestions = res;
+      console.log(this.securityQuestions)
   }
 
   ConfirmedValidator(controlName: string, matchingControlName: string) {
@@ -106,13 +103,13 @@ export class SignUpComponent implements OnInit {
       }
       console.log(this.account)
 
-      this.account = await this._accountService.createAccount(this.account); //to get the actual id
-      console.log(this.account);
+      const res: any = await this._accountService.createAccount(this.account);
+      this.account = res; //to get the actual id
+      console.log(res)
 
       this.firstFormGroup.reset();  //check if you actually need it
       this.secondFormGroup.reset(); //same as above
 
-      this._accountService.sendOwnerAccountToServices(this.account.id);
       this.router.navigate(['home']);
     }
     else {
@@ -139,6 +136,6 @@ export class SignUpComponent implements OnInit {
       errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
     }
     alert(errorMessage);
-    return throwError(errorMessage);
+    return throwError(errorMessage);  
   }
 }

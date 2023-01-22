@@ -7,6 +7,7 @@ import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/account-auth/login/login.component';
 import { SignUpComponent } from './modules/account-auth/sign-up/sign-up.component';
 import { Title } from '@angular/platform-browser';
+import { MyRecipesComponent } from './modules/my-recipes/my-recipes.component';
 import { FridgeComponent } from './modules/fridge/fridge.component';
 
 //TODO: Replace with actual paths, change routerLinks in navbar component
@@ -23,7 +24,8 @@ const routes: Routes = [
       {
         path: 'home',
         title: 'Home',
-        component: HomeComponent},
+        component: HomeComponent
+      },
       {
         path: 'fridge',
         title: 'Fridge',
@@ -31,7 +33,7 @@ const routes: Routes = [
       {
         path: 'my_recipes',
         title: 'My Recipes',
-        component: DummyPagesComponent
+        component: MyRecipesComponent
       },
       {
         path: 'account_settings',

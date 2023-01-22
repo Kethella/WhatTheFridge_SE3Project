@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PersonalMaterialModule } from './material.module';
-
 import { LoggedInLayoutModule } from './layouts/logged-in-layout/logged-in-layout.module';
 import { AuthLayoutModule } from './layouts/auth-layout/auth-layout.module';
+import { SignUpComponent } from './modules/account-auth/sign-up/sign-up.component';
+import { LoginComponent } from './modules/account-auth/login/login.component';
+import { DummyPagesComponent } from './modules/dummy-pages/dummy-pages.component';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

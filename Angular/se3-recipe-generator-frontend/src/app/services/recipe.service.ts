@@ -17,7 +17,6 @@ export class RecipeService {
   constructor(private http: HttpClient) { }
 
   async getRecipes(queryParams: HttpParams): Promise<Recipe[]> {
-    console.log(this.ownerAccount)
     if (queryParams) {
       return firstValueFrom(this.http.get<Recipe[]>(`${this._baseUri}/oa=${this.ownerAccount}/`, {params:queryParams}));
     }
@@ -34,12 +33,22 @@ export class RecipeService {
     return firstValueFrom(this.http.get<ICategory[]>("http://localhost:8085/api/v1/categories"))
   }
 
-  public save(recipe: Recipe) {
-    return this.http.post<Recipe>(`${this._baseUri}/oa=${this.ownerAccount}`, recipe);
+  async createRecipe(recipe: Recipe): Promise<Recipe> {
+    recipe.ownerAccount = this.ownerAccount;
+    return firstValueFrom(this.http.post<Recipe>(`${this._baseUri}`, recipe));
   }
 
   setOwnerAccount(oa: string): void{
     this.ownerAccount = oa;
+  }
+
+  async deleteRecipe(recipe: Recipe): Promise<any> {
+    return firstValueFrom(this.http.delete(`${this._baseUri}/${recipe.id}`));
+  }
+
+  async updateRecipe(updatedRecipe: Recipe):Promise<any>{
+    updatedRecipe.ownerAccount = this.ownerAccount;
+    return firstValueFrom(this.http.put(`${this._baseUri}/${updatedRecipe.id}`, updatedRecipe))
   }
 
 }
