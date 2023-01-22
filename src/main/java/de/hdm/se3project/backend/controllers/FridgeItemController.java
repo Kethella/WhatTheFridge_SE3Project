@@ -23,7 +23,8 @@ public class FridgeItemController {
         this.fridgeItemService = fridgeItemService;
     }
 
-    @GetMapping("/oa={ownerAccount}/")
+
+    @GetMapping("/oa={ownerAccount}")
     List<FridgeItem> getFridgeItems(@PathVariable String ownerAccount) {
         return  fridgeItemService.getFridgeItems(ownerAccount);
     }
@@ -39,8 +40,7 @@ public class FridgeItemController {
     }
 
     @PutMapping("/{id}")
-    FridgeItem updateItem(@PathVariable String id, @RequestBody FridgeItem updatedFridgeItem)
-            throws ResourceNotFoundException {
+    FridgeItem updateFridgeItem(@PathVariable String id, @RequestBody FridgeItem updatedFridgeItem) throws ResourceNotFoundException {
         return fridgeItemService.updateFridgeItem(id, updatedFridgeItem);
     }
 

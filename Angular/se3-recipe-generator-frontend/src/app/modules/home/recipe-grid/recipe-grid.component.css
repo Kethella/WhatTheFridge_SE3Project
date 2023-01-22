@@ -1,0 +1,53 @@
+.recipe-grid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  gap: 35px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+mat-card {
+  background: #2B2B2B;
+  width: 275px;
+  height: 400px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+mat-card:hover {
+  background: #333333;
+}
+
+
+img{
+  padding-top: 15px;
+  border-radius: 10px;
+  height: 200px;
+  width: fit-content;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+mat-card-header {
+  font-size: large;
+  align-self: center;
+  text-align: center;
+  color: white;
+  padding-bottom: 15px;
+}
+
+mat-card-footer {
+  padding-top: 10%;
+  padding-left: 10%;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 5px;
+}
+
+mat-chip-row {
+  max-width: 200px;
+}

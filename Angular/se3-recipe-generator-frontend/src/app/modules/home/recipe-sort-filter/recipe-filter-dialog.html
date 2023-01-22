@@ -1,0 +1,33 @@
+<div id="dialog">
+
+  <h1 mat-dialog-title>Hi</h1>
+  <div mat-dialog-content>
+    <h1>Categories</h1>
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <mat-select [(value)]="selectedCategory.text">
+        <mat-option>All</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.text">
+          {{category.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <h1>Tags</h1>
+    <mat-chip-listbox [(ngModel)]="data.selectedTagsAsArray" selectable multiple>
+      <mat-chip-option  class="chip" *ngFor="let tag of tags" [value]="tag" [selected]="tagWasSelected(tag, data.selectedTagsAsArray)">
+        {{tag}}
+      </mat-chip-option>
+    </mat-chip-listbox>
+
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="onCloseClick(categories, selectedCategory)">Apply</button>
+  </div>
+
+</div>
+
+
+
+

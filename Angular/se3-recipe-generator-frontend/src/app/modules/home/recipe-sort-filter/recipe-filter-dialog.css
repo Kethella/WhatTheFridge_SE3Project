@@ -1,0 +1,9 @@
+#dialog {
+  background: #2B2B2B;
+}
+
+.mat-mdc-chip-selected{
+  background-color: #69f0ae !important;
+  --mdc-chip-label-text-color: black !important;
+  --mdc-chip-with-icon-selected-icon-color: black !important;
+}
