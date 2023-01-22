@@ -1,5 +1,5 @@
 <div class="recipe-grid">
-    <mat-card *ngFor="let recipe of recipes" matRipple class="clickable" (click)="openDialog(recipe)">
+    <mat-card *ngFor="let recipe of recipes" matRipple class="clickable" (click)="openDetailsDialog(recipe)">
 
         <img mat-card-image [src]="recipe.image">
 
@@ -11,7 +11,7 @@
           <button mat-icon-button (click)="openDialogEdit(recipe);  $event.stopPropagation()">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="delete(recipe.id);  $event.stopPropagation()">
+          <button mat-icon-button (click)="deleteRecipe(recipe);  $event.stopPropagation()">
             <mat-icon>delete</mat-icon>
           </button>
         </mat-card-actions>

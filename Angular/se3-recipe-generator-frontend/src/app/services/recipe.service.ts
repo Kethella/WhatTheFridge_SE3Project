@@ -12,9 +12,7 @@ export class RecipeService {
   data = {};
 
   private ownerAccount: string = "";
-  private recipeId="";
   private _baseUri: string = "http://localhost:8085/api/v1/recipes"
-  private _basiUriDel: string = "http://localhost:8085/api/v1/recipes/"
 
   constructor(private http: HttpClient) { }
 
@@ -44,16 +42,13 @@ export class RecipeService {
     this.ownerAccount = oa;
   }
 
-  setId(id: string):void{
-    this.recipeId=id;
-  }
-
-  public deleteRecipe(id: string){
-    this.http.delete(this._basiUriDel+id).subscribe();
+  async deleteRecipe(recipe: Recipe): Promise<any> {
+    return firstValueFrom(this.http.delete(`${this._baseUri}/${recipe.id}`));
   }
 
   async updateRecipe(updatedRecipe: Recipe):Promise<any>{
-    return firstValueFrom(this.http.put(`${this._baseUri}/${this.recipeId}`, updatedRecipe))
+    updatedRecipe.ownerAccount = this.ownerAccount;
+    return firstValueFrom(this.http.put(`${this._baseUri}/${updatedRecipe.id}`, updatedRecipe))
   }
 
 }
