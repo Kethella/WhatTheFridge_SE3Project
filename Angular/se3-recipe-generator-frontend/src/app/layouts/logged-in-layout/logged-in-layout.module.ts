@@ -14,7 +14,6 @@ import { PersonalMaterialModule } from 'src/app/material.module';
 import { RecipeGridComponent } from 'src/app/modules/home/recipe-grid/recipe-grid.component';
 import { RecipeFilterDialog, RecipeSortFilterComponent } from 'src/app/modules/home/recipe-sort-filter/recipe-sort-filter.component';
 import { AccountViewComponent } from 'src/app/modules/account-view/account-view.component';
-import { UpdateProfileComponent } from 'src/app/modules/update-profile/update-profile.component';
 
 
 @NgModule({
@@ -28,8 +27,7 @@ import { UpdateProfileComponent } from 'src/app/modules/update-profile/update-pr
     FridgeComponent,
     NewFridgeItemDialog,
     EditFridgeItemDialog,
-    AccountViewComponent,
-    UpdateProfileComponent
+    AccountViewComponent
   ],
   imports: [
     CommonModule,

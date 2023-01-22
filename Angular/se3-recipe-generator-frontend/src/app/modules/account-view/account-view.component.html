@@ -1,32 +1,39 @@
-<div class="bg"> 
-        <mat-card class="profile-container">
-            <div class="wrapper"> 
-                <button id="editButton" mat-raised-button (click)="navigateToUpdateAccount()">Edit</button>
-                <h1 class="heading"> Look! That's You! </h1>
-            </div>
+<div class="parent">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <h1>Account Settings</h1>
+      <button mat-raised-button class="btn" (click)="changeDisabled()">{{btnText}}</button>
+    </mat-card-header>
 
-            <div class="profile-info-section">
+    <div class="profile-info-section">
 
-                    <div class="info-strip">
-                        <button mat-raised-button class="header">Name</button>
-                        <p class="detail"> {{account.name}}</p>
-                    </div>
+      <div class="info-block">
+          <h3>Name</h3>
+          <mat-form-field>
+            <input type="email" matInput [(ngModel)]="account.name" [disabled]="isDisabled">
+          </mat-form-field>
+      </div>
 
-                    <div class="info-strip">
-                        <button mat-raised-button class="header">E-Mail</button>
-                        <p class="detail"> {{account.email}}</p>
-                    </div>
+      <div class="info-block">
+          <h3>E-Mail</h3>
+          <mat-form-field>
+            <input type="email" matInput [(ngModel)]="account.email" [disabled]="isDisabled">
+          </mat-form-field>
+      </div>
 
-                    <div class="info-strip">
-                        <button mat-raised-button class="header">Password</button>
-                        <p class="detail"> ********</p>
-                    </div>
+      <div class="info-block">
+          <h3>Password</h3>
+          <mat-form-field>
+            <input type="email" matInput [(ngModel)]="fakePassword" [disabled]="isDisabled">
+          </mat-form-field>
+      </div>
 
-                    <div class="info-strip">
-                        <button mat-raised-button class="header">Security Question</button>
-                        <p class="detail"> {{account.securityQuestion}}</p>
-                    </div>
+      <button mat-raised-button class="btn" (click)="deleteAccount()">Delete account</button>
 
-                </div>
-        </mat-card>
+
+    </div>
+  </mat-card>
 </div>
+
+
+

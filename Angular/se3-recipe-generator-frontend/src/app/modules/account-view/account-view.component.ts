@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/account';
 import { ISecurityQuestion } from 'src/app/models/securityQuestions'
 import { AccountService } from 'src/app/services/account.service';
-import { Router } from '@angular/router';
+import { Router, TitleStrategy } from '@angular/router';
 
 @Component({
   selector: 'app-account-view',
@@ -11,16 +11,20 @@ import { Router } from '@angular/router';
 })
 export class AccountViewComponent implements OnInit {
   account: Account;
-  securityQuestion: ISecurityQuestion[]; 
+  securityQuestion: ISecurityQuestion[];
+
+  isDisabled: boolean = true;
+  btnText: string = "Edit";
+  fakePassword: string = "*********"
 
   constructor(private _accountService: AccountService, private router: Router){
     this.account = {
       id: "",
-    name: "",
-    email: "",
-    password: "",
-    securityQuestion: "",
-    securityAnswer: ""
+      name: "",
+      email: "",
+      password: "",
+      securityQuestion: "",
+      securityAnswer: ""
     }
 
   }
@@ -30,16 +34,34 @@ export class AccountViewComponent implements OnInit {
     this.securityQuestion = await this._accountService.getSecurityQuestions()
   }
 
-  navigateToUpdateAccount(){ 
+  navigateToUpdateAccount(){
     this.router.navigate(['update_account'])
   }
 
-  /* getSecurityQuestionText() { 
-    forEach() { 
-
+  changeDisabled() {
+    if(this.isDisabled) {
+      this.isDisabled = false;
+      this.btnText = "Save"
+      this.fakePassword = this.account.password;
+    }
+    else {
+      this.isDisabled = true;
+      this.btnText = "Edit"
+      this.account.password = this.fakePassword;
+      this.fakePassword = "*********";
+      console.log(this.account)
+      //this.updateAccount()
     }
   }
-    
-  
-  if securityQuestion.enumValue == account.securityQuestion --> return securityQuestion.text */
+
+  async updateAccount() {
+    let response: Account = await this._accountService.updateAccountInfo(this.account)
+    console.log(response)
+  }
+
+  async deleteAccount() {
+    //let response: Account = await this._accountService.deleteAccount()
+    //console.log(response)
+    this.router.navigate(['login']);
+  }
 }
