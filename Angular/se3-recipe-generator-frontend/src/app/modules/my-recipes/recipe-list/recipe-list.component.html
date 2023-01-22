@@ -1,21 +1,27 @@
 <div class="recipe-grid">
-    <mat-card *ngFor="let recipe of recipes" matRipple class="clickable" (click)="openDetailsDialog(recipe)">
-
+<mat-list>
+  <mat-list-item *ngFor="let recipe of recipes" matRipple class="clickable" (click)="openDetailsDialog(recipe)">
+    <!--<mat-card *ngFor="let recipe of recipes" matRipple class="clickable" (click)="openDetailsDialog(recipe)">-->
+      <div class="recipe">
         <img mat-card-image [src]="recipe.image">
 
-        <mat-card-header>
-          <mat-card-title>{{recipe.name}}</mat-card-title>
-        </mat-card-header>
+        <!--<mat-card-header>-->
+          <h3>{{recipe.name}}</h3>
+        <!--</mat-card-header>-->
 
-        <mat-card-actions>
+        <!--<mat-card-actions>-->
+          <div class="buttons">
           <button mat-icon-button (click)="openDialogEdit(recipe);  $event.stopPropagation()">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="deleteRecipe(recipe);  $event.stopPropagation()">
             <mat-icon>delete</mat-icon>
           </button>
-        </mat-card-actions>
-
-    </mat-card>
+        </div>
+        <!--</mat-card-actions>-->
+      </div>
+    <!--</mat-card>-->
+  </mat-list-item>
+</mat-list>
 </div>
 

@@ -8,14 +8,20 @@
   display: flex;
   justify-content: space-around;
   flex-direction: column;
-
+  padding-top: 40px;
 }
 
-h2{
-    padding-top: 50px;
+.top{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.spacer{
-  flex: 1 1 auto;
+.create{
+  height:50px;
+  font-size: large;
 }
+
+
+
 
