@@ -64,6 +64,9 @@ export class CreateRecipeComponent {
   onCloseClick() {
     this.dialogRef.close();
   }
+  onCancel(){
+    this.dialogRef.close();
+  }
 
   async onSubmit(){
 

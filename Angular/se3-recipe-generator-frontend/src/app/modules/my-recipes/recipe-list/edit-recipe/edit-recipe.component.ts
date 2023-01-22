@@ -75,6 +75,10 @@ export class EditRecipeComponent {
     this.dialogRef.close();
   }
 
+  onCancel(){
+    this.dialogRef.close();
+  }
+
   async onSubmit(){
 
     this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
