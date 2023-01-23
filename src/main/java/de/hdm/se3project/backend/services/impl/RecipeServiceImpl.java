@@ -58,6 +58,12 @@ public class RecipeServiceImpl implements RecipeService {
         if(newRecipe.getLink() != null){
             recipe.setLink(newRecipe.getLink());
         }
+        if(newRecipe.getIngredientNames() != null){
+            recipe.setIngredientNames(newRecipe.getIngredientNames());
+        }
+        if(newRecipe.getIngredientMeasures() != null){
+            recipe.setIngredientMeasures(newRecipe.getIngredientMeasures());
+        }
 
         return recipeRepository.save(recipe);
     }
