@@ -1,26 +1,50 @@
-package de.hdm.se3project.backend.controller;
+package de.hdm.se3project.backend.controllers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Account;
-import de.hdm.se3project.backend.repository.AccountRepository;
+import de.hdm.se3project.backend.models.Account;
+import de.hdm.se3project.backend.models.enums.SecurityQuestion;
+import de.hdm.se3project.backend.repositories.AccountRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.json.*;
 
 /* Controller class for "accounts" MongoDB collection
  * author: ag186
  */
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AccountController implements Serializable {
 
+    @Autowired
     private final AccountRepository repository;
 
     public AccountController(AccountRepository repository) {
         this.repository = repository;
     }
+
+
+    //DO NOT DELETE THIS IS FOR FRONTEND LOGIN
+    @GetMapping("/accounts/one/")
+    Account getOneAccount(@RequestParam(required = false, value = "email") String email,
+                          @RequestParam(required = false, value = "password") String password){
+
+        List<Account> allAccounts = repository.findAll();
+        for (Account account: allAccounts) {
+            if(account.getEmail().equals(email) && account.getPassword().equals(password)){
+                return account;
+            }
+        }
+
+        return null;
+    }
+
 
     @GetMapping("/accounts")
     public List<Account> getAllAccounts(){
@@ -50,8 +74,8 @@ public class AccountController implements Serializable {
         account.setPassword(newAccount.getPassword());
         account.setSecurityQuestion(newAccount.getSecurityQuestion());
         account.setSecurityAnswer(newAccount.getSecurityAnswer());
-        account.setPersonalRecipes(newAccount.getPersonalRecipes());
-        account.setFridgeItems(newAccount.getFridgeItems());
+        //account.setPersonalRecipes(newAccount.getPersonalRecipes());
+        //account.setFridgeItems(newAccount.getFridgeItems());
 
         return repository.save(account);
     }
@@ -60,5 +84,22 @@ public class AccountController implements Serializable {
     public void deleteAccount(@PathVariable String id) {
         repository.deleteById(id);
     }
-}
 
+    @GetMapping("/securityQuestions")
+    String getAllSecurityQuestions() {
+        List<JSONObject> list = new ArrayList<>();
+        JSONArray array = new JSONArray();
+
+        for(SecurityQuestion q: SecurityQuestion.values()) {
+
+            HashMap<String, String> seqQuestion = new HashMap<String, String>();
+            seqQuestion.put("enumValue", q.toString());
+            seqQuestion.put("text", q.getText());
+            JSONObject seqQuestionObject = new JSONObject(seqQuestion);
+            System.out.println(seqQuestionObject);
+            array.put(seqQuestionObject);
+        }
+
+        return array.toString();
+    }
+}

@@ -1,12 +1,11 @@
-package de.hdm.se3project.backend.model;
+package de.hdm.se3project.backend.models;
 
-import de.hdm.se3project.backend.model.enums.SecurityQuestion;
+import de.hdm.se3project.backend.models.enums.SecurityQuestion;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 

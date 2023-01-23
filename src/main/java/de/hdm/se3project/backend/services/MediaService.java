@@ -1,6 +1,6 @@
 package de.hdm.se3project.backend.services;
 
-import de.hdm.se3project.backend.model.Media;
+import de.hdm.se3project.backend.models.Media;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

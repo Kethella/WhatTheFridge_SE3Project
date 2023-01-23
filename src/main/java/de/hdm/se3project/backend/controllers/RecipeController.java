@@ -1,16 +1,16 @@
-package de.hdm.se3project.backend.controller;
+package de.hdm.se3project.backend.controllers;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Recipe;
-import de.hdm.se3project.backend.model.enums.Category;
+import de.hdm.se3project.backend.models.Recipe;
+import de.hdm.se3project.backend.models.enums.Category;
 import de.hdm.se3project.backend.services.RecipeService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
+import org.json.*;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/recipes")
 @CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
 
@@ -20,27 +20,27 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping("/recipes")
+    @PostMapping()
     Recipe createRecipe(@RequestBody Recipe newRecipe){
         return recipeService.createRecipe(newRecipe);
     }
 
-    @GetMapping("/recipes/{id}")
+    @GetMapping("/{id}")
     Recipe getOneRecipe(@PathVariable String id) throws ResourceNotFoundException {
         return recipeService.getRecipeById(id);
     }
 
-    @PutMapping("/recipes/{id}")
+    @PutMapping("/{id}")
     Recipe updateRecipe(@PathVariable String id, @RequestBody Recipe updatedRecipe) throws ResourceNotFoundException {
         return recipeService.updateRecipe(id, updatedRecipe);
     }
 
-    @DeleteMapping("/recipes/{id}")
+    @DeleteMapping("/{id}")
     void deleteRecipe(@PathVariable String id) {
         recipeService.deleteRecipe(id);
     }
 
-    @GetMapping("/recipes/oa={ownerAccount}/")
+    @GetMapping("/oa={ownerAccount}/")
     List<Recipe> getRecipes(@PathVariable String ownerAccount,
                             @RequestParam(value = "defaultRecipes", defaultValue = "yes") String defaultRecipes,
                             @RequestParam(required = false, value = "category") String category,
@@ -50,11 +50,29 @@ public class RecipeController {
         return recipeService.getRecipes(ownerAccount, defaultRecipes, category, ingredientNames, tags);
     }
 
-    @GetMapping("/recipes/tags/oa={ownerAccount}/")
+
+    @GetMapping("/tags/oa={ownerAccount}")
     List<String> getAllRecipeTags(@PathVariable String ownerAccount) throws ResourceNotFoundException {
 
         return recipeService.getAllRecipeTags(ownerAccount);
     }
+
+    @GetMapping("/categories")
+    String getAllSecurityQuestions() {
+        JSONArray array = new JSONArray();
+
+        for(Category c: Category.values()) {
+
+            HashMap<String, String> seqQuestion = new HashMap<String, String>();
+            seqQuestion.put("enumValue", c.toString());
+            seqQuestion.put("text", c.getText());
+            JSONObject seqQuestionObject = new JSONObject(seqQuestion);
+            array.put(seqQuestionObject);
+        }
+
+        return array.toString();
+    }
+
 
 
 }

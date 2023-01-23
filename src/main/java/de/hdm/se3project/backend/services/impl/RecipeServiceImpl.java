@@ -1,14 +1,12 @@
 package de.hdm.se3project.backend.services.impl;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Recipe;
-import de.hdm.se3project.backend.model.enums.Category;
-import de.hdm.se3project.backend.repository.RecipeRepository;
+import de.hdm.se3project.backend.models.Recipe;
+import de.hdm.se3project.backend.models.enums.Category;
+import de.hdm.se3project.backend.repositories.RecipeRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import de.hdm.se3project.backend.services.RecipeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +77,12 @@ public class RecipeServiceImpl implements RecipeService {
 
         if(defaultRecipes.equals("yes")){
             List<Recipe> externalRecipes = getRecipesByOwnerAccount(null, getAllRecipes());
-            recipes.addAll(externalRecipes);
+            if (recipes != null) {
+                recipes.addAll(externalRecipes);
+            }
+            else {
+                recipes = externalRecipes;
+            }
         }
 
         if(category != null){

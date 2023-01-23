@@ -1,6 +1,6 @@
-package de.hdm.se3project.backend.model;
+package de.hdm.se3project.backend.models;
 
-import de.hdm.se3project.backend.model.enums.Category;
+import de.hdm.se3project.backend.models.enums.Category;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 

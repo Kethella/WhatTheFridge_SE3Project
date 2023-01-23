@@ -1,4 +1,4 @@
-package de.hdm.se3project.backend.model.enums;
+package de.hdm.se3project.backend.models.enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -18,9 +18,9 @@ public enum SecurityQuestion {
     @JsonProperty("Q4")
     Q4("What was your childhood nickname?"),
     @JsonProperty("Q5")
-    Q5("What was the last name of your third grade teacher?\n");
+    Q5("What was the last name of your third grade teacher?");
 
-    private String text;
+    private final String text;
 
     SecurityQuestion(String text) {
         this.text = text;
@@ -29,5 +29,4 @@ public enum SecurityQuestion {
     public String getText() {
         return text;
     }
-
 }
