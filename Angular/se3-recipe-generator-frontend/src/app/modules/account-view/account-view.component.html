@@ -1,0 +1,39 @@
+<div class="parent">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <h1>Account Settings</h1>
+      <button mat-raised-button class="btn" (click)="changeDisabled()">{{btnText}}</button>
+    </mat-card-header>
+
+    <div class="profile-info-section">
+
+      <div class="info-block">
+          <h3>Name</h3>
+          <mat-form-field>
+            <input type="email" matInput [(ngModel)]="account.name" [disabled]="isDisabled">
+          </mat-form-field>
+      </div>
+
+      <div class="info-block">
+          <h3>E-Mail</h3>
+          <mat-form-field>
+            <input type="email" matInput [(ngModel)]="account.email" [disabled]="isDisabled">
+          </mat-form-field>
+      </div>
+
+      <div class="info-block">
+          <h3>Password</h3>
+          <mat-form-field>
+            <input type="email" matInput [(ngModel)]="fakePassword" [disabled]="isDisabled">
+          </mat-form-field>
+      </div>
+
+      <button mat-raised-button class="btn" (click)="deleteAccount()">Delete account</button>
+
+
+    </div>
+  </mat-card>
+</div>
+
+
+

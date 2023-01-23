@@ -1,0 +1,27 @@
+<div id="dialog-header">
+  <h3 mat-dialog-title id="recipeName">{{selectedRecipe.name}}</h3>
+
+  <mat-dialog-actions id="actions">
+    <button mat-mini-fab mat-dialog-close id="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
+</div>
+
+
+<mat-dialog-content class="mat-typography">
+
+  <img class="centeredImage" [src]="selectedRecipe.image" height="300px" width="300px">
+
+  <button mat-button class="tag-button" *ngFor="let tags of selectedRecipe.tags">{{tags}}</button>
+
+  <h4 class="headers" id="ingredientsHeader"> Here's what you need!</h4>
+      <ul style="list-style-type:circle;">
+        <li *ngFor="let ingredient of ingredientsAsStrings">
+          {{ingredient}}
+        </li>
+      </ul>
+
+  <h4 class="headers">How to make it: </h4>
+    <p id="recipe-description">{{selectedRecipe.instructions}}</p>
+</mat-dialog-content>

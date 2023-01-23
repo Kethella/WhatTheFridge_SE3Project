@@ -1,0 +1,59 @@
+.bg{
+    background: rgb(95, 193, 172);
+    height : 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+mat-card {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+form {
+    background-color: transparent;
+}
+
+mat-stepper {
+    background-color: rgb(230, 244, 246);
+}
+
+.stepper-label{
+    color: black;
+}
+
+.question-label{
+    color: black;
+}
+
+.form-unit{
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+mat-form-field {
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.eyeicon {
+    position: absolute;
+    right: -10px;
+    top: 17px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.alert{
+    color: red;
+}
