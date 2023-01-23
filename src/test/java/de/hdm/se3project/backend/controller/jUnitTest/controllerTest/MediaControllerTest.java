@@ -19,6 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.is;
@@ -34,41 +35,35 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @WebMvcTest(MediaController.class)
 public class MediaControllerTest {
 
-   /* private MockMvc mockMvc;
+    /*private MockMvc mockMvc;
 
-    @Mock
-    private MediaService mediaService;
+    //@Mock
+    //private MediaService mediaService;
 
-    @InjectMocks
+    //@InjectMocks
+    @Autowired
     private MediaController mediaController;
 
-    //@Autowired
-    //private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        //MockitoAnnotations.openMocks(this);
         this.mockMvc = standaloneSetup(mediaController).build();
     }
 
+    //Creating a method that simulates a file upload
     @Test
     public void testUpload() throws Exception {
         MockMultipartFile fileTest = new MockMultipartFile("file", "test.jpg", "image/jpeg", "test data".getBytes());
 
-        *//*
-        MockMultipartFile file = mock(MockMultipartFile.class);
-        Mockito.when(file.getOriginalFilename()).thenReturn("test.txt");
-        Mockito.when(file.getBytes()).thenReturn("test content".getBytes());
-        *//*
-
-        Mockito.when(mediaService.uploadMedia(fileTest)).thenReturn(String.valueOf(fileTest));
-
-        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/upload")
-                        .file(fileTest))
+        //using MockMvc to perform a multipart/form-data POST request to the endpoint of the MediaController class that handles file uploads.
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/upload")
+                .file(fileTest))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) content().string("File uploaded successfully"));
+                .andExpect(MockMvcResultMatchers.content().string("File uploaded and processed."));
     }
-
 
     @Test
     void downloadTest() {
