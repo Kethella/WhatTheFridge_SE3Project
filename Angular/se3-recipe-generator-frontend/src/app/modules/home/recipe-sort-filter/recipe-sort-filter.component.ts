@@ -55,6 +55,8 @@ export class RecipeSortFilterComponent{
     });
 
     dialogRef.afterClosed().subscribe(result => {
+
+
       if (result?.selectedCategory.enumValue != NonNullableFormBuilder) {
         this.selectedCategory = result.selectedCategory;
       }
@@ -79,14 +81,18 @@ export class RecipeSortFilterComponent{
       }
 
 
-      this.queryParams = this.queryParams.delete('category');
-      this.queryParams = this.queryParams.delete('tags');
+
 
       this.query();
     });
   }
 
   query(){
+    this.queryParams = this.queryParams.delete('category');
+      this.queryParams = this.queryParams.delete('tags');
+
+
+
     if (this.selectedCategory && this.selectedCategory.text != ""){
       this.queryParams = this.queryParams.append("category", this.selectedCategory.enumValue);
     }
@@ -192,8 +198,6 @@ export class RecipeFilterDialog implements OnInit{
       this.selectedCategory.text = ""
       this.selectedCategory.enumValue = ""
     }
-    console.log(selectedCategory)
-
     this.dialogRef.close(this.data)
   }
 
