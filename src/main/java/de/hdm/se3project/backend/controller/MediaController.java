@@ -22,9 +22,13 @@ public class MediaController {
     @Autowired
     private MediaService mediaService;
 
+    public MediaController(MediaService mediaService) {
+        this.mediaService = mediaService;
+    }
+
     //@RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @PostMapping("/upload")
     @ResponseBody
+    @PostMapping("/upload")
     public ResponseEntity<?> uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException{
         return new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK);
     }
