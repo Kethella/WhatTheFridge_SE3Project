@@ -5,7 +5,7 @@ import {MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ICategory } from 'src/app/models/category';
-import { FormBuilder, FormGroup,FormControl,Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,FormControl,Validators, NonNullableFormBuilder } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -55,7 +55,7 @@ export class RecipeSortFilterComponent{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result?.selectedCategory != null) {
+      if (result?.selectedCategory.enumValue != NonNullableFormBuilder) {
         this.selectedCategory = result.selectedCategory;
       }
 
@@ -185,7 +185,15 @@ export class RecipeFilterDialog implements OnInit{
   }
 
   onCloseClick(categories: ICategory[], selectedCategory: ICategory): void {
-    this.data.selectedCategory = this.setSelectedCategory(categories, selectedCategory)
+    if(selectedCategory.text != undefined){
+      this.data.selectedCategory = this.setSelectedCategory(categories, selectedCategory)
+    }
+    else {
+      this.selectedCategory.text = ""
+      this.selectedCategory.enumValue = ""
+    }
+    console.log(selectedCategory)
+
     this.dialogRef.close(this.data)
   }
 
