@@ -58,7 +58,7 @@
                                 <mat-form-field>
                                     <mat-label>Select a security question</mat-label>
                                     <mat-select formControlName="securityQuestion" required>
-                                        <mat-option *ngFor="let question of securityQuestions" value="question.enumValue">
+                                        <mat-option *ngFor="let question of securityQuestions" [value]="question.enumValue">
                                             {{question.text}}
                                         </mat-option>
                                     </mat-select>

@@ -31,10 +31,10 @@ export class SignUpComponent implements OnInit {
   account: Account;
 
   securityQuestions: ISecurityQuestion[]
- 
+
   visible:boolean = true;
   changetype:boolean =true;
-  
+
 
 
   constructor( private _formBuilder: FormBuilder,
@@ -101,15 +101,15 @@ export class SignUpComponent implements OnInit {
         securityQuestion: this.secondFormGroup.get('securityQuestion')?.value,
         securityAnswer: this.secondFormGroup.get('securityAnswer')?.value
       }
-      console.log(this.account)
 
       const res: any = await this._accountService.createAccount(this.account);
       this.account = res; //to get the actual id
-      console.log(res)
+      console.log(res.id)
 
       this.firstFormGroup.reset();  //check if you actually need it
       this.secondFormGroup.reset(); //same as above
 
+      this._accountService.sendOwnerAccountToServices(res.id)
       this.router.navigate(['home']);
     }
     else {
@@ -136,6 +136,6 @@ export class SignUpComponent implements OnInit {
       errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
     }
     alert(errorMessage);
-    return throwError(errorMessage);  
+    return throwError(errorMessage);
   }
 }

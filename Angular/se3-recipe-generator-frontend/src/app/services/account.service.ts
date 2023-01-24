@@ -16,7 +16,7 @@ const httpOptions = {
 })
 export class AccountService {
 
-  private ownerAccountId: string = "2238550034095900" //todo: change back to empty string
+  private ownerAccountId: string = "" //todo: change back to empty string
   private _baseUrl = "http://localhost:8085/api/v1/accounts";
 
 

@@ -7,7 +7,7 @@ import { FridgeItem } from '../models/fridgeItem';
   providedIn: 'root'
 })
 export class FridgeService {
-  private ownerAccount: string = "2238550034095900" //todo: change back to empty string
+  private ownerAccount: string = "" //todo: change back to empty string
   private _baseUri: string = "http://localhost:8085/api/v1/fridgeItems";
 
   private fridgeItems: FridgeItem[] = [];
@@ -43,17 +43,24 @@ export class FridgeService {
     this.fridgeItems = await this.getFridgeItems()
     this.expiringFridgeItems = [];
 
-    for (var item of this.fridgeItems) {
-      var fridgeItem = <FridgeItem> item;
-      const itemStatus = this.getExpirationSatus(fridgeItem.expirationDate);
-      if (itemStatus === "expires soon" || itemStatus === "expired") {
-        const tempItem: NotifItem = {
-          item: item,
-          status: itemStatus
+    if (this.fridgeItems) {
+      for (var item of this.fridgeItems) {
+        var fridgeItem = <FridgeItem> item;
+        const itemStatus = this.getExpirationSatus(fridgeItem.expirationDate);
+        if (itemStatus === "expires soon" || itemStatus === "expired") {
+          const tempItem: NotifItem = {
+            item: item,
+            status: itemStatus
+          }
+          this.expiringFridgeItems.push(tempItem);
         }
-        this.expiringFridgeItems.push(tempItem);
       }
     }
+    else {
+      this.expiringFridgeItems = []
+    }
+
+
     return this.expiringFridgeItems
   }
 
