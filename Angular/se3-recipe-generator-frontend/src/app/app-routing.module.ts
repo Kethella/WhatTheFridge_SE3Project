@@ -10,6 +10,7 @@ import { Title } from '@angular/platform-browser';
 import { MyRecipesComponent } from './modules/my-recipes/my-recipes.component';
 import { AccountViewComponent } from './modules/account-view/account-view.component';
 import { FridgeComponent } from './modules/fridge/fridge.component';
+import { AuthGuard } from './guards/auth.guard';
 
 //TODO: Replace with actual paths, change routerLinks in navbar component
 const routes: Routes = [
@@ -25,21 +26,26 @@ const routes: Routes = [
       {
         path: 'home',
         title: 'Home',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'fridge',
         title: 'Fridge',
-        component: FridgeComponent},
+        component: FridgeComponent,
+        canActivate: [AuthGuard]
+      },
       {
         path: 'my_recipes',
         title: 'My Recipes',
-        component: MyRecipesComponent
+        component: MyRecipesComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'account_settings',
         title: 'Account',
-        component: AccountViewComponent
+        component: AccountViewComponent,
+        canActivate: [AuthGuard]
       }
     ]
   },

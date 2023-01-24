@@ -7,7 +7,7 @@ import { FridgeItem } from '../models/fridgeItem';
   providedIn: 'root'
 })
 export class FridgeService {
-  private ownerAccount: string = "2238550034095900" //todo: change back to empty string
+  private ownerAccount: string = "" //todo: change back to empty string
   private _baseUri: string = "http://localhost:8085/api/v1/fridgeItems";
 
   private fridgeItems: FridgeItem[] = [];

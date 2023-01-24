@@ -10,6 +10,7 @@ import { ValidationService } from 'src/app/services/validation.service';
 import { ValidationErrors } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { throwError } from 'rxjs';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 
 @Component({
@@ -31,14 +32,15 @@ export class SignUpComponent implements OnInit {
   account: Account;
 
   securityQuestions: ISecurityQuestion[]
- 
+
   visible:boolean = true;
   changetype:boolean =true;
-  
+
 
 
   constructor( private _formBuilder: FormBuilder,
     private _accountService: AccountService,
+    private _authService: AuthenticationService,
     private router: Router,
     private _validationService: ValidationService) {
 
@@ -110,7 +112,7 @@ export class SignUpComponent implements OnInit {
       this.firstFormGroup.reset();  //check if you actually need it
       this.secondFormGroup.reset(); //same as above
 
-      this.router.navigate(['home']);
+      this._authService.login()
     }
     else {
       (      //TODO: error message
@@ -136,6 +138,6 @@ export class SignUpComponent implements OnInit {
       errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
     }
     alert(errorMessage);
-    return throwError(errorMessage);  
+    return throwError(errorMessage);
   }
 }

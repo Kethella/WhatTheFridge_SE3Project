@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { FridgeItem } from 'src/app/models/fridgeItem';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FridgeService, NotifItem } from 'src/app/services/fridge.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit {
   public count: number;
 
   constructor(private _fridgeService: FridgeService,
+    private _authService: AuthenticationService,
     private route: ActivatedRoute, private router: Router) {
 
       interval(5000).subscribe(x => {
@@ -29,5 +31,9 @@ export class HeaderComponent implements OnInit {
   async getNotif() {
     this.expFrigdeItems = await this._fridgeService.getUpdatedNotifications();
     this.count = this.expFrigdeItems.length;
+  }
+
+  onLogout() {
+    this._authService.logout;
   }
 }

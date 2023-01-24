@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Account } from 'src/app/models/account';
 import { AccountService } from 'src/app/services/account.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   constructor(private _accountService: AccountService,
+    private _authService: AuthenticationService,
     private formBuilder: FormBuilder,
     private http:HttpClient,
     private router:Router ) { }
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit {
     else {
       this.loginForm.reset();
       this._accountService.sendOwnerAccountToServices(this.account.id);
-      this.router.navigate(['home']);
+      this._authService.login()
     }
 
 
