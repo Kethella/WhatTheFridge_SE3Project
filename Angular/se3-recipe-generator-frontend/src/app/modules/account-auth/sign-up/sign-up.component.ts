@@ -70,7 +70,6 @@ export class SignUpComponent implements OnInit {
   async getSecQuestions() {
     const res: any = await this._accountService.getSecurityQuestions();
       this.securityQuestions = res;
-      console.log(this.securityQuestions)
   }
 
   ConfirmedValidator(controlName: string, matchingControlName: string) {
@@ -103,16 +102,16 @@ export class SignUpComponent implements OnInit {
         securityQuestion: this.secondFormGroup.get('securityQuestion')?.value,
         securityAnswer: this.secondFormGroup.get('securityAnswer')?.value
       }
-      console.log(this.account)
 
       const res: any = await this._accountService.createAccount(this.account);
       this.account = res; //to get the actual id
-      console.log(res)
 
       this.firstFormGroup.reset();  //check if you actually need it
       this.secondFormGroup.reset(); //same as above
 
+      this._accountService.sendOwnerAccountToServices(res.id)
       this._authService.login()
+
     }
     else {
       (      //TODO: error message

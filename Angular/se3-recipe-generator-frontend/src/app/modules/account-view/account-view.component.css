@@ -10,6 +10,7 @@
     margin-top: 30px;
     border-radius: 25px;
     min-width: 400px;
+    width: 600px;
 }
 
 mat-card-header {
@@ -50,5 +51,6 @@ mat-card-header {
 .btn {
   background-color: #D0F4EC;
   color: black;
-}
+  width: 130px;
 
+}

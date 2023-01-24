@@ -8,3 +8,11 @@
 body {
   background-color: #D0F4EC;
 }
+
+
+
+.mat-mdc-snack-bar-container {
+  --mat-mdc-snack-bar-button-color: rgb(255, 255, 255);
+  --mdc-snackbar-container-color: #f44336;
+  --mdc-snackbar-supporting-text-color: rgb(255, 255, 255);
+}

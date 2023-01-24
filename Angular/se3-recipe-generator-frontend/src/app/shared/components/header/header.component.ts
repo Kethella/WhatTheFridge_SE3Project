@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
   async getNotif() {
     this.expFrigdeItems = await this._fridgeService.getUpdatedNotifications();
     this.count = this.expFrigdeItems.length;
+
   }
 
   onLogout() {
