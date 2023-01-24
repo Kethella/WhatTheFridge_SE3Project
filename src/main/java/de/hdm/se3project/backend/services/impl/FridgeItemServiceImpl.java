@@ -1,9 +1,8 @@
 package de.hdm.se3project.backend.services.impl;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.FridgeItem;
-import de.hdm.se3project.backend.model.Recipe;
-import de.hdm.se3project.backend.repository.FridgeItemRepository;
+import de.hdm.se3project.backend.models.FridgeItem;
+import de.hdm.se3project.backend.repositories.FridgeItemRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
@@ -24,20 +23,19 @@ public class FridgeItemServiceImpl implements de.hdm.se3project.backend.services
         this.fridgeItemRepository = fridgeItemRepository;
     }
 
-    public List<FridgeItem> getFridgeItems() {
-        return fridgeItemRepository.findAll();
+
+    //TODO: you shouldn't be able to access all the fridgeItems (also from other accounts)
+    @Override
+    public FridgeItem getFridgeItemById(String id) throws ResourceNotFoundException {
+        return fridgeItemRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id : " + id));
+
     }
 
     @Override
     public FridgeItem createFridgeItem(FridgeItem item) {
         item.setId(IdGenerationService.generateId(item));
         return fridgeItemRepository.save(item);
-    }
-
-    @Override
-    public FridgeItem getFridgeItemById(String id) throws ResourceNotFoundException {
-        return fridgeItemRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id :: " + id));
     }
 
     @Override
@@ -78,7 +76,7 @@ public class FridgeItemServiceImpl implements de.hdm.se3project.backend.services
 
     @Override
     public List<FridgeItem> getFridgeItems(String ownerAccount) {
-        List<FridgeItem> fridgeItems = getFridgeItems();
+        List<FridgeItem> fridgeItems = fridgeItemRepository.findAll();;
 
         fridgeItems = getFridgeItemsByOwnerAccount(ownerAccount, fridgeItems);
 
@@ -107,4 +105,6 @@ public class FridgeItemServiceImpl implements de.hdm.se3project.backend.services
 
         return result;
     }
+
+
 }

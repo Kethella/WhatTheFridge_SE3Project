@@ -35,7 +35,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("de.hdm.se3project.backend"))
-                .paths(regex("/api/v1.*"))
+                //.paths(regex("/api/v1.*"))
                 .build();
     }
 }

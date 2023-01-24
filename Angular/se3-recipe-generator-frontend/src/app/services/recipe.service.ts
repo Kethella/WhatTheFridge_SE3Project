@@ -26,11 +26,11 @@ export class RecipeService {
   }
 
   async getTags(): Promise<String[]> {
-    return firstValueFrom(this.http.get<String[]>(`${this._baseUri}/tags/oa=${this.ownerAccount}/`));
+    return firstValueFrom(this.http.get<String[]>(`${this._baseUri}/tags/oa=${this.ownerAccount}`));
   }
 
   async getCategories(): Promise<ICategory[]> {
-    return firstValueFrom(this.http.get<ICategory[]>("http://localhost:8085/api/v1/categories"))
+    return firstValueFrom(this.http.get<ICategory[]>("http://localhost:8085/api/v1/recipes/categories"))
   }
 
   async createRecipe(recipe: Recipe): Promise<Recipe> {

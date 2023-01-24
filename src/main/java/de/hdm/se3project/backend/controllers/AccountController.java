@@ -1,4 +1,4 @@
-package de.hdm.se3project.backend.controller;
+package de.hdm.se3project.backend.controllers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Account;
-import de.hdm.se3project.backend.model.enums.SecurityQuestion;
-import de.hdm.se3project.backend.repository.AccountRepository;
+import de.hdm.se3project.backend.models.Account;
+import de.hdm.se3project.backend.models.enums.SecurityQuestion;
+import de.hdm.se3project.backend.repositories.AccountRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

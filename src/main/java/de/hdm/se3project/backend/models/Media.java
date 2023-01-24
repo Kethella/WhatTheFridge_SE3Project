@@ -1,12 +1,5 @@
-package de.hdm.se3project.backend.model;
+package de.hdm.se3project.backend.models;
 
-
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
 
 //not defining a document here since the file will directly get stored in the GridFS collections (fs.files, fs.chunks)
 public class Media {

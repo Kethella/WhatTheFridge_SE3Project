@@ -1,7 +1,7 @@
-package de.hdm.se3project.backend.controller;
+package de.hdm.se3project.backend.controllers;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Media;
+import de.hdm.se3project.backend.models.Media;
 import de.hdm.se3project.backend.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;

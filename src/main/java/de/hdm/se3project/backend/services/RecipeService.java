@@ -1,8 +1,7 @@
 package de.hdm.se3project.backend.services;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
-import de.hdm.se3project.backend.model.Account;
-import de.hdm.se3project.backend.model.Recipe;
+import de.hdm.se3project.backend.models.Recipe;
 
 import java.util.List;
 

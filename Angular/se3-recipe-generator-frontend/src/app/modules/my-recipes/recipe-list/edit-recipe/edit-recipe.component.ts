@@ -82,11 +82,12 @@ export class EditRecipeComponent {
   async onSubmit(){
 
     this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
-    console.log(this.selectedCategory)
     this.recipe.category = this.selectedCategory.enumValue
 
+    this.recipe.ingredientNames = this.ingredientNames;
+    this.recipe.ingredientMeasures = this.ingredientAmounts;
+
     this.recipe = await this._recipeService.updateRecipe(this.recipe);
-    console.log(this.recipe)
     this.dialogRef.close();
  }
 
@@ -112,7 +113,7 @@ export class EditRecipeComponent {
     return returnIngr;
   }
 
-  async onAddIngredient(){
+  onAddIngredient(){
     var name = this.ingredientName
     var amount = this.ingredientAmount
 
@@ -126,7 +127,6 @@ export class EditRecipeComponent {
 
     this.ingredients.push(ingredient)
     this.table.renderRows();
-
   }
 
   onDeleteIngredient(element: Ingredient){
@@ -143,8 +143,6 @@ export class EditRecipeComponent {
     this.ingredientAmounts.splice(deleteIndex, 1)
     this.ingredients.splice(deleteIndex, 1)
     this.table.renderRows();
-    console.log(this.ingredients)
-
 
   }
 
