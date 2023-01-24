@@ -190,7 +190,7 @@ public class RecipeServiceImpl implements RecipeService {
                 boolean mustIngredientIsIncluded = false;
                 for(String recipeIngredient: recipe.getIngredientNames()){
 
-                    if (mustIngredient.equals(recipeIngredient)){
+                    if (mustIngredient.equalsIgnoreCase(recipeIngredient)){
                         mustIngredientIsIncluded = true;
                         break;
                     }
