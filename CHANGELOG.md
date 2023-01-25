@@ -3,12 +3,39 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog and this project adheres to Semantic Versioning.
 
+# Version 1.0.1
+
+# Version 1.0.0  
+* first functional version of our software
+
+### Added 
+* Login and sign up components
+* Hompage
+* Recipe Component
+* CreateRecipe Component
+* model tests
+* integration test
+* set up build pipeline
+* fridgeView
+
+### Changed
+* Changing notations on FridgeItem model, service and controller
+
+
+### Fixed
+* controller tests
+* Recipe images
+* authentification problems
+* mongoDB inconsistency
+* Login and routing problems
+
+
 # Version 0.1.0
 
 * Initial release with backend implementations
 * Non functional release for MVP presentation - project planning, requirements analysis and UI design
 
-## Added
+### Added
 * Setup DB connection
 * Request mappings
 * model classes: Recipe, FridgeItem and Account
@@ -20,39 +47,10 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 * Auto delete of personal recipes and fridge items after account delete
 * Controller class tests
 
-## Changed
+### Changed
 * Changing class name from ItemValue to FridgeItem
 * Making structural changes according to Maven and MongoDB new config
 
-## Fixed
+### Fixed
 * minor fixes in commponent structure
 * fixing conflits with application.properties
-
-
-# Version 1.0.0  
-* first functional version of our software
-
-## Added 
-* Login and sign up components
-* Hompage
-* Recipe Component
-* CreateRecipe Component
-* model tests
-* integration test
-* set up build pipeline
-* fridgeView
-
-## Changed
-* Changing notations on FridgeItem model, service and controller
-
-
-## Fixed
-* controller tests
-* Recipe images
-* authentification problems
-* mongoDB inconsistency
-* Login and routing problems
-
-
-# Version 1.0.1
-
