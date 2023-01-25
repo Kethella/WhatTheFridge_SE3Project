@@ -13,5 +13,5 @@ public interface RecipeService {
     Recipe getRecipeById(String id) throws ResourceNotFoundException;
     List<Recipe> getRecipes(String id, String defaultRecipes, String categories, String ingredientNames, String tags) throws ResourceNotFoundException;
     List<String> getAllRecipeTags(String ownerId);
-
+    String getAllCategories();
 }
