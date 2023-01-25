@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.hdm</groupId>
 	<artifactId>se3project</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>se3project</name>
 	<description>Student project for SE3</description>
 

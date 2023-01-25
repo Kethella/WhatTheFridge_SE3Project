@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog and this project adheres to Semantic Versioning.
 
-# Version 1.0.1
+# [v1.0.1] 2023-01-25
 
-# Version 1.0.0  
+### Fixes
+
+* Correction for release number in POM
+
+# [v1.0.0] 2023-01-25
+
 * first functional version of our software
 
 ### Added 

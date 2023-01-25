@@ -1,0 +1,267 @@
+- use markdown changelog
+- Update CHANGELOG
+- Add CHANGELOG
+- fixed edit  ingredients in myRecipes
+- fixed ingredients + category filter
+- fixed catergory filter on Home page
+- fix
+- fix
+- Merge branch 'frontend/currentVersion'
+- Merge branch 'frontend/account' into frontend/currentVersion
+- fix
+- Merge branch 'frontend/myRecipes' into frontend/currentVersion
+- last changes
+- styling fixes
+- design update (not finished)
+- fix
+- fix
+- editing recipe post request not working
+- fix
+- create service still has problems + edit recipe comp
+- Update .gitlab-ci.yml file
+- Update .gitlab-ci.yml file
+- Update .gitlab-ci.yml file
+- please work
+- trying to fix "Failed to execute maven-surefire-plugin"
+- Update .gitlab-ci.yml file
+- trying to fix "Failed to execute maven-surefire-plugin"
+- Merge branch 'backend/currentVersion'
+- Merge branch 'backend/JunitTests' into backend/currentVersion
+- Merge branch 'backend/recipes' into backend/currentVersion
+- Update .gitlab-ci.yml file
+- fixed create recipe
+- still needs work on requests
+- small fixes #100
+- updated create-recipe component
+- fix for login and routing problems
+- finished v1 of notifications #100
+- create recipes component --DNF
+- fix
+- added methods in AccountService + aditional fixes
+- Merge branch 'backend/JunitTests' into frontend/account
+- Merge branch 'frontend/fridge' of https://gitlab.mi.hdm-stuttgart.de/ag186/se3-project into frontend/account
+- edit fridge item + notifications v1
+- Merge branch 'frontend/fridge' into frontend/myRecipes
+- new comp
+- issue #43 started, changes to login/signup copied from frontend/fridge branch
+- delete auth.service
+- delete recipe working, css needs work
+- fixed mat-card, added open RecipeDetailsComponent on click on recipe
+- added my-recipies component to logged-in-layout
+- recipe details component needs work
+- #98 Making AccountControllerTest (JUnit) to run locally - done (except the createAccount Method)
+- Adjusting FridgeItemServiceTest (removing previous change in FridgeItemServiceImplTest)
+- Adjusting FridgeItemServiceTest (using FridgeItemService instead of FridgeItemServiceImpl
+- Merge remote-tracking branch 'origin/backend/IntegrationTest' into backend/IntegrationTest
+- Adjusting delete tests and AccountControllerTest
+- Adjusting gitLab-ci.yml
+- commit for trying out integration tests
+- fixed login.component and signup.component; mock ownerAccount for the HTTP requests changed to the actual account one logs in with and routhing changed to start with login
+- fixes in sign-up component and packages
+- created v3 of "Fridge" view #42 and #99
+- created v2 of "Fridge" view #42
+- Cleaning code - (Media Tests not done & AccountControllerTest does not work locally only on pipeline)
+- Checking if AccountControllerTest (JUnitTest) will work on the pipeline. (It does not work locally - maybe because it tests with AccountRepository)
+- Error on setUp method on RecipeServiceImpTest
+- Error on setUp method on RecipeServiceImpTest
+- Checking pipeline - JUnit & Integration Tests ready (Besides MediaController & MediaService) - AccountControllerTest maybe not possible to run as JUnit test
+- moved mongo service creation to unit test job
+- removed testcontainers implementation in fridgeitemserviceimptest
+- fixed mongodb inconsistency
+- not using alias because name resolution does not work
+- parametrize mongo service name
+- using older mongodb version https://stackoverflow.com/questions/68392064/error-when-running-mongo-image-docker-entrypoint-sh-line-381
+- moved service to global gitlab ci scope
+- moved service to global gitlab ci scope
+- moved service to global gitlab ci scope
+- moved service to global gitlab ci scope
+- attempting to run integration test in gitlab ci
+- attempting to run integration test in gitlab ci
+- keeping one test class only for verification
+- keeping one test class only for verification
+- added properties file to be used for integration tests only
+- attempting to use dind for testcontainers use in gitlab ci
+- attempting to use dind for testcontainers use in gitlab ci
+- attempting to use dind for testcontainers use in gitlab ci
+- attempting to use dind for testcontainers use in gitlab ci
+- created v1 of "Fridge" view
+- JUnit & Integration Tests ready (Besides MediaController & MediaService) - Pipeline for int Test still not working.
+- Checking pipeline Error - Solving JUnit Test problem
+- Checking pipeline Error - Version 15 (Removing createAccountTest method - JUnitTest)
+- Checking pipeline Error - Version 14 (JUnit test error not solved)
+- Checking pipeline Error - Version 13 (JUnit test error not solved)
+- Checking pipeline Error - Version 12 (JUnit test error not solved)
+- Checking pipeline Error - Version 11 (JUnit test error not solved)
+- Checking pipeline Error - Version 10 (JUnit test error not solved)
+- Checking pipeline Error - Version 9 (JUnit test error not solved)
+- Checking pipeline Error - Version 8 (JUnit test error not solved)
+- Checking pipeline Error - Version 7 (JUnit test error not solved)
+- Checking pipeline Error - Version 6 (JUnit test error not solved)
+- Checking pipeline Error - Version 5 (JUnit test error not solved)
+- Checking pipeline Error - Version 4 (JUnit test error not solved)
+- Checking pipeline Error - Version 3 (JUnit test error not solved)
+- Checking pipeline Error - Version 2 (JUnit test error not solved)
+- Checking Repository tests Error - Version 1 (JUnit test error not solved)
+- Checking Repository tests Error
+- Set up build pipeline for Junits and Integration Tests
+- Testing FridgeItemServiceImpl class - Version 0
+- FridgeItemRepositoryTest - ready
+- FridgeItemRepositoryTest - first compiling tests
+- AbstractIntegrationTest class with comments (basis for all MongoDB repository tests)
+- cleaning code - organizing tests packages (jUnitTest)
+- adding Dockerfile
+- Merge branch 'main' of https://gitlab.mi.hdm-stuttgart.de/ag186/se3-project
+- trying to get .gitlab-ci.yml to work
+- Update .gitlab-ci.yml file
+- Update .gitlab-ci.yml file
+- Update .gitlab-ci.yml file
+- trying to get .gitlab-ci.yml to work
+- Update .gitlab-ci.yml file
+- Update .gitlab-ci.yml file
+- Update .gitlab-ci.yml file
+- Update .gitlab-ci.yml file
+- Merge branch 'main' of https://gitlab.mi.hdm-stuttgart.de/ag186/se3-project
+- delete MediaControllerTest
+- Add new file
+- Merge branch 'frontend/header&auth' into frontend/currentVersion
+- Merge branch 'frontend/recipe-details' into frontend/currentVersion
+- Integration Test - FI Repository - Version 0
+- Integration Test (Committing here before changing branch)
+- int test
+- Cleaning the code
+- Cleaning AccountControllerTest class
+- Deleting temporary method getAccountSecurityQuestionText
+- validation and other tweaks
+- add a method for turning the ingredients array of objects into an array of strings to be displayed in the .html
+- solved: create ingredients array of Ingredient objects so ingredientName-ingredientMeasure pairs can be displayed more easily
+- make all methods in RecipeService async
+- get recipe categories from backend get previously selected category when reopening the filter dialog for a second time
+- replaced placeholder tags and ingredients
+- fixed auth problems + Merge branch 'frontend/homePage' into frontend/header&auth
+- merge
+- unsuccessful authentication
+- layout and style tweaks for recipe-details + Merge branch 'frontend/homePage' into frontend/recipe-details
+- small fix
+- minor design fix + recipe service started for #44
+- solved
+- Debugging
+- Account Controller Test - ready
+- Recipe Controller Test - ready
+- FridgeItem Controller Test - ready
+- cleaning the controller and serviceImpl code
+- Fixing account test problem
+- fixed updateFridgeItem() in FridgeItemService + test clean-up
+- solved updateFridgeItemTest() in FridgeItemControllerTest
+- solve for AccountControllerTest
+- solved getRecipesTest() in RecipeControllerTest
+- solved deleteRecipeTest() for RecipeControllerTest
+- solve for createRecipeTest() in RecipeControllerTest
+- changed layout of recipe
+- fixed recipe images
+- added sort for recipes, added show previously selected options from the filter dialog, clean-up
+- added page titles + clean-up
+- Model Tests mostly ready #65
+- Merge remote-tracking branch 'origin/backend/JunitTests' into backend/JunitTests
+- Still having problems with the tests.
+- example for createFridgeItemTest
+- dialog box for recipe-details started #44
+- create v1 of #39
+- creating the firsts Controller tests (there is error with some tests)
+- creating the firsts model tests
+- Changing notations on FridgeItem model, service and controller.
+- Excluding an unnecessary maven dependency.
+- add background-color
+- create v0 of #39
+- restructure
+- version updates
+- Merge branch 'backend/dbConnection' into frontend/homePage
+- changes in Recipe classes for #69 and #39
+- minor design fixes
+- login & sign up components #38
+- example for Controller unit test for #34 and fix of FridgeItemServiceImpl
+- Test not working
+- Changing pom File - adding JUnit 4 dep.
+- Changing FridgeItems Service Classes
+- Changing FridgeItemsController Class
+- Merging with backend/dbConnection
+- Figuring out Unit test with Mockito #70
+- fix for #54 and clean-up
+- clean-up and change in Recipe Controller for #69 and #39
+- clean-up and change in Recipe Controller for #69 and #39
+- Auto delete of personal recipes and fridge items after account delete #54
+- Clean up account classes
+- Creating the first Tests - Version 0
+- Adding JUnit dependency
+- Merge remote-tracking branch 'origin/backend/dbConnection' into backend/recipes
+- clean-up
+- Creating a Spring Boot test - FridgeItemsServiceImplTest
+- Updating FridgeItemController according to FridgeItemService
+- navbar component w/ (dummy) routing #36
+- Updating FridgeItem Service implementation - version 3 (TODO: getFridgeItems method)
+- Updating FridgeItem Service implementation - version 2 (TODO: updateFridgeItem method)
+- Creating FridgeItem Service implementation - version 1
+- Creating FridgeItem implementation - version 0
+- Changing application.properties class
+- Test controller class - FridgeItemsControllerTest
+- Solving commits problem
+- merged from backend_DB_Connection into backend_fridgeItems
+- update RecipeController and RecipleServiceImpl
+- AccountService and AccountServiceImpl Issue #54
+- Merge remote-tracking branch 'origin/backend/recipes' into backend/recipes
+- Create v2 of image upload feature #37
+- Create image upload feature #37
+- Test controller class - FridgeItemsControllerTest
+- Create v2 of query params for Recipe GET request #52
+- Create v1 of query params for Recipe GET request #52
+- Deleting duplicated class
+- Merge remote-tracking branch 'origin/backend/fridgeItems' into backend/fridgeItems
+- Solving commits problem
+- FridgeItem "id" on Model class changed
+- Merge branch 'backend/fridgeItems' of https://gitlab.mi.hdm-stuttgart.de/ag186/se3-project into backend/fridgeItems
+- merged from backend_DB_Connection into backend_fridgeItems
+- minor fixes in component structure
+- Add Swagger for API documentation #51
+- Merge branch 'backend_recipe' of https://gitlab.mi.hdm-stuttgart.de/ag186/se3-project into backend/recipes
+- better tags gathering and standardisation of recipe format #30
+- finish conversion of external API data to Recipe format #30 and clean-up
+- Merge branch 'backend_DB_Connection' into 'main'
+- merged from backend_DB_Connection into backend_fridgeItems
+- Changing "idItem" variable to "id" to solve conflit
+- fixing conflits with application.properties
+- initial conversion of external API data to Recipe format #30
+- init frontend #33; user component connected to backend;
+- read from external API and separate different objects and each of their properties #30
+- create IdGenerationService #28 and clean-up
+- Merge remote-tracking branch 'origin/recipe' into backend_DB_Connection
+- Category enum updated with 5 Categories
+- Get Request for testing Category enum complete
+- Create Category Enum Class. Attempt Get Request for testing
+- Add Put, Post and Delete Request Mappings and upload first Post Request via Postman. Close Issue #26
+- delete IdGenerationService since it's not needed
+- renaming in FridgeItem and connect Account with Recipes and FridgeItems #29
+- clean-up
+- Merge remote-tracking branch 'origin/backend_items' into backend_DB_Connection
+- Merge branch 'recipe' into backend_DB_Connection
+- move SecurityQuestion
+- fixing mongoDB access
+- Creating "updateItem" method inside the controller
+- Adding Item controller based on the account controller format
+- Correction of word according to convention (clean code)
+- Add Put, Post and Delete Request Mappings and upload first Post Request via Postman
+- change securityQuestion to Enum and add some comments #27
+- Controller FridgeItems V0
+- FridgeItem model class
+- Repository - Fridge Items
+- Changing class name from ItemValue to FridgeItem
+- Making structural changes according to Maven and MongoDB new conf
+- Create Recipe and RecipeController
+- Update URL from backend_DB_Connection branch.
+- Setup correct DB Connection for Recipes
+- Item on the fridge branch
+- change database, rename in pom.xml
+- fix database access
+- init backend #22
+- Update README.md
+- Update README.md
+- Update README.md
+- Initial commit
