@@ -7,15 +7,31 @@
                         <h1>Welcome back.</h1>
                         <h6>Clean out your fridge and enjoy a delicious meal</h6>
                     </div>
-                    <form class="sign-up-form">
+                    <form class="sign-up-form" [formGroup]="loginForm">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" [(ngModel)]="account.email">
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
+                            formControlName="email" 
+                            [(ngModel)]="account.email"
+                            [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                            required>
+                            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                <div *ngIf="f['email'].errors['required']">Email is required</div>
+                                <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+                              </div>
                             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                           </div>
+
                           <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" name="password" [(ngModel)]="account.password">
+                            <input type="password" class="form-control" id="exampleInputPassword1" 
+                            formControlName="password" 
+                            [(ngModel)]="account.password"
+                            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                            required>
+                            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                <div *ngIf="f['password'].errors['required']">Password is required</div>
+                            </div>
                           </div>
                           <div>
                             <button type="button" class="btn btn-primary" (click)="login()">Login</button>
@@ -28,3 +44,5 @@
     </div>
     </div>
     <router-outlet></router-outlet>
+
+
