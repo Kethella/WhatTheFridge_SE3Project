@@ -8,7 +8,8 @@ import {MatTable} from '@angular/material/table';
 import { ICategory } from 'src/app/models/category';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
+import { MediaService } from 'src/app/services/media.service';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class CreateRecipeComponent {
 
   displayedColumns: string[] = ['ingredientName', 'ingredientAmount'];
 
+  mediaString: string = "";
+
   public queryParams = new HttpParams();
   @Output() public newQueryEvent = new EventEmitter<HttpParams>();
 
@@ -40,7 +43,9 @@ export class CreateRecipeComponent {
   constructor(public dialogRef:MatDialogRef<CreateRecipeComponent>,
     @Inject(MAT_DIALOG_DATA) public data:any,
     private _formBuilder: FormBuilder,
-    private _recipeService:RecipeService){
+    private _recipeService:RecipeService,
+    private _mediaService: MediaService,
+    public http: HttpClient){
 
       this.ingredienNames = []
       this.ingredientAmounts = []
@@ -68,24 +73,41 @@ export class CreateRecipeComponent {
     this.dialogRef.close();
   }
 
-  async onSubmit(){
+  onSubmit(){
 
-    this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
+    this.progress.percentage = 0;
+    this.currentFileUpload = this.selectedFiles.item(0)!;
+    this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress.percentage = Math.round(100 * event.loaded / event.total!);
+      } else if (event instanceof HttpResponse) {
+          this.mediaString = JSON.stringify(event.body)
+          this.mediaString = this.mediaString.slice(1, this.mediaString.length - 1)
 
-    this.recipe={
-      id: '',
-      name:this.recipeForm.get('name')?.value,
-      ingredientNames: this.ingredienNames,
-      ingredientMeasures: this.ingredientAmounts,
-      category: this.selectedCategory.enumValue,
-      tags: this.selectedTags,
-      instructions:this.recipeForm.get('instructions')?.value,
-      image:'http://localhost:8085/media/download/63c95e3d664c9260ee663f9c',
-      link:'',
-      ownerAccount:''
-    }
-    this.recipe = await this._recipeService.createRecipe(this.recipe);
-    console.log(this.recipe)
+          // a bit ugly but i cannot get the mediaString out of the subscribe :/
+          this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
+          this.recipe={
+            id: '',
+            name:this.recipeForm.get('name')?.value,
+            ingredientNames: this.ingredienNames,
+            ingredientMeasures: this.ingredientAmounts,
+            category: this.selectedCategory.enumValue,
+            tags: this.selectedTags,
+            instructions:this.recipeForm.get('instructions')?.value,
+            image: this.mediaString,
+            link:'',
+            ownerAccount:''
+          }
+          this.createRecipe()
+      }
+      this.selectedFiles = undefined!;
+      }
+    );
+
+ }
+
+ async createRecipe() {
+  this.recipe = await this._recipeService.createRecipe(this.recipe);
     this.dialogRef.close();
  }
 
@@ -138,6 +160,37 @@ export class CreateRecipeComponent {
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     }
+  }
+
+  /* -------------------------
+      UPLOAD FILE
+    -------------------------
+  */
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
+  selectedFile = null;
+
+  uploadMedia() {
+    this.progress.percentage = 0;
+    this.currentFileUpload = this.selectedFiles.item(0)!;
+    this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress.percentage = Math.round(100 * event.loaded / event.total!);
+      } else if (event instanceof HttpResponse) {
+          this.mediaString = JSON.stringify(event.body)
+          this.mediaString = this.mediaString.slice(1, this.mediaString.length - 1)
+          console.log("bruh " + this.mediaString)
+          return this.mediaString
+      }
+      this.selectedFiles = undefined!;
+      }
+    );
+
+  }
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
   }
 }
 

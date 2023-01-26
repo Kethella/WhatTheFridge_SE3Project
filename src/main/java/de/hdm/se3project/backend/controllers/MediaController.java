@@ -22,10 +22,18 @@ public class MediaController {
     private MediaService mediaService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException,
+    public String uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException,
             ResourceNotFoundException {
-        return new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK);
+        System.out.println("Upload file");
+        System.out.println(new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK));
+        return mediaService.uploadMedia(file);
     }
+    /*public ResponseEntity<?> uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException,
+            ResourceNotFoundException {
+        System.out.println("Upload file");
+        System.out.println(new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK));
+        return new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK);
+    }*/
 
     @GetMapping("/download/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {

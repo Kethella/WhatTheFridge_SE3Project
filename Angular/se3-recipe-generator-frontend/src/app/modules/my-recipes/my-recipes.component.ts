@@ -30,7 +30,6 @@ export class MyRecipesComponent {
   }
 
   openDialog(){
-    console.log("dialog opened")
     const dialogRef=this.dialog.open(CreateRecipeComponent, {
       data: this.ingredients,
       width: '900px',
