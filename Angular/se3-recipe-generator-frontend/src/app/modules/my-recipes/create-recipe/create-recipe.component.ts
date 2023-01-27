@@ -8,7 +8,9 @@ import {MatTable} from '@angular/material/table';
 import { ICategory } from 'src/app/models/category';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -31,16 +33,18 @@ export class CreateRecipeComponent {
   selectedTags: string[];
 
   displayedColumns: string[] = ['ingredientName', 'ingredientAmount'];
-
+  
   public queryParams = new HttpParams();
   @Output() public newQueryEvent = new EventEmitter<HttpParams>();
 
   @ViewChild(MatTable) table: MatTable<Ingredient>;
+  
 
   constructor(public dialogRef:MatDialogRef<CreateRecipeComponent>,
     @Inject(MAT_DIALOG_DATA) public data:any,
     private _formBuilder: FormBuilder,
-    private _recipeService:RecipeService){
+    private _recipeService:RecipeService,
+    private snackBar:MatSnackBar){
 
       this.ingredienNames = []
       this.ingredientAmounts = []
@@ -84,9 +88,18 @@ export class CreateRecipeComponent {
       link:'',
       ownerAccount:''
     }
-    this.recipe = await this._recipeService.createRecipe(this.recipe);
+    if(this.everythingIsFine()){
+      this.recipe = await this._recipeService.createRecipe(this.recipe);
     console.log(this.recipe)
     this.dialogRef.close();
+    }
+    else{
+      console.log("bad bitch")
+        let config = new MatSnackBarConfig();
+        config.panelClass = ['my-snackbar']
+        this.snackBar.open("Make sure there are no empty fields.", "Ok", config);
+
+    }
  }
 
 
@@ -139,6 +152,34 @@ export class CreateRecipeComponent {
       this.selectedTags.splice(index, 1);
     }
   }
+
+  everythingIsFine(): boolean {
+    if(this.recipe.name === " "){
+
+      return false;
+    }
+    if(this.recipe.ingredientNames.length===0){
+
+      return false;
+    }
+    if(this.recipe.ingredientMeasures.length===0 ){
+
+      return false;
+    }
+    if(this.recipe.instructions===" " || this.recipe.instructions===null){
+
+      return false;
+    }
+    if(this.recipe.category=="" ||this.recipe.category==null){
+      return false;
+    }
+    if(this.recipe.image===null){
+      return false;
+    }
+    
+    return true;
+  }
+
 }
 
 export interface Ingredient {
