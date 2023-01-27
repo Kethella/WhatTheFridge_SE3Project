@@ -23,4 +23,10 @@ export class MediaService {
     return this.http.request(newRequest);
   }
 
+  deleteFile(recipeImageGetUrl: string) {
+    let fileId = recipeImageGetUrl.slice(37)
+    //this.http.delete("http://localhost:8085/media/delete/" + fileId)
+    console.log("File is deleted.")
+  }
+
 }

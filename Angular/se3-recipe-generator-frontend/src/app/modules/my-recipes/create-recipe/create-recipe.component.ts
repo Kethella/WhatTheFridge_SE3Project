@@ -35,6 +35,11 @@ export class CreateRecipeComponent {
 
   mediaString: string = "";
 
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
+  selectedFile = null;
+
   public queryParams = new HttpParams();
   @Output() public newQueryEvent = new EventEmitter<HttpParams>();
 
@@ -73,8 +78,12 @@ export class CreateRecipeComponent {
     this.dialogRef.close();
   }
 
-  onSubmit(){
 
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
+
+  onSubmit(){
     this.progress.percentage = 0;
     this.currentFileUpload = this.selectedFiles.item(0)!;
     this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
@@ -103,8 +112,8 @@ export class CreateRecipeComponent {
       this.selectedFiles = undefined!;
       }
     );
-
  }
+
 
  async createRecipe() {
   this.recipe = await this._recipeService.createRecipe(this.recipe);
@@ -162,36 +171,6 @@ export class CreateRecipeComponent {
     }
   }
 
-  /* -------------------------
-      UPLOAD FILE
-    -------------------------
-  */
-  selectedFiles: FileList;
-  currentFileUpload: File;
-  progress: { percentage: number } = { percentage: 0 };
-  selectedFile = null;
-
-  uploadMedia() {
-    this.progress.percentage = 0;
-    this.currentFileUpload = this.selectedFiles.item(0)!;
-    this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.progress.percentage = Math.round(100 * event.loaded / event.total!);
-      } else if (event instanceof HttpResponse) {
-          this.mediaString = JSON.stringify(event.body)
-          this.mediaString = this.mediaString.slice(1, this.mediaString.length - 1)
-          console.log("bruh " + this.mediaString)
-          return this.mediaString
-      }
-      this.selectedFiles = undefined!;
-      }
-    );
-
-  }
-
-  selectFile(event) {
-    this.selectedFiles = event.target.files;
-  }
 }
 
 export interface Ingredient {

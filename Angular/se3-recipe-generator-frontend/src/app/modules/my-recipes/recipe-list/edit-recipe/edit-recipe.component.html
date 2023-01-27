@@ -20,6 +20,14 @@
     </mat-form-field>
     </div>
 
+    <div class="recipeField">
+      <h2>Change Image</h2>
+      <img [src]="recipe.image" height="300px" width="300px">
+      <button mat-raised-button (click)="deleteImage()">Delete</button>
+      <input type="file" id="customFile" (change)="selectFile($event)">
+
+    </div>
+
 
     <div class="recipeField">
       <div id="addIngredient">
