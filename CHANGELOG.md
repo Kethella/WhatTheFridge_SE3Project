@@ -35,7 +35,7 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 * Login and routing problems
 
 
-# Version 0.1.0
+# [v0.1.0] 2022-27-11
 
 * Initial release with backend implementations
 * Non functional release for MVP presentation - project planning, requirements analysis and UI design
