@@ -8,12 +8,9 @@ import de.hdm.se3project.backend.models.Account;
 import de.hdm.se3project.backend.models.enums.SecurityQuestion;
 import de.hdm.se3project.backend.repositories.AccountRepository;
 import de.hdm.se3project.backend.services.AccountService;
-import de.hdm.se3project.backend.services.FridgeItemService;
-import de.hdm.se3project.backend.services.IdGenerationService;
 import jdk.jfr.Description;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,19 +24,19 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RunWith(MockitoJUnitRunner.class)
 @Description("Testing class: AccountController")
-public class AccountControllerTest {
+class AccountControllerTest {
 
-    /*private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     ObjectMapper objectMapper = new ObjectMapper();
     ObjectWriter objectWriter = objectMapper.writer();
@@ -49,8 +46,6 @@ public class AccountControllerTest {
 
     @InjectMocks
     private AccountController accountController;
-
-    private AccountRepository repository;
 
     Account ACCOUNT_1 = new Account("1", "user", "user@mailmail.com", "123456",
             SecurityQuestion.Q2, "Buddy", null, null);
@@ -87,7 +82,7 @@ public class AccountControllerTest {
 
     @Test
     @Description("testing method: getOneAccount - Should get one account based on its owners ID - GET request")
-    public void getOneAccountTest() throws Exception {
+    public void getAccountById() throws Exception {
         Mockito.when(accountService.getAccountById(ACCOUNT_1.getId())).thenReturn((ACCOUNT_1));
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/{id}", ACCOUNT_1.getId())
@@ -104,12 +99,13 @@ public class AccountControllerTest {
 
         Mockito.when(accountService.createAccount(ACCOUNT_1)).thenReturn(ACCOUNT_1);
 
-        String account = objectWriter.writeValueAsString(ACCOUNT_1);
+        String accountStr = objectWriter.writeValueAsString(ACCOUNT_1);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/v1/accounts")
+        MockHttpServletRequestBuilder mockRequest
+                = MockMvcRequestBuilders.post("/api/v1/accounts")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(account);
+                .content(accountStr);
 
         this.mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
@@ -129,7 +125,7 @@ public class AccountControllerTest {
         account.setSecurityQuestion(SecurityQuestion.Q5);
         account.setSecurityAnswer("teacherName");
 
-        Mockito.when(accountController.replaceAccount(account.getId(),account)).thenReturn(account);
+        Mockito.when(accountService.updateAccount(account.getId(),account)).thenReturn(account);
 
         String replacedAccount = objectWriter.writeValueAsString(account);
 
@@ -156,6 +152,40 @@ public class AccountControllerTest {
         accountController.deleteAccount(ACCOUNT_3.getId());
         Mockito.verify(accountService).deleteAccount(ACCOUNT_3.getId());  //check that the deleteById method on AccountRepository mock object was called with the same id.
     }
-*/
+
+    @Test
+    @Description("Testing method: getAllSecurityQuestions() - Check if the method returns all available security questions")
+    public void getAllSecurityQuestions() throws Exception {
+        String str = "[{\"enumValue\":\"Q1\",\"text\":\"What was the first exam you failed?\"},{\"enumValue\":\"Q2\",\"text\":\"What was the name of your first stuffed animal?\"},{\"enumValue\":\"Q3\",\"text\":\"In what city did you meet your spouse/significant other?\"},{\"enumValue\":\"Q4\",\"text\":\"What was your childhood nickname?\"},{\"enumValue\":\"Q5\",\"text\":\"What was the last name of your third grade teacher?\"}]";
+
+        Mockito.when(accountService.getAllSecurityQuestions()).thenReturn(str);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/securityQuestions")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(str));
+
+    }
+
+    @Test
+    @Description("Testing method: getAccountByEmailPassword() - Check if the method returns the existing account based on email and password ()")
+    public void getAccountByEmailPassword() throws Exception {
+        String email = ACCOUNT_2.getEmail();
+        String password = ACCOUNT_2.getPassword();
+
+
+        Mockito.when(accountService.getAccountByEmailPassword(email,password)).thenReturn(ACCOUNT_2);
+
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/one/")
+                        .param("email", email)
+                        .param("password", password)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", is("user2")));
+
+    }
+
 }
 

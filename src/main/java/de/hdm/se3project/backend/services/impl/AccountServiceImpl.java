@@ -4,14 +4,19 @@ import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.models.Account;
 import de.hdm.se3project.backend.models.FridgeItem;
 import de.hdm.se3project.backend.models.Recipe;
+import de.hdm.se3project.backend.models.enums.SecurityQuestion;
 import de.hdm.se3project.backend.repositories.AccountRepository;
 import de.hdm.se3project.backend.services.AccountService;
 import de.hdm.se3project.backend.services.FridgeItemService;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import de.hdm.se3project.backend.services.RecipeService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -84,5 +89,36 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
+    }
+
+    @Override
+    public String getAllSecurityQuestions() {
+        List<JSONObject> list = new ArrayList<>();
+        JSONArray array = new JSONArray();
+
+        for(SecurityQuestion q: SecurityQuestion.values()) {
+
+            HashMap<String, String> seqQuestion = new HashMap<String, String>();
+            seqQuestion.put("enumValue", q.toString());
+            seqQuestion.put("text", q.getText());
+            JSONObject seqQuestionObject = new JSONObject(seqQuestion);
+            System.out.println(seqQuestionObject);
+            array.put(seqQuestionObject);
+        }
+        System.out.println(array.toString());
+        return array.toString();
+    }
+
+    @Override
+    public Account getAccountByEmailPassword(String email, String password){
+
+        List<Account> allAccounts = accountRepository.findAll();
+        for (Account account: allAccounts) {
+            if(account.getEmail().equals(email) && account.getPassword().equals(password)){
+                return account;
+            }
+        }
+
+        return null;
     }
 }
