@@ -19,10 +19,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @WebAppConfiguration //Indicates that a test class is a web application context configuration class
@@ -82,5 +83,42 @@ public class MediaControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.TEXT_PLAIN)) //Text/plain = .txt file type
                 .andExpect(MockMvcResultMatchers.content().bytes(media.getFile()))
                 .andDo(MockMvcResultHandlers.print());
+
+        Mockito.verify(mediaService, times(1)).downloadMedia(media.getFileName());
     }
+
+    //TODO
+    /*@Test
+    @Description("")
+    public void testUpdateAccountImg() throws Exception {
+
+        MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "This is a test file.".getBytes());
+
+        //when(mediaService.updateMedia(file.getName(), file)).thenReturn(String.valueOf(file)); //It simulates a media file that is going to be returned by the service method
+
+        mockMvc.perform(put("/media/update/{id}", file.getName())
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .content(file.getBytes()))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+        verify(mediaService, times(1)).updateMedia(file.getName(), file);
+    }*/
+
+    @Test
+    @Description("Testing deleteAccountImg method")
+    public void testDeleteAccountImg() throws Exception {
+
+        MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "This is a test file.".getBytes());
+
+        mockMvc.perform(delete("/media/delete/{id}", file.getName())
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .content(file.getBytes()))
+                .andExpect(status().isNoContent())
+                .andDo(MockMvcResultHandlers.print());
+
+        verify(mediaService, times(1)).deleteMedia(file.getName());
+    }
+
 }
+

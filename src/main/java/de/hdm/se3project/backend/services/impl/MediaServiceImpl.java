@@ -51,8 +51,21 @@ public class MediaServiceImpl implements MediaService {
         return link.concat(imageId);
     }
 
-    public void deleteMedia(MultipartFile file) throws IOException {
-        //TODO
+    //TODO
+    /*
+    @Override
+    public String updateMedia(MultipartFile file, String id) throws IOException {
+        GridFSFile gridFSFile = template.findOne(new Query(Criteria.where("_id").is(id)));
+        template.delete(new Query(Criteria.where("_id").is(id)));
+        Object fileId = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
+        String imageId = fileId.toString();
+        String link = "http://localhost:8085/media/download/";
+        return link.concat(imageId);
+    }*/
+
+    @Override
+    public void deleteMedia(String id) throws IOException {
+        template.delete(new Query(Criteria.where("_id").is(id)));
     }
 
 }
