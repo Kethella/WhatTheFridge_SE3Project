@@ -9,6 +9,6 @@ public interface MediaService {
 
     Media downloadMedia(String id) throws IOException;
     String uploadMedia(MultipartFile file) throws IOException;
-    //String updateMedia(String id, MultipartFile file) throws IOException;
+    Media updateMedia(String id, MultipartFile file) throws IOException;
     void deleteMedia(String id) throws IOException;
 }

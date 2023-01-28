@@ -39,30 +39,15 @@ public class MediaController {
                 .body(new ByteArrayResource(media.getFile()));
     }
 
-    //TODO
-    /*
     @PutMapping("/update/{id}")
-    public ResponseEntity<Media> updateAccountMedia(@PathVariable("id") String id, @RequestBody Media media) throws IOException {
-        // Find the existing media object by id
-        Media existingMedia = mediaService.updateMedia(id, (MultipartFile) media);
-        if (existingMedia == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        // Update the existing media object with the new information
-        existingMedia.setFileName(media.getFileName());
-        existingMedia.setFile(media.getFile());
-        // Save the updated media object
-        mediaService.updateMedia(existingMedia.getFileName(), (MultipartFile) existingMedia);
-        return new ResponseEntity<>(existingMedia, HttpStatus.OK);
-    }*/
-   /* public ResponseEntity<?> updateAccountImg(@PathVariable String id, @RequestBody MultipartFile file) throws IOException {
-        return new ResponseEntity<>(mediaService.updateMedia(id, file), HttpStatus.OK);//Return a ResponseEntity object with the updated media as the body and an appropriate HTTP status code.
-    }*/
+    public ResponseEntity<Media> updateAccountMedia(@PathVariable String id, @RequestBody MultipartFile file) throws IOException {
+       return new ResponseEntity<>(mediaService.updateMedia(id, file), HttpStatus.OK);//Return a ResponseEntity object with the updated media as the body and an appropriate HTTP status code.
+   }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteAccountImg(@PathVariable("id") String id) throws IOException {
         mediaService.deleteMedia(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

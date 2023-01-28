@@ -4,7 +4,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import de.hdm.se3project.backend.models.Media;
-import de.hdm.se3project.backend.services.MediaService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
-public class MediaServiceImpl implements MediaService {
+public class MediaServiceImpl implements de.hdm.se3project.backend.services.MediaService {
 
     @Autowired
     private GridFsTemplate template;
@@ -51,17 +50,23 @@ public class MediaServiceImpl implements MediaService {
         return link.concat(imageId);
     }
 
-    //TODO
-    /*
     @Override
-    public String updateMedia(MultipartFile file, String id) throws IOException {
-        GridFSFile gridFSFile = template.findOne(new Query(Criteria.where("_id").is(id)));
-        template.delete(new Query(Criteria.where("_id").is(id)));
-        Object fileId = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
-        String imageId = fileId.toString();
-        String link = "http://localhost:8085/media/download/";
-        return link.concat(imageId);
-    }*/
+    public Media updateMedia(String id, MultipartFile file) throws IOException {
+        // Find the existing media object by id
+        Media existingMedia = downloadMedia(id);
+        if (existingMedia == null) {
+            return null;
+        }
+        // Delete the existing media object from the database
+        deleteMedia(id);
+
+        // Set the file name and id of the existing media object to the new values
+        existingMedia.setFileName(file.getOriginalFilename());
+        existingMedia.setFileSize(existingMedia.getFileSize());
+        existingMedia.setFile(existingMedia.getFile());
+        existingMedia.setFileType(existingMedia.getFileType());
+        return existingMedia;
+    }
 
     @Override
     public void deleteMedia(String id) throws IOException {

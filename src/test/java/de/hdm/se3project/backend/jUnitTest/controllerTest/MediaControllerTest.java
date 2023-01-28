@@ -18,6 +18,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.multipart.MultipartFile;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -87,23 +89,24 @@ public class MediaControllerTest {
         Mockito.verify(mediaService, times(1)).downloadMedia(media.getFileName());
     }
 
-    //TODO
-    /*@Test
-    @Description("")
-    public void testUpdateAccountImg() throws Exception {
+    @Test
+    @Description("Checks if the put request is returning OK")
+    public void updateAccountMedia() throws Exception {
+        // Create a Media object to update
+        Media media = new Media();
+        media.setFileName("existingFile.jpg");
+        media.setFile(new byte[] {1, 2, 3});
 
-        MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "This is a test file.".getBytes());
+        // Stub the mediaService.updateMedia() method to return the Media object
+        when(mediaService.updateMedia(anyString(), any(MultipartFile.class))).thenReturn(media);
 
-        //when(mediaService.updateMedia(file.getName(), file)).thenReturn(String.valueOf(file)); //It simulates a media file that is going to be returned by the service method
-
-        mockMvc.perform(put("/media/update/{id}", file.getName())
-                        .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .content(file.getBytes()))
+        // Send a PUT request to the updateAccountMedia endpoint
+        mockMvc.perform(put("/media/update/{id}", media.getFileName())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(media)))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
-
-        verify(mediaService, times(1)).updateMedia(file.getName(), file);
-    }*/
+    }
 
     @Test
     @Description("Testing deleteAccountImg method")
@@ -111,7 +114,7 @@ public class MediaControllerTest {
 
         MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "This is a test file.".getBytes());
 
-        mockMvc.perform(delete("/media/delete/{id}", file.getName())
+        mockMvc.perform(delete("/media/delete/{id}", file.getName())  //passing name as id
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .content(file.getBytes()))
                 .andExpect(status().isNoContent())
