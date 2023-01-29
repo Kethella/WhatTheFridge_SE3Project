@@ -40,8 +40,8 @@ public class MediaController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Media> updateAccountMedia(@PathVariable String id, @RequestBody MultipartFile file) throws IOException {
-       return new ResponseEntity<>(mediaService.updateMedia(id, file), HttpStatus.OK);//Return a ResponseEntity object with the updated media as the body and an appropriate HTTP status code.
+    public String updateAccountMedia(@PathVariable String id, @RequestBody MultipartFile file) throws IOException {
+       return mediaService.updateMedia(id, file);
    }
 
     @DeleteMapping("/delete/{id}")
