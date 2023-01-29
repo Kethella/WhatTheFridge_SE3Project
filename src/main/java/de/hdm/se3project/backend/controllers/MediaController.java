@@ -13,19 +13,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@RestController
-@RequestMapping("/media")
+@RestController  //Notation used to make it eligible for this class to handle HTTP requests.
+@RequestMapping("/media") //Defining the endpoint URLs that the MediaController will handle.
 @CrossOrigin(origins = "http://localhost:4200")
 public class MediaController {
 
-    @Autowired
+    @Autowired //This allows the MediaController to make use of the MediaService's methods.
     private MediaService mediaService;
 
+    public MediaController(MediaService mediaService) {
+        this.mediaService = mediaService;
+    }
+
+    @ResponseBody
     @PostMapping("/upload")
-    public String uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException,
-            ResourceNotFoundException {
+    public String uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException {
         System.out.println("Upload file");
-        System.out.println(new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK));
         return mediaService.uploadMedia(file);
     }
     /*public ResponseEntity<?> uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException,
@@ -42,6 +45,17 @@ public class MediaController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(media.getFileType()))
                 .body(new ByteArrayResource(media.getFile()));
+    }
+
+    @PutMapping("/update/{id}")
+    public String updateAccountMedia(@PathVariable String id, @RequestBody MultipartFile file) throws IOException {
+       return mediaService.updateMedia(id, file);
+   }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteAccountImg(@PathVariable("id") String id) throws IOException {
+        mediaService.deleteMedia(id);
+        return "Media deleted";
     }
 
 }
