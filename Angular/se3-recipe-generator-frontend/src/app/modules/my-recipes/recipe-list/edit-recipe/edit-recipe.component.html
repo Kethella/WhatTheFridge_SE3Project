@@ -21,9 +21,22 @@
     </div>
 
     <div class="recipeField">
-      <h2>Change Image</h2>
-      <img [src]="recipe.image" height="300px" width="300px">
-      <button mat-raised-button (click)="deleteImage()">Delete</button>
+      <div *ngIf='this.recipe.image != ""'>
+        <h2>Change Image</h2>
+
+        <div class="image-container">
+          <div class="content">
+            <img [src]="recipe.image" height="300px" width="300px">
+          </div>
+          <div class="overlay only-show-on-hover">
+            <button mat-raised-button color="warn" (click)="deleteImage()">Delete</button>
+          </div>
+        </div>
+
+      </div>
+      <div *ngIf='this.recipe.image === ""'>
+        <h2>Add Image</h2>
+      </div>
       <input type="file" id="customFile" (change)="selectFile($event)">
 
     </div>

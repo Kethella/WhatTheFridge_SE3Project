@@ -135,6 +135,7 @@ selectFile(event) {
 
 deleteImage() {
   this._mediaService.deleteFile(this.recipe.image)
+  this.recipe.image = "";
 }
 
 
@@ -261,5 +262,3 @@ export interface tableColumns
     ingredientAmount: string;
     actions: string
 }
-
-

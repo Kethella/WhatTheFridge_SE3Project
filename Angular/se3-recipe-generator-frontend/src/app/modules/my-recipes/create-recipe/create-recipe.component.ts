@@ -40,6 +40,8 @@ export class CreateRecipeComponent {
   progress: { percentage: number } = { percentage: 0 };
   selectedFile = null;
 
+  fileIsSelected = false;
+
   public queryParams = new HttpParams();
   @Output() public newQueryEvent = new EventEmitter<HttpParams>();
 
@@ -80,38 +82,58 @@ export class CreateRecipeComponent {
 
 
   selectFile(event) {
+    this.fileIsSelected = true;
     this.selectedFiles = event.target.files;
   }
 
   onSubmit(){
-    this.progress.percentage = 0;
-    this.currentFileUpload = this.selectedFiles.item(0)!;
-    this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.progress.percentage = Math.round(100 * event.loaded / event.total!);
-      } else if (event instanceof HttpResponse) {
-          this.mediaString = JSON.stringify(event.body)
-          this.mediaString = this.mediaString.slice(1, this.mediaString.length - 1)
 
-          // a bit ugly but i cannot get the mediaString out of the subscribe :/
-          this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
-          this.recipe={
-            id: '',
-            name:this.recipeForm.get('name')?.value,
-            ingredientNames: this.ingredienNames,
-            ingredientMeasures: this.ingredientAmounts,
-            category: this.selectedCategory.enumValue,
-            tags: this.selectedTags,
-            instructions:this.recipeForm.get('instructions')?.value,
-            image: this.mediaString,
-            link:'',
-            ownerAccount:''
-          }
-          this.createRecipe()
-      }
-      this.selectedFiles = undefined!;
-      }
-    );
+    if(this.fileIsSelected) {
+      this.progress.percentage = 0;
+      this.currentFileUpload = this.selectedFiles.item(0)!;
+      this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(100 * event.loaded / event.total!);
+        } else if (event instanceof HttpResponse) {
+            this.mediaString = JSON.stringify(event.body)
+            this.mediaString = this.mediaString.slice(1, this.mediaString.length - 1)
+
+            // a bit ugly but i cannot get the mediaString out of the subscribe :/
+            this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
+            this.recipe={
+              id: '',
+              name:this.recipeForm.get('name')?.value,
+              ingredientNames: this.ingredienNames,
+              ingredientMeasures: this.ingredientAmounts,
+              category: this.selectedCategory.enumValue,
+              tags: this.selectedTags,
+              instructions:this.recipeForm.get('instructions')?.value,
+              image: this.mediaString,
+              link:'',
+              ownerAccount:''
+            }
+            this.createRecipe()
+        }
+        this.selectedFiles = undefined!;
+        }
+      );
+    } else{
+      this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
+        this.recipe={
+          id: '',
+          name:this.recipeForm.get('name')?.value,
+          ingredientNames: this.ingredienNames,
+          ingredientMeasures: this.ingredientAmounts,
+          category: this.selectedCategory.enumValue,
+          tags: this.selectedTags,
+          instructions:this.recipeForm.get('instructions')?.value,
+          image: "",
+          link:'',
+          ownerAccount:''
+        }
+        this.createRecipe()
+    }
+
  }
 
 
