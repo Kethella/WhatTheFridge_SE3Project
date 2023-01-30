@@ -43,3 +43,6 @@ integration-tests:
     - "echo 'Running Integration tests for all packages'"
     - "mvn -Dtest=de.hdm.se3project.backend.integrationTest.repositoryTest.*Test test"
     - "mvn -Dtest=de.hdm.se3project.backend.integrationTest.servicesTest.*Test test"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
