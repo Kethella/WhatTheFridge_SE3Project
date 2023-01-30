@@ -22,7 +22,6 @@ export class FridgeComponent {
 
   ngOnInit() {
     this.loadItems();
-
   }
 
   async loadItems() {
@@ -56,9 +55,13 @@ export class FridgeComponent {
 
   handleDate(dateToFix: string): string {
     var whereIsT = dateToFix.indexOf("T");
-    var fixedDate = dateToFix.substring(0, whereIsT)
-
-    return fixedDate;
+    if(whereIsT){
+      var fixedDate = dateToFix.substring(0, whereIsT)
+      return fixedDate;
+    }
+    else {
+      return dateToFix;
+    }
   }
 
   openEditDialog(fridgeItem: FridgeItem) {

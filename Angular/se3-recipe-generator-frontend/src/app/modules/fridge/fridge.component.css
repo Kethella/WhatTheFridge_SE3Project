@@ -37,6 +37,7 @@ mat-list-item {
 img{
   height: 120px;
   width: 120px;
+  object-fit: cover;
   border-radius: 25px;
 }
 

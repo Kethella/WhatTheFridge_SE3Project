@@ -10,7 +10,7 @@
   <div class="spacer"></div>
 
   <button mat-button [matMenuTriggerFor]="notif">
-    <mat-icon [matBadgeHidden] = "count == 0" [matBadge]="count">notifications</mat-icon>
+    <mat-icon [matBadgeHidden] = "count == 0" [matBadge]="count" matBadgeColor="accent" matBadgeSize="medium">notifications</mat-icon>
     <mat-menu #notif="matMenu">
       <button mat-menu-item *ngFor="let fridgeItem of expFrigdeItems" routerLink="/fridge">{{fridgeItem.item.name}} - {{fridgeItem.status}}</button>
    </mat-menu>
