@@ -9,9 +9,6 @@ import { AppComponent } from './app.component';
 import { PersonalMaterialModule } from './material.module';
 import { LoggedInLayoutModule } from './layouts/logged-in-layout/logged-in-layout.module';
 import { AuthLayoutModule } from './layouts/auth-layout/auth-layout.module';
-import { SignUpComponent } from './modules/account-auth/sign-up/sign-up.component';
-import { LoginComponent } from './modules/account-auth/login/login.component';
-import { DummyPagesComponent } from './modules/dummy-pages/dummy-pages.component';
 
 
 

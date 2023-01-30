@@ -16,7 +16,7 @@ export class MediaService {
   uploadFile(file: File): Observable<HttpEvent<{}>> {
     const data: FormData = new FormData();
     data.append('file', file);
-    const newRequest = new HttpRequest('POST', 'http://localhost:8085/media/upload', data, {
+    const newRequest = new HttpRequest('POST', `${this._baseUrl}/upload`, data, {
     reportProgress: true,
     responseType: 'text'
     });
@@ -25,8 +25,19 @@ export class MediaService {
 
   deleteFile(recipeImageGetUrl: string) {
     let fileId = recipeImageGetUrl.slice(37)
-    //this.http.delete("http://localhost:8085/media/delete/" + fileId)
-    console.log("File is deleted.")
+    this.http.delete(`${this._baseUrl}/delete/` + fileId)
+  }
+
+  updateFile(recipeImageGetUrl: string, file: File) {
+    let fileToUpdateId = recipeImageGetUrl.slice(37)
+
+    const data: FormData = new FormData();
+    data.append('file', file);
+    const newRequest = new HttpRequest('POST', `${this._baseUrl}/delete/${fileToUpdateId}`, data, {
+    reportProgress: true,
+    responseType: 'text'
+    });
+    return this.http.request(newRequest);
   }
 
 }

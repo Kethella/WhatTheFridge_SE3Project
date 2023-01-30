@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Recipe } from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { DialogData, RecipeDetailsComponent } from 'src/app/shared/components/recipe-details/recipe-details.component';
 import {MatTable} from '@angular/material/table';
 import { ICategory } from 'src/app/models/category';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -91,7 +90,7 @@ export class CreateRecipeComponent {
     if(this.fileIsSelected) {
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0)!;
-      this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
+      this._mediaService.updateFile(this.recipe.image, this.currentFileUpload).subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress.percentage = Math.round(100 * event.loaded / event.total!);
         } else if (event instanceof HttpResponse) {
@@ -192,7 +191,6 @@ export class CreateRecipeComponent {
       this.selectedTags.splice(index, 1);
     }
   }
-
 }
 
 export interface Ingredient {

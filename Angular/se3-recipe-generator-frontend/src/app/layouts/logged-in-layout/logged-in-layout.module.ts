@@ -15,7 +15,7 @@ import { RecipeFilterDialog, RecipeSortFilterComponent } from 'src/app/modules/h
 import { MyRecipesComponent } from 'src/app/modules/my-recipes/my-recipes.component';
 import { RecipeListComponent } from 'src/app/modules/my-recipes/recipe-list/recipe-list.component';
 import { CreateRecipeComponent } from 'src/app/modules/my-recipes/create-recipe/create-recipe.component';
-import { EditRecipeComponent } from 'src/app/modules/my-recipes/recipe-list/edit-recipe/edit-recipe.component';
+import { DialogChangeImage, EditRecipeComponent } from 'src/app/modules/my-recipes/recipe-list/edit-recipe/edit-recipe.component';
 
 import { AccountViewComponent, DeleteAccountDialog } from 'src/app/modules/account-view/account-view.component';
 
@@ -36,7 +36,8 @@ import { AccountViewComponent, DeleteAccountDialog } from 'src/app/modules/accou
     CreateRecipeComponent,
     EditRecipeComponent,
     AccountViewComponent,
-    DeleteAccountDialog
+    DeleteAccountDialog,
+    DialogChangeImage
   ],
   imports: [
     CommonModule,
