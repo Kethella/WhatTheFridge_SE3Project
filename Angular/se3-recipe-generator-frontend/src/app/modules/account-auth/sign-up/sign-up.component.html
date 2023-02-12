@@ -7,8 +7,8 @@
 
         <mat-card-content>
             <form class="sign-up-form" (ngSubmit)="onSignUp()" >
-                <mat-stepper id="stepper" #stepper="matHorizontalStepper">
-                    <mat-step [stepControl]="firstFormGroup">
+                <mat-stepper id="stepper" #stepper="matHorizontalStepper" [linear]="isLinear">
+                    <mat-step [stepControl]="firstFormGroup" >
                         <form [formGroup]="firstFormGroup">
                             <ng-template matStepLabel class="stepper-label"><div class="stepper-label">Create account</div></ng-template>
 
@@ -46,12 +46,12 @@
                             
 
                             <div class="buttons">
-                                <button mat-raised-button matStepperNext>Next</button>
+                                <button mat-raised-button matStepperNext (click)="next()"  >Next</button>
                             </div>
                         </form>
                     </mat-step>
 
-                    <mat-step [stepControl]="secondFormGroup">
+                    <mat-step [stepControl]="secondFormGroup" [editable]="false" [completed]="false"  (click)="$event.stopPropagation()" >
                         <form [formGroup]="secondFormGroup">
                             <ng-template matStepLabel><div class="stepper-label">Security question</div></ng-template>
 

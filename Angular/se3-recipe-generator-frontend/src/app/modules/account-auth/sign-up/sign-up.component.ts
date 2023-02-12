@@ -10,6 +10,8 @@ import { ValidationService } from 'src/app/services/validation.service';
 import { ValidationErrors } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 
 
 @Component({
@@ -34,13 +36,15 @@ export class SignUpComponent implements OnInit {
  
   visible:boolean = true;
   changetype:boolean =true;
-  
-
+  _stepper:MatStepper;
+  isLinear:true;
 
   constructor( private _formBuilder: FormBuilder,
     private _accountService: AccountService,
     private router: Router,
-    private _validationService: ValidationService) {
+    private _validationService: ValidationService,
+    private _snackBar:MatSnackBar,
+    ) {
 
   }
 
@@ -113,11 +117,16 @@ export class SignUpComponent implements OnInit {
       this.router.navigate(['home']);
     }
     else {
-      (      //TODO: error message
-      err: any) => {
+      (err: any) => {
         console.log(err)
         this.handleError(err)
       }
+    }
+    if(this.firstFormGroup.invalid ||this.secondFormGroup.invalid){
+      this._snackBar.open('Did you complete all required fields?', 'Oops!', {
+        duration: 5000,
+      });
+      return;
     }
   }
 
@@ -137,5 +146,20 @@ export class SignUpComponent implements OnInit {
     }
     alert(errorMessage);
     return throwError(errorMessage);  
+  }
+
+  next(){
+    if(this.firstFormGroup.valid){
+      this._stepper.selected!.completed=true;
+      this._stepper.next();
+    }
+    else {
+      this._snackBar.open('Please complete all required fields', 'Ok', {
+        duration: 5000,
+      });
+      
+      return;
+    }
+    //else this._stepper.next();
   }
 }
