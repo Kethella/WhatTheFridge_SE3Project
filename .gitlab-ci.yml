@@ -21,7 +21,7 @@ unit-tests:
   stage: test
   image: maven:3-openjdk-17
   script:
-    - echo "This job tests JUnit"
+    - echo "This job performs Unit Tests"
     - "echo 'Running JUnitTest for packages'"
     - "mvn '-Dtest=de.hdm.se3project.backend.jUnitTest.controllerTest.*Test' test"
     - "mvn '-Dtest=de.hdm.se3project.backend.jUnitTest.modelTest.*Test' test"
@@ -39,7 +39,9 @@ integration-tests:
     - name: mongo:4.4
   image: maven:3-openjdk-17
   script:
-    - echo "This job tests Integration Tests"
+    - echo "This job performs Integration Tests"
     - "echo 'Running Integration tests for all packages'"
     - "mvn -Dtest=de.hdm.se3project.backend.integrationTest.repositoryTest.*Test test"
     - "mvn -Dtest=de.hdm.se3project.backend.integrationTest.servicesTest.*Test test"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
