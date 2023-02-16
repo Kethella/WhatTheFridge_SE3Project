@@ -16,6 +16,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
+ * To avoid various problems with the external API we stored all recipes in our database
+ * once in the beginning of the semester. This is the class we used.
+ *
  * The class stores the result from a series of GET requests as a Very Big String.
  * The Very Big String contains all the recipes beginning with a certain letter.
  * Then the class separates the Very Big String into a List of individual recipes (Big Strings).
@@ -24,6 +27,8 @@ import java.util.regex.Pattern;
  * and saves the recipe and the values of its properties as objects in the database.
  *
  * THE CLASS IS NOT TO BE RUN WITH THE APPLICATION EVERY TIME.
+ *
+ * external API: https://www.themealdb.com/
  *
  * author: ag186
  */

@@ -16,9 +16,6 @@ import java.util.logging.Logger;
 @CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
 
-    static Logger logger = Logger.getLogger(RecipeController.class.getName());
-
-
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
@@ -66,8 +63,6 @@ public class RecipeController {
     String getAllCategories() {
         return recipeService.getAllCategories();
     }
-
-
 
 }
 

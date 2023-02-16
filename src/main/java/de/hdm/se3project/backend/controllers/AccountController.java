@@ -35,14 +35,13 @@ public class AccountController {
     }
 
 
-    //DO NOT DELETE THIS IS FOR FRONTEND LOGIN
+    //DO NOT DELETE!!! THIS IS FOR FRONTEND LOGIN
     @GetMapping("/accounts/one/")
     public Account getAccountByEmailPassword(@RequestParam(value = "email") String email,
                           @RequestParam(value = "password") String password){
 
         return accountService.getAccountByEmailPassword(email, password);
     }
-
 
     @GetMapping("/accounts")
     public List<Account> getAllAccounts(){

@@ -49,19 +49,4 @@ public class Media {
     public void setFile(byte[] file) {
         this.file = file;
     }
-
-    /**
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Media media = (Media) obj;
-        return Objects.equals(fileName, media.fileName) && Objects.equals(fileType, media.fileType) && Objects.equals(fileSize, media.fileSize) && file == media.file;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(fileName, fileType, fileSize, Arrays.hashCode(file));
-    }
-    */
 }
