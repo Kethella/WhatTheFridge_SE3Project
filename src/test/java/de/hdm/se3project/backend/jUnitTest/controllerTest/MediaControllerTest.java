@@ -98,7 +98,7 @@ public class MediaControllerTest {
         media.setFile(new byte[] {1, 2, 3});
 
         // Stub the mediaService.updateMedia() method to return the Media object
-        when(mediaService.updateMedia(anyString(), any(MultipartFile.class))).thenReturn(media);
+        when(mediaService.updateMedia(anyString(), any(MultipartFile.class))).thenReturn(String.valueOf(media));
 
         // Send a PUT request to the updateAccountMedia endpoint
         mockMvc.perform(put("/media/update/{id}", media.getFileName())
