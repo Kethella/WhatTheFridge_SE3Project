@@ -198,4 +198,18 @@ class RecipeControllerTest {
         Mockito.verify(recipeService, times(1)).deleteRecipe(id);
     }
 
+    @Test
+    @Description("Testing method: getAllCategories() - Check if the method returns all available categories")
+    public void getAllCategories() throws Exception {
+        String str = "[{\"enumValue\":\"MAINCOURSE\",\"text\":\"Main Course\"},{\"enumValue\":\"DESSERT\",\"text\":\"Dessert\"},{\"enumValue\":\"SIDE\",\"text\":\"Side\"},{\"enumValue\":\"STARTER\",\"text\":\"Starter\"},{\"enumValue\":\"DRINKS\",\"text\":\"Drinks\"},{\"enumValue\":\"BREAKFAST\",\"text\":\"Breakfast\"}]";
+
+        Mockito.when(recipeService.getAllCategories()).thenReturn(str);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes/categories")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(str));
+
+    }
+
 }

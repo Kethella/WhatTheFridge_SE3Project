@@ -2,15 +2,22 @@ package de.hdm.se3project.backend.controllers;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.models.Recipe;
+import de.hdm.se3project.backend.models.enums.Category;
 import de.hdm.se3project.backend.services.RecipeService;
 import org.springframework.web.bind.annotation.*;
-
+import org.json.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/v1/recipes")
 @CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
+
+    static Logger logger = Logger.getLogger(RecipeController.class.getName());
+
 
     private final RecipeService recipeService;
 
@@ -48,11 +55,18 @@ public class RecipeController {
         return recipeService.getRecipes(ownerAccount, defaultRecipes, category, ingredientNames, tags);
     }
 
-    @GetMapping("/tags/oa={ownerAccount}/")
+
+    @GetMapping("/tags/oa={ownerAccount}")
     List<String> getAllRecipeTags(@PathVariable String ownerAccount) throws ResourceNotFoundException {
 
         return recipeService.getAllRecipeTags(ownerAccount);
     }
+
+    @GetMapping("/categories")
+    String getAllCategories() {
+        return recipeService.getAllCategories();
+    }
+
 
 
 }

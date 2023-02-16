@@ -6,9 +6,12 @@ import de.hdm.se3project.backend.models.enums.Category;
 import de.hdm.se3project.backend.repositories.RecipeRepository;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import de.hdm.se3project.backend.services.RecipeService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -77,7 +80,12 @@ public class RecipeServiceImpl implements RecipeService {
 
         if(defaultRecipes.equals("yes")){
             List<Recipe> externalRecipes = getRecipesByOwnerAccount(null, getAllRecipes());
-            recipes.addAll(externalRecipes);
+            if (recipes != null) {
+                recipes.addAll(externalRecipes);
+            }
+            else {
+                recipes = externalRecipes;
+            }
         }
 
         if(category != null){
@@ -270,5 +278,21 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return resultRecipes;
+    }
+
+    @Override
+    public String getAllCategories() {
+        JSONArray array = new JSONArray();
+
+        for(Category c: Category.values()) {
+
+            HashMap<String, String> category = new HashMap<String, String>();
+            category.put("enumValue", c.toString());
+            category.put("text", c.getText());
+            JSONObject seqQuestionObject = new JSONObject(category);
+            array.put(seqQuestionObject);
+        }
+
+        return array.toString();
     }
 }

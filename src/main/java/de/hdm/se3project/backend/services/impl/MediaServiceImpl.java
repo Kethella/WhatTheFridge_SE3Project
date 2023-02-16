@@ -51,8 +51,25 @@ public class MediaServiceImpl implements MediaService {
         return link.concat(imageId);
     }
 
-    public void deleteMedia(MultipartFile file) throws IOException {
-        //TODO
+    //TODO: have a look at https://stackoverflow.com/questions/29515327/how-to-perform-update-operations-in-gridfs-using-java
+    @Override
+    public String updateMedia(String id, MultipartFile file) throws IOException {
+
+        // Find the existing media object by id
+        Media existingMedia = downloadMedia(id);
+        if (existingMedia == null) {
+            return null;
+        }
+        // Delete the existing media object from the database
+        deleteMedia(id);
+
+        //return reference to the new image
+        return uploadMedia(file);
+    }
+
+    @Override
+    public void deleteMedia(String id) throws IOException {
+        template.delete(new Query(Criteria.where("_id").is(id)));
     }
 
 }

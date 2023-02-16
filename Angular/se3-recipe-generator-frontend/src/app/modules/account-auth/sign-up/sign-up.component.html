@@ -1,0 +1,87 @@
+<div class="bg">
+    <mat-card>
+
+        <mat-card-header>
+            <mat-card-title>Create an account</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form class="sign-up-form" (ngSubmit)="onSignUp()" >
+                <mat-stepper id="stepper" #stepper="matHorizontalStepper">
+                    <mat-step [stepControl]="firstFormGroup">
+                        <form [formGroup]="firstFormGroup">
+                            <ng-template matStepLabel class="stepper-label"><div class="stepper-label">Create account</div></ng-template>
+
+                            <mat-form-field>
+                                <mat-label>Username</mat-label>
+                                <input matInput formControlName="username" required>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Email</mat-label>
+                                <input matInput formControlName="email" required>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Password</mat-label>
+                                <input matInput formControlName="password" required [type]="changetype?'password':'text'">
+                                <span class="eyeicon"><mat-icon (click)="viewpass()" [ngClass]="visible?'visibility':'visibility_off'">
+                                    visibility
+                                </mat-icon></span>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label for="passwordRepeat">Confirm password</mat-label>
+                                <input matInput formControlName="passwordRepeat" required [type]="changetype?'password':'text'" >
+                                <!--<div class="invalid-feedback">Passwords don't match</div>-->
+                                <span class="eyeicon"><mat-icon (click)="viewpass()" [ngClass]="visible?'visibility':'visibility_off'">
+                                    visibility
+                                </mat-icon></span>     
+                            </mat-form-field>
+                            <div class="alert"                          
+                                        *ngIf="firstFormGroup.errors?.['confirmedValidator']                                        
+                                        || (firstFormGroup.controls['passwordRepeat'].hasError('required') && firstFormGroup.controls['passwordRepeat'].touched)">
+                                Passwords don't match
+                            </div> <!-- password matching works but somehow div doesn't show up-->
+                            
+
+                            <div class="buttons">
+                                <button mat-raised-button matStepperNext>Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <mat-step [stepControl]="secondFormGroup">
+                        <form [formGroup]="secondFormGroup">
+                            <ng-template matStepLabel><div class="stepper-label">Security question</div></ng-template>
+
+                                <mat-form-field>
+                                    <mat-label>Select a security question</mat-label>
+                                    <mat-select formControlName="securityQuestion" required>
+                                        <mat-option *ngFor="let question of securityQuestions" value="question.enumValue">
+                                            {{question.text}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field>
+                                    <mat-label>Type your answer here</mat-label>
+                                    <input matInput formControlName="securityAnswer" required>
+                                </mat-form-field>
+
+                                <div class="buttons">
+                                    <button mat-raised-button matStepperPrevious>Back</button>
+                                    <button mat-raised-button (click)="onSignUp()">Sign Up</button>
+                                </div>
+                        </form>
+                    </mat-step>
+                </mat-stepper>
+                <div>                
+                    <a style="display: flex; justify-content: flex-end" routerLink="../login"> Already registered? </a>
+                  </div>
+            </form>
+        </mat-card-content>
+
+    </mat-card>
+</div>
+<router-outlet></router-outlet>

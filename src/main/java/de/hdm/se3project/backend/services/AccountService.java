@@ -14,4 +14,8 @@ public interface AccountService {
 
     void deleteAccount(String id) throws ResourceNotFoundException;
     List<Account> getAllAccounts();
+
+    String getAllSecurityQuestions();
+
+    Account getAccountByEmailPassword(String email, String password);
 }

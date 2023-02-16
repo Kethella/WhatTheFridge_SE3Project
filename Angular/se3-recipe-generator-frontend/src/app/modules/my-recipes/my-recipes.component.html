@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="top">
+      <h1 >My recipes</h1>  
+      <button mat-raised-button class="create" (click)="openDialog()" ><mat-icon>add</mat-icon>Create recipe</button>
+    </div>
+
+    <div>
+      <app-recipe-list class="recipe-list" [recipes]="recipes" (restartAfterEvent)="loadRecipes()"></app-recipe-list>
+    </div>
+</div>
