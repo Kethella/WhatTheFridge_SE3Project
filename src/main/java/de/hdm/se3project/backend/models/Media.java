@@ -1,6 +1,5 @@
 package de.hdm.se3project.backend.models;
 
-
 //not defining a document here since the file will directly get stored in the GridFS collections (fs.files, fs.chunks)
 public class Media {
 

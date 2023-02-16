@@ -8,11 +8,16 @@ import org.springframework.web.bind.annotation.*;
 import org.json.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/v1/recipes")
 @CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
+
+    static Logger logger = Logger.getLogger(RecipeController.class.getName());
+
 
     private final RecipeService recipeService;
 
@@ -58,19 +63,8 @@ public class RecipeController {
     }
 
     @GetMapping("/categories")
-    String getAllSecurityQuestions() {
-        JSONArray array = new JSONArray();
-
-        for(Category c: Category.values()) {
-
-            HashMap<String, String> seqQuestion = new HashMap<String, String>();
-            seqQuestion.put("enumValue", c.toString());
-            seqQuestion.put("text", c.getText());
-            JSONObject seqQuestionObject = new JSONObject(seqQuestion);
-            array.put(seqQuestionObject);
-        }
-
-        return array.toString();
+    String getAllCategories() {
+        return recipeService.getAllCategories();
     }
 
 
