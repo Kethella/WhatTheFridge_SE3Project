@@ -90,7 +90,7 @@ export class CreateRecipeComponent {
     if(this.fileIsSelected) {
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0)!;
-      this._mediaService.updateFile(this.recipe.image, this.currentFileUpload).subscribe(event => {
+      this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress.percentage = Math.round(100 * event.loaded / event.total!);
         } else if (event instanceof HttpResponse) {
