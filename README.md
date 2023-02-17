@@ -1,7 +1,7 @@
 # SE3 Project - What The Fridge 
 
 ## About 
-What The Fridge is a recipe generator web application.
+"What The Fridge" is a recipe generator web application, that helps you cut down on food waste. 
 
 This project was developed for the course "Software Entwicklung 3" of the winter semester 2022/23.
 
@@ -14,52 +14,35 @@ For information on how to install Node.js, see here: https://nodejs.org/en/
 
 Check if you have npm installed with the command `npm -v` in a terminal window
 
+To install the Angular CLI, open a terminal window and run the following command: `npm install -g @angular/cli` 
+
 ### Installation 
-Clone the project, picture?  
-
-Start/Initiate the backend by running the ... 
+Clone the project and open it in your preferred IDE.   
 
 
-Open a terminal on Angular\se3-recipe-generator-frontend and run the command `npm run build` ? 
+Open a terminal on Angular\se3-recipe-generator-frontend and run the command `npm install`
  
 ### Running the application
 
-Start the backend first. 
+Start the backend first by running the Application.java file which can be found under:   src\main\java\de\hdm\se3project\backend
 
-Then use the command -- to launch the application. It will open in a new tab. 
+Then, open a terminal window on Angular\se3-recipe-generator-frontend and run the following command: `ng serve --open`
 
-The command `ng serve --open` launches the application & opens it in a new tab. 
 
 
 ## Tech Stack 
-Frontend: 
+#### Frontend: 
 - Angular (https://angular.io/)
 - Angular Material (https://material.angular.io/)
 
-Backend: 
+#### Backend: 
 - Java
 - Springboot (https://spring.io/projects/spring-boot)
 - MongoDB (https://www.mongodb.com/)
-- API Link 
-
-## Notes
-
-https://docs.google.com/document/d/1RAVv4MVtyHdTSB2Up_JZlm2qEEaK2JQnyJjfk9GzpPc/edit?usp=sharing
+- API (https://developer.edamam.com/edamam-recipe-api)
 
 
-## Use Case Diagram
-
-https://app.diagrams.net/#G1g2FXbzgFCkNPngrAyTDRGQKXPlWBsnB9
-
-
-## Requirements 
-
-https://docs.google.com/spreadsheets/d/1HGGyN4t2qbdCuA7c80fkGqwy79H_JVezyp-uIO1H06o/edit#gid=0
-
-
-## Semantic Versioning
-
-https://semver.org/
 
 ## Contributors 
-names here 
+Aleksandra Gidionova, Kethella Oliveira, Milena Hristova, Nadine Eunous, Aylin Alagöz 
+
