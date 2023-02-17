@@ -49,7 +49,9 @@ We recommend using VSCode for the frontend and InteliJ for the backend.
 - Open http://localhost:PORT/ exchanging "PORT" for the port you are using (usually http://localhost:4200/)
 
 
+### Swagger-UI
 
+- With already running backend open http://localhost:8085/swagger-ui/#/ in your browser
 
 
 
