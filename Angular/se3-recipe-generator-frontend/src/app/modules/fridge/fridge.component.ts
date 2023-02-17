@@ -55,10 +55,16 @@ export class FridgeComponent {
   }
 
   handleDate(dateToFix: string): string {
-    var whereIsT = dateToFix.indexOf("T");
-    var fixedDate = dateToFix.substring(0, whereIsT)
+    if (dateToFix.indexOf("T")) {
+      var whereIsT = dateToFix.indexOf("T");
+      var fixedDate = dateToFix.substring(0, whereIsT)
+      return fixedDate;
+    }
+    else {
+      return dateToFix;
+    }
 
-    return fixedDate;
+
   }
 
   openEditDialog(fridgeItem: FridgeItem) {
