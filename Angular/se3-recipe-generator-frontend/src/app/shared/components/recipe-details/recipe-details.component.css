@@ -4,16 +4,6 @@
     justify-content: space-between;
 }
 
-#recipeName {
-    width: 800px;
-}
-
-.centeredImage {
-    margin: 10px auto 20px;
-    display: block;
-    border-radius: 15px;
-}
-
 .headers{
     font-weight: bold;
     padding-top: 15px;
@@ -21,8 +11,8 @@
 
 .tag-button {
     border-radius: 25px;
-    margin-right: 15px; 
-    color: black; 
+    margin-right: 15px;
+    color: black;
     background-color: #5FC1AC;
 }
 
@@ -33,6 +23,20 @@
     padding: 10px;
 }
 
+img{
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
+  border-radius: 25px;
+}
+
+#image-ingredients {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  padding-bottom: 30px;
+}
 
 
 

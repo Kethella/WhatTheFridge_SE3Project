@@ -37,6 +37,7 @@ mat-list-item {
 img{
   height: 120px;
   width: 120px;
+  object-fit: cover;
   border-radius: 25px;
 }
 
@@ -50,11 +51,6 @@ img{
 
 #delete-icon {
   transform: scale(1.5);
-}
-
-#noItemsElement {
-  height: 500px;
-  display: none;
 }
 
 .noItemsElement {

@@ -1,5 +1,6 @@
 package de.hdm.se3project.backend.controllers;
 
+import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.models.Media;
 import de.hdm.se3project.backend.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,16 @@ public class MediaController {
 
     @ResponseBody
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException{
-        return new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK);
+    public String uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException {
+        System.out.println("Upload file");
+        return mediaService.uploadMedia(file);
     }
+    /*public ResponseEntity<?> uploadAccountImg(@RequestParam("file")MultipartFile file) throws IOException,
+            ResourceNotFoundException {
+        System.out.println("Upload file");
+        System.out.println(new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK));
+        return new ResponseEntity<>(mediaService.uploadMedia(file), HttpStatus.OK);
+    }*/
 
     @GetMapping("/download/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {
@@ -45,9 +53,9 @@ public class MediaController {
    }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteAccountImg(@PathVariable("id") String id) throws IOException {
+    public String deleteAccountImg(@PathVariable("id") String id) throws IOException {
         mediaService.deleteMedia(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "Media deleted";
     }
 
 }

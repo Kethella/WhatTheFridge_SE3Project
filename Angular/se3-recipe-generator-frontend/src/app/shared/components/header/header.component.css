@@ -1,11 +1,19 @@
-.spacer{
-  flex: 1 1 auto;
+mat-toolbar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.menu{
-padding-left: 10px;
-}
-
-.logo {
+#logo {
   height: 50px;
 }
+
+#main-menu{
+  padding-left: 10px;
+  width: 100%;
+}
+
+
+
+

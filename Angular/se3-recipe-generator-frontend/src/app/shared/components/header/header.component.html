@@ -1,21 +1,26 @@
 <mat-toolbar color="teal">
+
   <div>
-    <img class="logo" src="../assets/logo-small-white.PNG" alt="Logo">
+    <img id="logo" src="../assets/logo-small-white.PNG" alt="Logo">
   </div>
-  <div class="menu">
-  <a mat-raised-button color="accent" routerLink="home">Home</a>
-  <a mat-button routerLink="/fridge">Fridge</a>
-  <a mat-button routerLink="/my_recipes">My recipes</a>
+
+  <div id="main-menu">
+    <a mat-button routerLink="/home">Home</a>
+    <a mat-button routerLink="/fridge">Fridge</a>
+    <a mat-button routerLink="/my_recipes">My recipes</a>
   </div>
-  <div class="spacer"></div>
 
-  <button mat-button [matMenuTriggerFor]="notif">
-    <mat-icon [matBadge]="count">notifications</mat-icon>
-    <mat-menu #notif="matMenu">
-      <button mat-menu-item *ngFor="let fridgeItem of expFrigdeItems" routerLink="/fridge">{{fridgeItem.item.name}} - {{fridgeItem.status}}</button>
-   </mat-menu>
-  </button>
+  <div>
+    <button mat-button [matMenuTriggerFor]="notif">
+      <mat-icon [matBadgeHidden] = "count == 0" [matBadge]="count" matBadgeColor="accent" matBadgeSize="medium">notifications</mat-icon>
+      <mat-menu #notif="matMenu">
+        <button mat-menu-item *ngFor="let fridgeItem of expFrigdeItems" routerLink="/fridge">{{fridgeItem.item.name}} - {{fridgeItem.status}}</button>
+     </mat-menu>
+    </button>
 
-  <a mat-button routerLink="/account_settings"><mat-icon>manage_accounts</mat-icon></a>
-  <a mat-button routerLink="/login"><mat-icon>logout</mat-icon></a>
+    <a mat-button routerLink="/account_settings"><mat-icon>manage_accounts</mat-icon></a>
+    <a mat-button routerLink="/login" (click)="onLogout()"><mat-icon>logout</mat-icon></a>
+  </div>
+
+
 </mat-toolbar>

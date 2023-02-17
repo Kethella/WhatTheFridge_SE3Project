@@ -3,13 +3,11 @@ import { Account } from 'src/app/models/account';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
-import { HttpClient } from '@angular/common/http';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { ISecurityQuestion } from 'src/app/models/securityQuestions';
-import { ValidationService } from 'src/app/services/validation.service';
-import { ValidationErrors } from '@angular/forms';
-import { MatOptionSelectionChange } from '@angular/material/core';
 import { throwError } from 'rxjs';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -31,16 +29,20 @@ export class SignUpComponent implements OnInit {
   account: Account;
 
   securityQuestions: ISecurityQuestion[]
- 
-  visible:boolean = true;
-  changetype:boolean =true;
-  
 
+  visible1:boolean = true;
+  changetype1:boolean =true;
+  visible2:boolean = true;
+  changetype2:boolean =true;
+
+  isLinear:true;
 
   constructor( private _formBuilder: FormBuilder,
     private _accountService: AccountService,
+    private _authService: AuthenticationService,
     private router: Router,
-    private _validationService: ValidationService) {
+    private _snackBar:MatSnackBar,
+    ) {
 
   }
 
@@ -54,8 +56,7 @@ export class SignUpComponent implements OnInit {
       password: [null, Validators.required],
       passwordRepeat: new FormControl("", Validators.required)
     }, {
-      //validator: this._validationService.passwordMatchValidator("password", "passwordRepeat")
-      validator: this.ConfirmedValidator("password", "passwordRepeat") //works both ways, possible TODO: del validation service
+      validator: this.ConfirmedValidator("password", "passwordRepeat") //works both ways
     });
 
     this.secondFormGroup = this._formBuilder.group({
@@ -68,7 +69,6 @@ export class SignUpComponent implements OnInit {
   async getSecQuestions() {
     const res: any = await this._accountService.getSecurityQuestions();
       this.securityQuestions = res;
-      console.log(this.securityQuestions)
   }
 
   ConfirmedValidator(controlName: string, matchingControlName: string) {
@@ -101,29 +101,42 @@ export class SignUpComponent implements OnInit {
         securityQuestion: this.secondFormGroup.get('securityQuestion')?.value,
         securityAnswer: this.secondFormGroup.get('securityAnswer')?.value
       }
-      console.log(this.account)
 
       const res: any = await this._accountService.createAccount(this.account);
       this.account = res; //to get the actual id
-      console.log(res)
 
       this.firstFormGroup.reset();  //check if you actually need it
       this.secondFormGroup.reset(); //same as above
 
-      this.router.navigate(['home']);
+      this._accountService.sendOwnerAccountToServices(res.id)
+      this._authService.login()
+
+    }
+    else if(this.firstFormGroup.invalid ||this.secondFormGroup.invalid){
+      this._snackBar.open('Invalid input. Please look at the errors and try again.', 'Ok', {
+        duration: 5000,
+        panelClass: ['my-snackbar']
+      });
+      return;
     }
     else {
-      (      //TODO: error message
-      err: any) => {
+      (err: any) => {
         console.log(err)
         this.handleError(err)
       }
     }
+
   }
 
-  viewpass(){
-    this.visible = !this.visible;
-    this.changetype = !this.changetype;
+  viewpass(whichOne:number){
+    if(whichOne==1){
+      this.visible1 = !this.visible1;
+      this.changetype1 = !this.changetype1;
+    }
+    else if(whichOne==2){
+      this.visible2 = !this.visible2;
+      this.changetype2 = !this.changetype2;
+    }
   }
 
   handleError(err: { error: any; message: any; status: any; }) {
@@ -136,6 +149,6 @@ export class SignUpComponent implements OnInit {
       errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
     }
     alert(errorMessage);
-    return throwError(errorMessage);  
+    return throwError(errorMessage);
   }
 }

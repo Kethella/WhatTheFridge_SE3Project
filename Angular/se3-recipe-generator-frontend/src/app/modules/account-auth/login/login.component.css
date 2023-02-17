@@ -14,3 +14,9 @@
     background: rgb(95, 193, 172);
     height : 100vh;
 }
+
+#inputError {
+  color: red;
+  font-weight: 400;
+  padding-bottom: 20px;
+}

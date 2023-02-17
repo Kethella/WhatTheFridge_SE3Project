@@ -2,7 +2,10 @@
   <mat-card class="profile-card">
     <mat-card-header>
       <h1>Account Settings</h1>
-      <button mat-raised-button class="btn" (click)="changeDisabled()">{{btnText}}</button>
+      <button mat-raised-button class="btn" (click)="changeDisabled()">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        {{btnText}}
+      </button>
     </mat-card-header>
 
     <div class="profile-info-section">
@@ -10,7 +13,7 @@
       <div class="info-block">
           <h3>Name</h3>
           <mat-form-field>
-            <input type="email" matInput [(ngModel)]="account.name" [disabled]="isDisabled">
+            <input type="text" matInput [(ngModel)]="account.name" [disabled]="isDisabled">
           </mat-form-field>
       </div>
 
@@ -24,11 +27,29 @@
       <div class="info-block">
           <h3>Password</h3>
           <mat-form-field>
-            <input type="email" matInput [(ngModel)]="fakePassword" [disabled]="isDisabled">
+            <input type="text" matInput [(ngModel)]="fakePassword" [disabled]="isDisabled">
           </mat-form-field>
       </div>
 
-      <button mat-raised-button class="btn" (click)="deleteAccount()">Delete account</button>
+      <div class="info-block">
+        <h3>Security question</h3>
+        <mat-form-field appearance="fill">
+          <mat-select [(value)]="selectedSecurityQuestion.text" [disabled]="isDisabled">
+            <mat-option *ngFor="let question of securityQuestions" [value]="question.text">
+              {{question.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="info-block">
+          <h3>Security Answer</h3>
+          <mat-form-field>
+            <input matInput type="text" [(ngModel)]="fakeSecurityAnswer" [disabled]="isDisabled">
+          </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="warn" (click)="deleteAccount()">Delete account</button>
 
 
     </div>
