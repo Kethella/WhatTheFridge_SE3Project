@@ -8,10 +8,11 @@
 
 
 mat-card {
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(230, 244, 246);
+  border-radius: 25px;
 }
 
 form {
