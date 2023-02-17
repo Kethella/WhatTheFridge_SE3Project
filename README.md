@@ -14,7 +14,7 @@ This project was developed for the course "Software Entwicklung 3" of the winter
 - Java
 - Springboot (https://spring.io/projects/spring-boot)
 - MongoDB (https://www.mongodb.com/)
-- API (https://developer.edamam.com/edamam-recipe-api)
+- API (https://themealdb.com/)
 
 ## Installation
 
