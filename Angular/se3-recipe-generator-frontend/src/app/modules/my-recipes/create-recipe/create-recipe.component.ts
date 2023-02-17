@@ -9,8 +9,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { HttpClient, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
 import { MediaService } from 'src/app/services/media.service';
-import { Observable } from 'rxjs';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -144,13 +143,13 @@ export class CreateRecipeComponent {
   //this.recipe = await this._recipeService.createRecipe(this.recipe);
   if(this.emptyMandatoryFields()){
     this.recipe = await this._recipeService.createRecipe(this.recipe);
-    console.log(this.recipe)
     this.dialogRef.close();
   }
   else{
-    let config = new MatSnackBarConfig();
-    config.panelClass = ['my-snackbar']
-    this.snackBar.open("Make sure that all mandatory fields are not empty.", "Ok", config);
+    this.snackBar.open("Make sure that all mandatory fields are not empty.", "Ok", {
+      duration: 5000,
+      panelClass: ['my-snackbar']
+    });
   }
  }
 

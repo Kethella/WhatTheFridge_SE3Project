@@ -2,6 +2,7 @@ import { Component, OnInit, Inject} from '@angular/core';
 import { FridgeService } from 'src/app/services/fridge.service';
 import { FridgeItem } from 'src/app/models/fridgeItem';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-fridge',
@@ -16,7 +17,6 @@ export class FridgeComponent {
   constructor(
     private _fridgeService: FridgeService,
     public dialog: MatDialog) {
-
       this.fridgeItems = []
   }
 
@@ -47,9 +47,7 @@ export class FridgeComponent {
   }
 
   async deleteItem(fridgeItem: FridgeItem) {
-    console.log("delete and restart");
     this.text = await this._fridgeService.deleteItem(fridgeItem);
-    console.log(this.text)
     this.ngOnInit();
   }
 
@@ -89,7 +87,8 @@ export class NewFridgeItemDialog implements OnInit{
 
   constructor(
     public dialogRef: MatDialogRef<NewFridgeItemDialog>,
-    private _fridgeService: FridgeService) {
+    private _fridgeService: FridgeService,
+    private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -100,9 +99,38 @@ export class NewFridgeItemDialog implements OnInit{
   }
 
   async onAddClick() {
-    this.newItem = await this._fridgeService.saveItem(this.newItem);
-    console.log(this.newItem)
-    this.dialogRef.close();
+    if (this.emptyMandatoryFields()) {
+      this.snackBar.open("Make sure that all mandatory fields are not empty.", "Ok", {
+        duration: 5000,
+        panelClass: ['my-snackbar']
+      });
+    }
+    else {
+      if(!isNaN(Number(this.newItem.amount))){
+        this.newItem = await this._fridgeService.saveItem(this.newItem);
+        this.dialogRef.close();
+      } else{
+        this.snackBar.open("Amount should be a number.", "Ok", {
+          duration: 5000,
+          panelClass: ['my-snackbar']
+        });
+      }
+    }
+  }
+
+  emptyMandatoryFields(): boolean {
+    if (this.newItem.name == null || this.newItem.name == "") {
+      return true;
+    }
+    else if (this.newItem.amount == null) {
+      return true;
+    }
+    else if (this.newItem.expirationDate == null || this.newItem.expirationDate == "") {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
 
@@ -117,13 +145,12 @@ export class EditFridgeItemDialog implements OnInit{
 
   constructor(public dialogRef: MatDialogRef<EditFridgeItemDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private _fridgeService: FridgeService) {
+    private _fridgeService: FridgeService,
+    private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
     this.selectedItem = this.data.selectedItem;
-    console.log(this.selectedItem)
-    console.log(this.selectedItem.name)
   }
 
   onCancelClick(): void {
@@ -132,10 +159,38 @@ export class EditFridgeItemDialog implements OnInit{
   }
 
   async onSaveClick() {
-    this.selectedItem = await this._fridgeService.updateItem(this.selectedItem);
-    console.log("updated:")
-    console.log(this.selectedItem)
-    this.dialogRef.close();
+    if (this.emptyMandatoryFields()) {
+      this.snackBar.open("Make sure that all mandatory fields are not empty.", "Ok", {
+        duration: 5000,
+        panelClass: ['my-snackbar']
+      });
+    }
+    else {
+      if(!isNaN(Number(this.selectedItem.amount))){
+        this.selectedItem = await this._fridgeService.updateItem(this.selectedItem);
+        this.dialogRef.close();
+      } else{
+        this.snackBar.open("Amount should be a number.", "Ok", {
+          duration: 5000,
+          panelClass: ['my-snackbar']
+        });
+      }
+    }
+  }
+
+  emptyMandatoryFields(): boolean {
+    if (this.selectedItem.name == null || this.selectedItem.name == "") {
+      return true;
+    }
+    else if (this.selectedItem.amount == null) {
+      return true;
+    }
+    else if (this.selectedItem.expirationDate == null || this.selectedItem.expirationDate == "") {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
 

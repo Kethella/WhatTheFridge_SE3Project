@@ -115,6 +115,7 @@ export class SignUpComponent implements OnInit {
     else if(this.firstFormGroup.invalid ||this.secondFormGroup.invalid){
       this._snackBar.open('Invalid input. Please look at the errors and try again.', 'Ok', {
         duration: 5000,
+        panelClass: ['my-snackbar']
       });
       return;
     }

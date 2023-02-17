@@ -2,10 +2,9 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Account } from 'src/app/models/account';
 import { ISecurityQuestion } from 'src/app/models/securityQuestions'
 import { AccountService } from 'src/app/services/account.service';
-import { Router, TitleStrategy } from '@angular/router';
+import { Router} from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogData } from '../fridge/fridge.component';
 
 @Component({
   selector: 'app-account-view',
@@ -66,18 +65,12 @@ export class AccountViewComponent implements OnInit {
         this.account.securityQuestion = this.getSecurityQuestion(false, this.selectedSecurityQuestion.text).enumValue;
         this.account.securityAnswer = this.fakeSecurityAnswer;
         this.fakeSecurityAnswer = "*********"
-        console.log(this.account)
-        //this.updateAccount()
       }
       else {
-        console.log("bad bitch")
         let config = new MatSnackBarConfig();
         config.panelClass = ['my-snackbar']
         this.snackBar.open("Make sure there are no empty fields.", "Ok", config);
-
       }
-
-
     }
   }
 

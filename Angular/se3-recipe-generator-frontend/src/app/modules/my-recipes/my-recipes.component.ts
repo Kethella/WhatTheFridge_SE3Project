@@ -16,6 +16,8 @@ export class MyRecipesComponent {
   public queryParams = new HttpParams();
   public ingredients: string;
 
+  makeNoItemsElementVisible = true;
+
   constructor(private _recipeService: RecipeService, private dialog:MatDialog){
 
   }
@@ -27,6 +29,13 @@ export class MyRecipesComponent {
   async loadRecipes() {
     this.queryParams = this.queryParams.append("defaultRecipes", "no")
     this.recipes = await this._recipeService.getRecipes(this.queryParams);
+
+    if(this.recipes){
+      this.makeNoItemsElementVisible = false;
+    }
+    else{
+      this.makeNoItemsElementVisible = true;
+    }
   }
 
   openDialog(){

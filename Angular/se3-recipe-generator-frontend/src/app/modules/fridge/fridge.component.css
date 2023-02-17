@@ -53,11 +53,6 @@ img{
   transform: scale(1.5);
 }
 
-#noItemsElement {
-  height: 500px;
-  display: none;
-}
-
 .noItemsElement {
   margin-top: 20px;
   color: gray;

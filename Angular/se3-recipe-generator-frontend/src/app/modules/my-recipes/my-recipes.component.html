@@ -1,9 +1,11 @@
 <div class="container">
     <div class="top">
-      <h1 >My recipes</h1>  
+      <h1 >My recipes</h1>
       <button mat-raised-button class="create" (click)="openDialog()" ><mat-icon>add</mat-icon>Create recipe</button>
     </div>
-
+    <div *ngIf="makeNoItemsElementVisible">
+      <h3 class="noItemsElement">You don't have any fridge items yet.</h3>
+    </div>
     <div>
       <app-recipe-list class="recipe-list" [recipes]="recipes" (restartAfterEvent)="loadRecipes()"></app-recipe-list>
     </div>

@@ -9,7 +9,7 @@ import { ICategory } from 'src/app/models/category';
 import { Recipe } from 'src/app/models/recipe';
 import { MediaService } from 'src/app/services/media.service';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -132,9 +132,10 @@ export class EditRecipeComponent {
       }
     }
     else{
-      let config = new MatSnackBarConfig();
-      config.panelClass = ['my-snackbar']
-      this.snackBar.open("Make sure that all mandatory fields are not empty.", "Ok", config);
+      this.snackBar.open("Make sure that all mandatory fields are not empty.", "Ok", {
+        duration: 5000,
+        panelClass: ['my-snackbar']
+      });
     }
 
   }
