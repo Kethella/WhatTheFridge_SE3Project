@@ -42,8 +42,6 @@ export class LoginComponent implements OnInit {
     this.queryParams = this.queryParams.append("password", this.account.password);
     this.account = await this._accountService.findAccount(this.queryParams);
 
-    console.log(this.account)
-
     if(this.account.id == ""){
       alert("User not found. Please check again your email and password.")
     }

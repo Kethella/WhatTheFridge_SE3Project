@@ -13,24 +13,17 @@ import { Recipe } from 'src/app/models/recipe';
 export class RecipeGridComponent implements OnInit{
 
   @Input() public recipes = [] as any;
-  public breakpoint: number = 6;
 
   constructor(public dialog:MatDialog){}
 
   public queryParams = new HttpParams();
 
   ngOnInit(): void {
-    this.breakpoint = (window.innerWidth <= 400) ? 1 : 4;
-  }
-
-  onResize(event: any) {
-    this.breakpoint = (event.target.innerWidth <= 400) ? 1 : 4;
   }
 
   openDialog(selectedRecipe: Recipe){
     this.dialog.open(RecipeDetailsComponent, {
-      width: '900px',
-      //height: '450px',
+      width: '700px',
       data: {
         selectedRecipe: selectedRecipe
       }

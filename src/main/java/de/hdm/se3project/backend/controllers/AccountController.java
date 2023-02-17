@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.hdm.se3project.backend.exceptions.ResourceNotFoundException;
 import de.hdm.se3project.backend.models.Account;
 import de.hdm.se3project.backend.models.enums.SecurityQuestion;
-import de.hdm.se3project.backend.repositories.AccountRepository;
+import de.hdm.se3project.backend.repositories.RecipeRepository;
+import de.hdm.se3project.backend.services.AccountService;
 import de.hdm.se3project.backend.services.IdGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,87 +23,54 @@ import org.json.*;
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "http://localhost:4200")
-public class AccountController implements Serializable {
+public class AccountController {
 
+    static Logger logger = Logger.getLogger(AccountController.class.getName());
     @Autowired
-    private final AccountRepository repository;
+    private final AccountService accountService;
 
-    public AccountController(AccountRepository repository) {
-        this.repository = repository;
+    public AccountController(AccountService accountService) {
+
+        this.accountService = accountService;
     }
 
 
     //DO NOT DELETE THIS IS FOR FRONTEND LOGIN
     @GetMapping("/accounts/one/")
-    Account getOneAccount(@RequestParam(required = false, value = "email") String email,
-                          @RequestParam(required = false, value = "password") String password){
+    public Account getAccountByEmailPassword(@RequestParam(value = "email") String email,
+                          @RequestParam(value = "password") String password){
 
-        List<Account> allAccounts = repository.findAll();
-        for (Account account: allAccounts) {
-            if(account.getEmail().equals(email) && account.getPassword().equals(password)){
-                return account;
-            }
-        }
-
-        return null;
+        return accountService.getAccountByEmailPassword(email, password);
     }
 
 
     @GetMapping("/accounts")
     public List<Account> getAllAccounts(){
-        return repository.findAll();
+        return accountService.getAllAccounts();
     }
 
     @GetMapping("/accounts/{id}")
-    public Account getOneAccount(@PathVariable String id) throws ResourceNotFoundException {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
+    public Account getAccountById(@PathVariable String id) throws ResourceNotFoundException {
+        return accountService.getAccountById(id);
     }
 
     @PostMapping("/accounts")
     public Account createAccount(@RequestBody Account newAccount){ //whatever data you submit from the client side will be accepted in the post object
-        newAccount.setId(IdGenerationService.generateId(newAccount));
-        return repository.save(newAccount);
+        return accountService.createAccount(newAccount);
     }
 
     @PutMapping("/accounts/{id}")
     public Account replaceAccount(@PathVariable String id, @RequestBody Account newAccount) throws ResourceNotFoundException {
-
-        Account account = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + id));
-
-        account.setName(newAccount.getName());
-        account.setEmail(newAccount.getEmail());
-        account.setPassword(newAccount.getPassword());
-        account.setSecurityQuestion(newAccount.getSecurityQuestion());
-        account.setSecurityAnswer(newAccount.getSecurityAnswer());
-        //account.setPersonalRecipes(newAccount.getPersonalRecipes());
-        //account.setFridgeItems(newAccount.getFridgeItems());
-
-        return repository.save(account);
+        return accountService.updateAccount(id, newAccount);
     }
 
     @DeleteMapping("/accounts/{id}")
-    public void deleteAccount(@PathVariable String id) {
-        repository.deleteById(id);
+    public void deleteAccount(@PathVariable String id) throws ResourceNotFoundException {
+        accountService.deleteAccount(id);
     }
 
     @GetMapping("/securityQuestions")
-    String getAllSecurityQuestions() {
-        List<JSONObject> list = new ArrayList<>();
-        JSONArray array = new JSONArray();
-
-        for(SecurityQuestion q: SecurityQuestion.values()) {
-
-            HashMap<String, String> seqQuestion = new HashMap<String, String>();
-            seqQuestion.put("enumValue", q.toString());
-            seqQuestion.put("text", q.getText());
-            JSONObject seqQuestionObject = new JSONObject(seqQuestion);
-            System.out.println(seqQuestionObject);
-            array.put(seqQuestionObject);
-        }
-
-        return array.toString();
+    public String getAllSecurityQuestions() {
+        return accountService.getAllSecurityQuestions();
     }
 }
-

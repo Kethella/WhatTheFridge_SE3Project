@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Recipe } from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { DialogData, RecipeDetailsComponent } from 'src/app/shared/components/recipe-details/recipe-details.component';
 import {MatTable} from '@angular/material/table';
 import { ICategory } from 'src/app/models/category';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
+import { MediaService } from 'src/app/services/media.service';
 
 
 @Component({
@@ -32,6 +32,15 @@ export class CreateRecipeComponent {
 
   displayedColumns: string[] = ['ingredientName', 'ingredientAmount'];
 
+  mediaString: string = "";
+
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
+  selectedFile = null;
+
+  fileIsSelected = false;
+
   public queryParams = new HttpParams();
   @Output() public newQueryEvent = new EventEmitter<HttpParams>();
 
@@ -40,7 +49,9 @@ export class CreateRecipeComponent {
   constructor(public dialogRef:MatDialogRef<CreateRecipeComponent>,
     @Inject(MAT_DIALOG_DATA) public data:any,
     private _formBuilder: FormBuilder,
-    private _recipeService:RecipeService){
+    private _recipeService:RecipeService,
+    private _mediaService: MediaService,
+    public http: HttpClient){
 
       this.ingredienNames = []
       this.ingredientAmounts = []
@@ -68,24 +79,65 @@ export class CreateRecipeComponent {
     this.dialogRef.close();
   }
 
-  async onSubmit(){
 
-    this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
+  selectFile(event) {
+    this.fileIsSelected = true;
+    this.selectedFiles = event.target.files;
+  }
 
-    this.recipe={
-      id: '',
-      name:this.recipeForm.get('name')?.value,
-      ingredientNames: this.ingredienNames,
-      ingredientMeasures: this.ingredientAmounts,
-      category: this.selectedCategory.enumValue,
-      tags: this.selectedTags,
-      instructions:this.recipeForm.get('instructions')?.value,
-      image:'http://localhost:8085/media/download/63c95e3d664c9260ee663f9c',
-      link:'',
-      ownerAccount:''
+  onSubmit(){
+
+    if(this.fileIsSelected) {
+      this.progress.percentage = 0;
+      this.currentFileUpload = this.selectedFiles.item(0)!;
+      this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(100 * event.loaded / event.total!);
+        } else if (event instanceof HttpResponse) {
+            this.mediaString = JSON.stringify(event.body)
+            this.mediaString = this.mediaString.slice(1, this.mediaString.length - 1)
+
+            // a bit ugly but i cannot get the mediaString out of the subscribe :/
+            this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
+            this.recipe={
+              id: '',
+              name:this.recipeForm.get('name')?.value,
+              ingredientNames: this.ingredienNames,
+              ingredientMeasures: this.ingredientAmounts,
+              category: this.selectedCategory.enumValue,
+              tags: this.selectedTags,
+              instructions:this.recipeForm.get('instructions')?.value,
+              image: this.mediaString,
+              link:'',
+              ownerAccount:''
+            }
+            this.createRecipe()
+        }
+        this.selectedFiles = undefined!;
+        }
+      );
+    } else{
+      this.selectedCategory = this.setSelectedCategory(this.selectedCategory)
+        this.recipe={
+          id: '',
+          name:this.recipeForm.get('name')?.value,
+          ingredientNames: this.ingredienNames,
+          ingredientMeasures: this.ingredientAmounts,
+          category: this.selectedCategory.enumValue,
+          tags: this.selectedTags,
+          instructions:this.recipeForm.get('instructions')?.value,
+          image: "",
+          link:'',
+          ownerAccount:''
+        }
+        this.createRecipe()
     }
-    this.recipe = await this._recipeService.createRecipe(this.recipe);
-    console.log(this.recipe)
+
+ }
+
+
+ async createRecipe() {
+  this.recipe = await this._recipeService.createRecipe(this.recipe);
     this.dialogRef.close();
  }
 

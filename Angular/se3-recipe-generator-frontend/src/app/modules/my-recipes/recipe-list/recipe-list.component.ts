@@ -26,7 +26,6 @@ export class RecipeListComponent {
   }
 
   async deleteRecipe(recipe: Recipe){
-    console.log(recipe)
     const text = await this._recipeService.deleteRecipe(recipe);
     this.restartAfterEvent.emit()
   }

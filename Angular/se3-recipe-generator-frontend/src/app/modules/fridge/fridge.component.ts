@@ -22,7 +22,6 @@ export class FridgeComponent {
 
   ngOnInit() {
     this.loadItems();
-
   }
 
   async loadItems() {
@@ -63,8 +62,6 @@ export class FridgeComponent {
     else {
       return dateToFix;
     }
-
-
   }
 
   openEditDialog(fridgeItem: FridgeItem) {
