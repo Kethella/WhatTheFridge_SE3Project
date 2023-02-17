@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Account } from 'src/app/models/account';
 import { AccountService } from 'src/app/services/account.service';
@@ -13,68 +14,62 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class LoginComponent implements OnInit {
 
-  public loginForm!: FormGroup;
+  thereIsInputError: boolean = false;
+
   public queryParams = new HttpParams();
+
   public account: Account = {
-    "id": "",
-    "name": "",
-    "email": "",
-    "password": "",
-    "securityQuestion": "",
-    "securityAnswer": ""
+    id: "",
+    name: "",
+    email: "",
+    password: "",
+    securityQuestion: "",
+    securityAnswer: ""
   }
+
 
   constructor(private _accountService: AccountService,
     private _authService: AuthenticationService,
     private formBuilder: FormBuilder,
     private http:HttpClient,
-    private router:Router ) { }
+    private router:Router,
+    private snackBar: MatSnackBar ) { }
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email:[''],
-      password:[''],
-    })
   }
 
   async login(){
-    this.queryParams = this.queryParams.append("email", this.account.email);
-    this.queryParams = this.queryParams.append("password", this.account.password);
-    this.account = await this._accountService.findAccount(this.queryParams);
+    if(!this.fieldsAreEmpty()){
 
-    if(this.account.id == ""){
-      alert("User not found. Please check again your email and password.")
-    }
-    else {
-      this.loginForm.reset();
-      this._accountService.sendOwnerAccountToServices(this.account.id);
-      this._authService.login()
-    }
+      this.queryParams = this.queryParams.delete('email');
+      this.queryParams = this.queryParams.delete('password');
+
+      this.queryParams = this.queryParams.append("email", this.account.email);
+      this.queryParams = this.queryParams.append("password", this.account.password);
 
 
-    /*this.http.get<any>("http://localhost:8085/api/v1/accounts")
-    .subscribe(res =>{
-      let user = res.find((a:Account)=>{
-        return a.email === this.loginForm.value.email && a.password === this.loginForm.value.password
+      const foundAccount = await this._accountService.findAccount(this.queryParams);
+
+      if(foundAccount === null){
+        this.thereIsInputError = true;
       }
-      )
-      console.log(res)
-      if(user){
-        alert("Login success")
-        console.log(user.id);
-        this._accountService.sendOwnerAccountToServices(user.id);
-        this.router.navigate(['home']);
-      } else{
-        alert("User not found")
+      else {
+        this.account = foundAccount;
+        this._accountService.sendOwnerAccountToServices(this.account.id);
+        this._authService.login()
       }
-    },
-    err=>{
-      alert("Something went wrong !!")
+    }
+    else{
+      this.thereIsInputError = true;
+    }
+  }
 
-    })*/
+  fieldsAreEmpty(): boolean {
+    if(this.account.password === "" || this.account.email === ""){
+      return true;
+    }
+    return false;
   }
 
 
-  }
-
-
+}

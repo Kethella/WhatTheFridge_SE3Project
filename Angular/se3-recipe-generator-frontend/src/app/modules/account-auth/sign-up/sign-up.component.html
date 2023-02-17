@@ -7,8 +7,8 @@
 
         <mat-card-content>
             <form class="sign-up-form" (ngSubmit)="onSignUp()" >
-                <mat-stepper id="stepper" #stepper="matHorizontalStepper">
-                    <mat-step [stepControl]="firstFormGroup">
+                <mat-stepper id="stepper" #stepper="matHorizontalStepper" [linear]="isLinear">
+                    <mat-step [stepControl]="firstFormGroup" >
                         <form [formGroup]="firstFormGroup">
                             <ng-template matStepLabel class="stepper-label"><div class="stepper-label">Create account</div></ng-template>
 
@@ -24,34 +24,28 @@
 
                             <mat-form-field>
                                 <mat-label>Password</mat-label>
-                                <input matInput formControlName="password" required [type]="changetype?'password':'text'">
-                                <span class="eyeicon"><mat-icon (click)="viewpass()" [ngClass]="visible?'visibility':'visibility_off'">
+                                <input matInput formControlName="password" required [type]="changetype1?'password':'text'">
+                                <span class="eyeicon"><mat-icon (click)="viewpass(1)" [ngClass]="visible1?'visibility':'visibility_off'">
                                     visibility
                                 </mat-icon></span>
                             </mat-form-field>
 
                             <mat-form-field>
                                 <mat-label for="passwordRepeat">Confirm password</mat-label>
-                                <input matInput formControlName="passwordRepeat" required [type]="changetype?'password':'text'" >
-                                <!--<div class="invalid-feedback">Passwords don't match</div>-->
-                                <span class="eyeicon"><mat-icon (click)="viewpass()" [ngClass]="visible?'visibility':'visibility_off'">
+                                <input matInput formControlName="passwordRepeat" required [type]="changetype2?'password':'text'" >
+                                <span class="eyeicon"><mat-icon (click)="viewpass(2)" [ngClass]="visible2?'visibility':'visibility_off'">
                                     visibility
-                                </mat-icon></span>     
+                                </mat-icon></span>
                             </mat-form-field>
-                            <div class="alert"                          
-                                        *ngIf="firstFormGroup.errors?.['confirmedValidator']                                        
-                                        || (firstFormGroup.controls['passwordRepeat'].hasError('required') && firstFormGroup.controls['passwordRepeat'].touched)">
-                                Passwords don't match
-                            </div> <!-- password matching works but somehow div doesn't show up-->
-                            
+
 
                             <div class="buttons">
-                                <button mat-raised-button matStepperNext>Next</button>
+                                <button mat-raised-button matStepperNext matStepperNext>Next</button>
                             </div>
                         </form>
                     </mat-step>
 
-                    <mat-step [stepControl]="secondFormGroup">
+                    <mat-step [stepControl]="secondFormGroup" [editable]="false" [completed]="false"  (click)="$event.stopPropagation()" >
                         <form [formGroup]="secondFormGroup">
                             <ng-template matStepLabel><div class="stepper-label">Security question</div></ng-template>
 
@@ -76,7 +70,7 @@
                         </form>
                     </mat-step>
                 </mat-stepper>
-                <div>                
+                <div>
                     <a style="display: flex; justify-content: flex-end" routerLink="../login"> Already registered? </a>
                   </div>
             </form>

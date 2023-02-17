@@ -9,6 +9,8 @@ import { ICategory } from 'src/app/models/category';
 import { Recipe } from 'src/app/models/recipe';
 import { MediaService } from 'src/app/services/media.service';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-edit-recipe',
@@ -64,7 +66,8 @@ export class EditRecipeComponent {
     private _formBuilder: FormBuilder,
     private _recipeService:RecipeService,
     private _mediaService: MediaService,
-    public dialog: MatDialog){
+    public dialog: MatDialog,
+    private snackBar:MatSnackBar){
 
       this.ingredientNames = []
       this.ingredientAmounts = []
@@ -105,27 +108,35 @@ export class EditRecipeComponent {
  }
 
   onSubmit(){
-    if(this.fileIsSelected) {
-      this.progress.percentage = 0;
-      this.currentFileUpload = this.selectedFiles.item(0)!;
-      this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-          this.progress.percentage = Math.round(100 * event.loaded / event.total!);
-        } else if (event instanceof HttpResponse) {
-          this.mediaString = JSON.stringify(event.body)
-          this.mediaString = this.mediaString.slice(1, this.mediaString.length - 1)
+    if(this.emptyMandatoryFields()){
+      if(this.fileIsSelected) {
+        this.progress.percentage = 0;
+        this.currentFileUpload = this.selectedFiles.item(0)!;
+        this._mediaService.uploadFile(this.currentFileUpload).subscribe(event => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress.percentage = Math.round(100 * event.loaded / event.total!);
+          } else if (event instanceof HttpResponse) {
+            this.mediaString = JSON.stringify(event.body)
+            this.mediaString = this.mediaString.slice(1, this.mediaString.length - 1)
 
-          // a bit ugly but i cannot get the mediaString out of the subscribe :/
-          this.recipe.image = this.mediaString;
-          this.updateRecipe();
-        }
-        this.selectedFiles = undefined!;
-        }
-      );
+            // a bit ugly but i cannot get the mediaString out of the subscribe :/
+            this.recipe.image = this.mediaString;
+            this.updateRecipe();
+          }
+          this.selectedFiles = undefined!;
+          }
+        );
+      }
+      else {
+        this.updateRecipe()
+      }
     }
-    else {
-      this.updateRecipe()
+    else{
+      let config = new MatSnackBarConfig();
+      config.panelClass = ['my-snackbar']
+      this.snackBar.open("Make sure that all mandatory fields are not empty.", "Ok", config);
     }
+
   }
 
 
@@ -257,6 +268,36 @@ deleteImage() {
         recipe: this.recipe
       },
     });
+  }
+
+
+
+  /*  --------------------------------------------------------------------------------
+        ERROR HANDLING
+      --------------------------------------------------------------------------------
+  */
+  emptyMandatoryFields(): boolean {
+    if(this.recipe.name === "" || this.recipe.name === " "){
+
+      return false;
+    }
+    if(this.recipe.ingredientNames.length===0){
+
+      return false;
+    }
+    if(this.recipe.ingredientMeasures.length===0 ){
+
+      return false;
+    }
+    if(this.recipe.instructions==="" || this.recipe.instructions===null){
+
+      return false;
+    }
+    if(this.recipe.category=="" ||this.recipe.category==null){
+      return false;
+    }
+
+    return true;
   }
 }
 
