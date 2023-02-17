@@ -5,31 +5,6 @@
 
 This project was developed for the course "Software Entwicklung 3" of the winter semester 2022/23.
 
-## How to install and use  
-
-### Prerequisites 
-You need to have Node.js and npm installed for building and using this project. 
-
-For information on how to install Node.js, see here: https://nodejs.org/en/
-
-Check if you have npm installed with the command `npm -v` in a terminal window
-
-To install the Angular CLI, open a terminal window and run the following command: `npm install -g @angular/cli` 
-
-### Installation 
-Clone the project and open it in your preferred IDE.   
-
-
-Open a terminal on Angular\se3-recipe-generator-frontend and run the command `npm install`
- 
-### Running the application
-
-Start the backend first by running the Application.java file which can be found under:   src\main\java\de\hdm\se3project\backend
-
-Then, open a terminal window on Angular\se3-recipe-generator-frontend and run the following command: `ng serve --open`
-
-
-
 ## Tech Stack 
 #### Frontend: 
 - Angular (https://angular.io/)
@@ -40,6 +15,41 @@ Then, open a terminal window on Angular\se3-recipe-generator-frontend and run th
 - Springboot (https://spring.io/projects/spring-boot)
 - MongoDB (https://www.mongodb.com/)
 - API (https://developer.edamam.com/edamam-recipe-api)
+
+## Installation
+
+Clone the project and open it in your preferred IDE. 
+We recommend using VSCode for the frontend and InteliJ for the backend.
+
+
+### Backend
+
+- Install Java :D
+
+- Install JDK-17
+
+- Open the project in InteliJ
+
+- Run src\main\java\de\hdm\se3project\backend\Application.java
+
+- To access the database you need to create an account (https://account.mongodb.com/account/login) and get an invitation. Let us know if you want us to send you an invitation.
+
+### Frontend
+
+- Install Node.js (https://nodejs.org/en/)
+
+- Install Angular CLI: open a terminal window and run the following command: `npm install -g @angular/cli`
+
+- Open the project (in VSCode)
+
+- Open a terminal on \frontend and run the command `npm install`
+
+- Run the command `npm build` or `ng serve`
+
+- Open http://localhost:PORT/ exchanging "PORT" for the port you are using (usually http://localhost:4200/)
+
+
+
 
 
 
