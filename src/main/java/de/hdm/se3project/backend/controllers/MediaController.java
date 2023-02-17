@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @RestController  //Notation used to make it eligible for this class to handle HTTP requests.
 @RequestMapping("/media") //Defining the endpoint URLs that the MediaController will handle.
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class MediaController {
 
     @Autowired //This allows the MediaController to make use of the MediaService's methods.
