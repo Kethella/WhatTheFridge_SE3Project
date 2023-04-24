@@ -56,5 +56,5 @@ We recommend using VSCode for the frontend and InteliJ for the backend.
 
 
 ## Contributors 
-A. Gidionova, K. Oliveira, M. Hristova, N. Eunous, A. Alagöz 
+A. Gidionova, K. Oliveira, M. Hristova, N. Eunous, A. Alagöz
 
